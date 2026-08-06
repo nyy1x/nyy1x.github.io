@@ -3,36 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Ring Reply - Emergency Plumbing Services</title>
-    <script src="https://js.stripe.com/v3/"></script>
+    <title>My Ring Reply - 24/7 Emergency Plumbing</title>
     <style>
-        /* ===== MODERN DESIGN SYSTEM ===== */
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --secondary: #34a853;
-            --accent: #fbbc04;
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --text: #333;
-            --text-light: #666;
-            --white: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
+        /* ===== MODERN RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --primary-light: #a78bfa;
+            --accent: #9333ea;
+            --accent-dark: #6b21a8;
+            --dark: #1e1033;
+            --gray-800: #1e293b;
+            --gray-600: #475569;
+            --gray-400: #94a3b8;
+            --gray-100: #f1f5f9;
+            --white: #ffffff;
+            --success: #10b981;
+            --danger: #ef4444;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s ease;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
+            color: var(--gray-800);
             overflow-x: hidden;
         }
 
@@ -46,6 +52,11 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes slideInLeft {
@@ -71,59 +82,313 @@
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes ring {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
         }
 
         @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.2s; }
+        .reveal-delay-2 { transition-delay: 0.4s; }
+        .reveal-delay-3 { transition-delay: 0.6s; }
+
+        /* ===== CHECKOUT PAGE ===== */
+        .checkout-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--white);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .checkout-overlay.show {
+            display: block;
+        }
+
+        .checkout-wrap {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .checkout-summary {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 3rem 2rem;
+        }
+
+        .checkout-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 3.5rem;
+            padding: 0;
+        }
+
+        .checkout-back .arrow {
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+
+        .checkout-eyebrow {
+            font-size: 0.95rem;
+            color: var(--gray-400);
+            margin-bottom: 0.25rem;
+        }
+
+        .checkout-price {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .checkout-lineitem {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1.25rem 0;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            font-size: 0.95rem;
+        }
+
+        .checkout-lineitem .item-name {
+            font-weight: 700;
+        }
+
+        .checkout-lineitem .item-sub {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            margin-top: 0.15rem;
+        }
+
+        .checkout-lineitem.total .item-name,
+        .checkout-lineitem.total .price {
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+
+        .checkout-lineitem .price {
+            font-weight: 600;
+        }
+
+        .checkout-lineitem .muted {
+            color: var(--gray-400);
+        }
+
+        .checkout-form-panel {
+            padding: 3rem 4rem;
+        }
+
+        .checkout-form-panel h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+            color: var(--dark);
+        }
+
+        .checkout-section-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0 0 0.6rem;
+        }
+
+        .checkout-field-box {
+            border: 1.5px solid var(--gray-100);
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkout-field-box label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--gray-600);
+            margin-bottom: 0.15rem;
+        }
+
+        .checkout-field-box input,
+        .checkout-field-box select {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--gray-800);
+            background: transparent;
+        }
+
+        .checkout-method-box {
+            border: 1.5px solid var(--gray-100);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .checkout-method-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .checkout-card-element {
+            padding: 0.85rem 1rem;
+            border: 1.5px solid var(--gray-100);
+            border-radius: 10px;
+            background: var(--white);
+        }
+
+        .checkout-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--gray-100);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .checkout-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .checkout-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 1.25rem 0 0.4rem;
+        }
+
+        .checkout-checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            color: var(--gray-600);
+        }
+
+        .checkout-checkbox-row input {
+            margin-top: 0.2rem;
+        }
+
+        .checkout-terms {
+            font-size: 0.78rem;
+            color: var(--gray-400);
+            line-height: 1.5;
+            margin-top: 1.5rem;
+        }
+
+        .checkout-terms a {
+            color: var(--gray-600);
+        }
+
+        .checkout-card-errors {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            min-height: 1em;
+        }
+
+        .checkout-pay-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            justify-content: center;
+            font-size: 1rem;
+            padding: 1rem;
+        }
+
+        .checkout-pay-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-wrap {
+                grid-template-columns: 1fr;
             }
-            50% {
-                transform: translateY(-10px);
+            .checkout-summary,
+            .checkout-form-panel {
+                padding: 2rem 1.5rem;
             }
         }
 
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* ===== NAVBAR ===== */
+        /* ===== NAVIGATION ===== */
         .navbar {
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
             transition: var(--transition);
         }
 
         .navbar.scrolled {
-            background: var(--white);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-md);
+            padding: 0.25rem 0;
         }
 
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -131,7 +396,7 @@
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 800;
             color: var(--primary);
             text-decoration: none;
             display: flex;
@@ -139,8 +404,9 @@
             gap: 0.5rem;
         }
 
-        .logo i {
-            font-size: 1.8rem;
+        .logo-icon {
+            font-size: 2rem;
+            animation: ring 2s infinite;
         }
 
         .nav-links {
@@ -150,8 +416,8 @@
         }
 
         .nav-links a {
-            color: var(--text);
             text-decoration: none;
+            color: var(--gray-600);
             font-weight: 500;
             transition: var(--transition);
             position: relative;
@@ -178,400 +444,761 @@
 
         .nav-cta {
             background: var(--primary);
-            color: var(--white);
-            padding: 0.7rem 1.5rem;
+            color: var(--white) !important;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
+            font-weight: 600 !important;
         }
 
         .nav-cta:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-cta::after {
+            display: none;
         }
 
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
         }
 
         .hamburger span {
             width: 25px;
             height: 3px;
-            background: var(--text);
-            margin: 3px 0;
+            background: var(--dark);
+            border-radius: 5px;
             transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
         /* ===== HERO SECTION ===== */
         .hero {
+            position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 10s ease infinite;
-            position: relative;
+            background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #a78bfa 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
             overflow: hidden;
-            padding-top: 80px;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L0,320Z"></path></svg>') no-repeat bottom;
-            background-size: cover;
-            opacity: 0.5;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s infinite;
         }
 
-        .hero-content {
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--white), transparent);
+        }
+
+        .hero-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            position: relative;
             z-index: 1;
         }
 
-        .hero-text {
-            color: var(--white);
+        .hero-content {
             animation: slideInLeft 1s ease;
         }
 
-        .hero-text h1 {
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease 0.5s both;
+        }
+
+        .hero-badge i {
+            font-size: 1rem;
+        }
+
+        .hero h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 1.5rem;
             line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease 0.3s both;
         }
 
-        .hero-text h1 span {
-            background: linear-gradient(45deg, var(--accent), #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .hero h1 .highlight {
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
         }
 
-        .hero-text p {
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(245, 158, 11, 0.3);
+            z-index: -1;
+        }
+
+        .hero p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             opacity: 0.9;
+            animation: fadeInUp 1s ease 0.5s both;
         }
 
         .hero-buttons {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.7s both;
         }
 
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            animation: fadeIn 1s ease 1s both;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero-stat .label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .hero-image {
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            animation: fadeIn 1.5s ease 0.5s both;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            animation: pulse 4s infinite;
+        }
+
+        .hero-floating-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.85rem 1.1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            color: var(--dark);
+            font-size: 0.875rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            z-index: 2;
+            animation: cardFloat 3s ease-in-out infinite;
         }
 
-        .btn-primary {
-            background: var(--white);
+        .hero-floating-card.card-1 {
+            top: -18px;
+            left: -18px;
+            animation-delay: 0s;
+        }
+
+        .hero-floating-card.card-2 {
+            bottom: -18px;
+            right: -18px;
+            animation-delay: 1.5s;
+        }
+
+        .hero-floating-card i {
+            font-size: 1.5rem;
+        }
+
+        .hero-floating-card .green {
+            color: var(--success);
+        }
+
+        .hero-floating-card .blue {
             color: var(--primary);
         }
 
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
         }
 
         .btn-outline {
             background: transparent;
             color: var(--white);
-            border: 2px solid var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .btn-outline:hover {
-            background: var(--white);
-            color: var(--primary);
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--white);
+            transform: translateY(-2px);
         }
 
-        .btn-pay {
-            background: linear-gradient(45deg, #f093fb, #f5576c);
+        .btn-white {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .btn-white:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-lg {
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-phone {
+            background: var(--success);
             color: var(--white);
             animation: pulse 2s infinite;
         }
 
-        .btn-pay:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        .btn-phone:hover {
+            background: #059669;
+            animation: none;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        .hero-image {
-            animation: slideInRight 1s ease;
+        /* ===== SECTION STYLES ===== */
+        .section {
+            padding: 5rem 0;
         }
 
-        .hero-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            animation: bounce 3s ease infinite;
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.125rem;
         }
 
         /* ===== STATS BAR ===== */
         .stats-bar {
-            background: var(--white);
-            padding: 3rem 2rem;
-            box-shadow: var(--shadow);
-            margin-top: -50px;
+            background: var(--primary);
+            padding: 3rem 0;
             position: relative;
-            z-index: 10;
-            border-radius: var(--radius);
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 4rem;
+            overflow: hidden;
         }
 
-        .stats-grid {
+        .stats-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark), var(--accent));
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
             text-align: center;
         }
 
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            font-weight: 800;
+        .stat-item {
+            color: var(--white);
+            animation: fadeInUp 0.8s ease both;
         }
 
-        .stat-item p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.4s; }
+        .stat-item:nth-child(4) { animation-delay: 0.6s; }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            display: block;
         }
 
         /* ===== PROBLEM SECTION ===== */
-        .problem {
-            padding: 5rem 2rem;
-            background: var(--light);
-        }
-
-        .section-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .section-title p {
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.1rem;
+        .problem-section {
+            background: var(--gray-100);
+            position: relative;
+            overflow: hidden;
         }
 
         .problem-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .problem-image {
+            position: relative;
+            animation: slideInLeft 0.8s ease;
+        }
+
+        .problem-image img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .problem-image::after {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border: 3px solid var(--accent);
+            border-radius: var(--radius-lg);
+            animation: pulse 3s infinite;
+        }
+
+        .problem-content {
+            animation: slideInRight 0.8s ease;
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-section {
+            padding: 4rem 0;
+            background: var(--gray-100);
+        }
+
+        .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            aspect-ratio: 4 / 3;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+
+        .gallery-item span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(to top, rgba(30,16,51,0.85), transparent);
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .problem-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .problem-content p {
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .problem-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.125rem;
+            color: var(--gray-800);
+            animation: fadeIn 0.5s ease both;
+        }
+
+        .problem-list li:nth-child(1) { animation-delay: 0.2s; }
+        .problem-list li:nth-child(2) { animation-delay: 0.4s; }
+        .problem-list li:nth-child(3) { animation-delay: 0.6s; }
+        .problem-list li:nth-child(4) { animation-delay: 0.8s; }
+
+        .problem-list i {
+            color: var(--danger);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .problem-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-section {
+            background: var(--white);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
         }
 
-        .problem-card {
+        .feature-card {
             background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-lg);
             padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
             transition: var(--transition);
-            text-align: center;
-        }
-
-        .problem-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .problem-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #ff6b6b;
-        }
-
-        .problem-card h3 {
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .problem-card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        /* ===== FEATURES SECTION ===== */
-        .features {
-            padding: 5rem 2rem;
-            background: var(--white);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .feature-image {
             position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease both;
         }
 
-        .feature-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .feature-image::before {
+        .feature-card::before {
             content: '';
             position: absolute;
-            top: -20px;
-            left: -20px;
-            width: 100%;
-            height: 100%;
-            border: 3px solid var(--primary);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.3s; }
+        .feature-card:nth-child(3) { animation-delay: 0.5s; }
+        .feature-card:nth-child(4) { animation-delay: 0.7s; }
+        .feature-card:nth-child(5) { animation-delay: 0.9s; }
+        .feature-card:nth-child(6) { animation-delay: 1.1s; }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
             border-radius: var(--radius);
-            z-index: -1;
-        }
-
-        .feature-content h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .feature-list li {
-            padding: 0.5rem 0;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            color: var(--text-light);
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--white);
+            transition: var(--transition);
         }
 
-        .feature-list li::before {
-            content: '✓';
-            color: var(--secondary);
-            font-weight: bold;
-            font-size: 1.2rem;
+        .feature-card:hover .feature-icon {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
         }
 
         /* ===== HOW IT WORKS ===== */
         .how-it-works {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--white);
+            background: var(--gray-100);
         }
 
-        .steps-grid {
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: translateY(-50%);
+            z-index: 0;
         }
 
         .step-card {
             text-align: center;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            backdrop-filter: blur(10px);
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 1;
             transition: var(--transition);
+            animation: fadeInUp 0.8s ease both;
         }
 
         .step-card:hover {
-            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
         }
 
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.3s; }
+        .step-card:nth-child(3) { animation-delay: 0.5s; }
+        .step-card:nth-child(4) { animation-delay: 0.7s; }
+
         .step-number {
-            font-size: 3rem;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(45deg, var(--accent), #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
+            margin: 0 auto 1rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .step-card:hover .step-number {
+            background: var(--accent);
+            transform: scale(1.1);
         }
 
         .step-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
         }
 
         .step-card p {
-            opacity: 0.9;
+            color: var(--gray-600);
             font-size: 0.95rem;
         }
 
         /* ===== PRICING ===== */
-        .pricing {
-            padding: 5rem 2rem;
-            background: var(--light);
+        .pricing-section {
+            background: var(--white);
         }
 
         .pricing-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
+            align-items: center;
         }
 
         .pricing-card {
             background: var(--white);
-            border-radius: var(--radius);
-            padding: 2rem;
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
             text-align: center;
-            box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
+            animation: fadeInUp 0.8s ease both;
         }
 
         .pricing-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-xl);
         }
 
+        .pricing-card:nth-child(1) { animation-delay: 0.1s; }
+        .pricing-card:nth-child(2) { animation-delay: 0.3s; }
+        .pricing-card:nth-child(3) { animation-delay: 0.5s; }
+
         .pricing-card.featured {
-            border: 3px solid var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
             transform: scale(1.05);
+            box-shadow: var(--shadow-xl);
+            border: none;
         }
 
         .pricing-card.featured:hover {
@@ -583,85 +1210,116 @@
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--primary);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .price {
-            font-size: 3rem;
-            font-weight: 800;
+            background: var(--accent);
             color: var(--dark);
-            margin: 1rem 0;
+            padding: 0.25rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: var(--shadow-md);
         }
 
-        .price span {
-            font-size: 1rem;
-            color: var(--text-light);
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price span {
+            font-size: 1.25rem;
             font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .pricing-period {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .pricing-card.featured .pricing-period {
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .pricing-features {
             list-style: none;
-            margin: 2rem 0;
+            margin-bottom: 2rem;
+            text-align: left;
         }
 
         .pricing-features li {
             padding: 0.5rem 0;
-            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--gray-800);
+            font-size: 0.95rem;
         }
 
-        .pricing-features li::before {
-            content: '✓';
-            color: var(--secondary);
-            margin-right: 0.5rem;
-            font-weight: bold;
+        .pricing-card.featured .pricing-features li {
+            color: var(--white);
+        }
+
+        .pricing-features i {
+            color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .pricing-card.featured .pricing-features i {
+            color: var(--accent);
         }
 
         /* ===== TESTIMONIALS ===== */
-        .testimonials {
-            padding: 5rem 2rem;
-            background: var(--white);
+        .testimonials-section {
+            background: var(--gray-100);
         }
 
-        .testimonial-grid {
+        .testimonials-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .testimonial-card {
-            background: var(--light);
-            border-radius: var(--radius);
+            background: var(--white);
+            border-radius: var(--radius-lg);
             padding: 2rem;
-            position: relative;
+            box-shadow: var(--shadow-md);
             transition: var(--transition);
+            position: relative;
+            animation: fadeInUp 0.8s ease both;
         }
 
         .testimonial-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
         }
 
-        .testimonial-card::before {
-            content: '"';
-            font-size: 5rem;
-            color: var(--primary);
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            opacity: 0.2;
-            font-family: Georgia, serif;
+        .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+        .testimonial-card:nth-child(2) { animation-delay: 0.3s; }
+        .testimonial-card:nth-child(3) { animation-delay: 0.5s; }
+
+        .testimonial-stars {
+            color: var(--accent);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
         }
 
         .testimonial-text {
-            margin-bottom: 1.5rem;
-            color: var(--text-light);
+            color: var(--gray-600);
             font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
         }
 
         .testimonial-author {
@@ -673,14 +1331,14 @@
         .testimonial-avatar {
             width: 50px;
             height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
-            font-weight: bold;
-            font-size: 1.2rem;
+            font-weight: 700;
+            font-size: 1.25rem;
         }
 
         .testimonial-name {
@@ -688,48 +1346,47 @@
             color: var(--dark);
         }
 
-        .testimonial-role {
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-
-        .stars {
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .testimonial-location {
+            font-size: 0.875rem;
+            color: var(--gray-400);
         }
 
         /* ===== CTA SECTION ===== */
-        .cta {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--white);
             text-align: center;
+            padding: 5rem 0;
             position: relative;
             overflow: hidden;
         }
 
-        .cta::before {
+        .cta-section::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            animation: pulse 4s ease infinite;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s infinite;
         }
 
-        .cta h2 {
+        .cta-section h2 {
             font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 1rem;
             position: relative;
             z-index: 1;
         }
 
-        .cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+        .cta-section p {
+            font-size: 1.25rem;
             opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
             position: relative;
             z-index: 1;
         }
@@ -744,41 +1401,55 @@
         }
 
         .cta-phone {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 50px;
             font-size: 1.5rem;
-            margin-top: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-phone a {
+            font-weight: 700;
             color: var(--white);
             text-decoration: none;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 0.2rem;
             transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            animation: pulse 2s infinite;
         }
 
-        .cta-phone a:hover {
-            color: var(--accent);
+        .cta-phone:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            animation: none;
         }
 
         /* ===== FOOTER ===== */
         .footer {
             background: var(--dark);
             color: var(--white);
-            padding: 3rem 2rem;
+            padding: 3rem 0 1rem;
         }
 
-        .footer-grid {
+        .footer-content {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1rem;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer h3 {
+            font-size: 1.25rem;
             margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer p {
+            color: var(--gray-400);
+            font-size: 0.95rem;
         }
 
         .footer-links {
@@ -786,303 +1457,161 @@
         }
 
         .footer-links li {
-            padding: 0.3rem 0;
+            margin-bottom: 0.5rem;
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--gray-400);
             text-decoration: none;
             transition: var(--transition);
         }
 
         .footer-links a:hover {
             color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .footer-contact {
+            list-style: none;
+        }
+
+        .footer-contact li {
+            color: var(--gray-400);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-contact i {
+            color: var(--accent);
         }
 
         .footer-bottom {
-            max-width: 1200px;
-            margin: 2rem auto 0;
+            text-align: center;
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--gray-600);
+            font-size: 0.875rem;
         }
 
-        /* ===== PAYMENT MODAL ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: var(--white);
-            border-radius: var(--radius);
-            max-width: 600px;
-            width: 90%;
-            padding: 2rem;
-            position: relative;
-            animation: slideInUp 0.5s ease;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            color: #ff6b6b;
-            transform: rotate(90deg);
-        }
-
-        .modal h2 {
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .payment-method {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .payment-method:hover {
-            border-color: var(--primary);
-        }
-
-        .payment-method.active {
-            border-color: var(--primary);
-            background: rgba(26, 115, 232, 0.1);
-        }
-
-        .payment-method i {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .order-summary {
-            background: var(--light);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-
-        .order-summary h3 {
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-
-        .order-summary p {
-            margin: 0.3rem 0;
-            color: var(--text-light);
-        }
-
-        .order-summary .total {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-top: 0.5rem;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 0.5rem;
-        }
-
-        .btn-pay-now {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(45deg, #f093fb, #f5576c);
-            color: var(--white);
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 1rem;
-        }
-
-        .btn-pay-now:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
-        }
-
-        .btn-pay-now:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .stripe-element {
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            margin: 1rem 0;
-            background: var(--white);
-        }
-
-        /* ===== TOAST NOTIFICATIONS ===== */
+        /* ===== TOAST NOTIFICATION ===== */
         .toast {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--white);
-            border-radius: 8px;
+            background: var(--dark);
+            color: var(--white);
             padding: 1rem 1.5rem;
-            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            z-index: 3000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
+            gap: 0.75rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 10000;
+            max-width: 350px;
         }
 
         .toast.show {
-            transform: translateX(0);
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .toast.success {
-            border-left: 4px solid var(--secondary);
+            border-left: 4px solid var(--success);
         }
 
         .toast.info {
             border-left: 4px solid var(--primary);
         }
 
-        .toast.error {
-            border-left: 4px solid #ff6b6b;
+        .toast i {
+            font-size: 1.5rem;
         }
 
-        .toast-close {
-            background: none;
+        .toast.success i {
+            color: var(--success);
+        }
+
+        .toast.info i {
+            color: var(--primary);
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: var(--white);
             border: none;
-            font-size: 1.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
             cursor: pointer;
-            color: var(--text-light);
+            opacity: 0;
+            transform: translateY(100px);
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: var(--shadow-lg);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        .back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
+            .hero h1 {
+                font-size: 2.5rem;
             }
 
-            .hero-buttons {
-                justify-content: center;
+            .hero-container {
+                gap: 2rem;
             }
 
-            .stats-grid {
+            .features-grid,
+            .pricing-grid,
+            .testimonials-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .problem-grid {
+            .steps-container {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .steps-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .pricing-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .testimonial-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .steps-container::before {
+                display: none;
             }
         }
 
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
-                position: absolute;
-                top: 100%;
+                position: fixed;
+                top: 70px;
                 left: 0;
-                width: 100%;
+                right: 0;
                 background: var(--white);
                 flex-direction: column;
-                padding: 1rem;
-                box-shadow: var(--shadow);
+                padding: 2rem;
+                gap: 1.5rem;
+                box-shadow: var(--shadow-lg);
+                text-align: center;
+                animation: fadeIn 0.3s ease;
             }
 
             .nav-links.active {
@@ -1093,77 +1622,142 @@
                 display: flex;
             }
 
-            .hero-text h1 {
-                font-size: 2.5rem;
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-image {
+                margin-top: 3rem;
+            }
+
+            .hero-floating-card {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.85rem;
+            }
+
+            .hero-floating-card.card-1 {
+                top: -12px;
+                left: 0;
+            }
+
+            .hero-floating-card.card-2 {
+                bottom: -12px;
+                right: 0;
             }
 
             .problem-grid {
                 grid-template-columns: 1fr;
             }
 
-            .steps-grid {
+            .problem-image {
+                order: -1;
+            }
+
+            .problem-content {
+                text-align: center;
+            }
+
+            .problem-list {
+                text-align: left;
+            }
+
+            .problem-cta {
+                justify-content: center;
+            }
+
+            .features-grid,
+            .pricing-grid,
+            .testimonials-grid {
                 grid-template-columns: 1fr;
             }
 
-            .pricing-grid {
-                grid-template-columns: 1fr;
+            .pricing-card.featured {
+                transform: scale(1);
             }
 
-            .testimonial-grid {
-                grid-template-columns: 1fr;
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
             }
 
-            .footer-grid {
-                grid-template-columns: 1fr;
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .cta h2 {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-section h2 {
                 font-size: 2rem;
             }
 
-            .modal-content {
-                width: 95%;
-                padding: 1.5rem;
+            .section-header h2 {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 480px) {
-            .hero-text h1 {
+            .hero h1 {
                 font-size: 2rem;
             }
 
-            .stats-grid {
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-container {
                 grid-template-columns: 1fr;
             }
 
-            .payment-methods {
-                flex-direction: column;
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
 
-            .hero-buttons .btn {
-                width: 100%;
-                text-align: center;
+            .footer-contact li {
+                justify-content: center;
+            }
+
+            .cta-phone {
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <span>🔧</span> My Ring Reply
+                <span class="logo-icon">🔧</span>
+                My Ring Reply
             </a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="#problems">Problems</a></li>
+                <li><a href="#features">Services</a></li>
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#" id="openPayModal" onclick="return false;">💳 Pay Online</a></li>
+                <li><a href="tel:6575055112" class="nav-cta">📞 (657) 505-5112</a></li>
             </ul>
-            <button class="nav-cta" onclick="openPaymentModal()">Book Now</button>
-            <div class="hamburger" onclick="toggleMenu()">
+            <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1171,382 +1765,444 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Emergency Plumbing <span>Solved Instantly</span></h1>
-                <p>24/7 emergency plumbing services with guaranteed response in under 60 minutes. Professional, licensed, and fully insured plumbers at your doorstep.</p>
+    <!-- ===== HERO SECTION ===== -->
+    <header class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    ⚡ AI Answering for Plumbing Businesses
+                </div>
+                <h1>
+                    Missed Calls Are<br>
+                    <span class="highlight">Missed Jobs. Not Anymore.</span>
+                </h1>
+                <p>My Ring Reply is the AI phone system built for plumbing companies. It answers every call in seconds, books the job straight into your calendar, and never puts a customer on hold — 24/7, even when your crew is under a sink.</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="openPaymentModal()">Get Started</button>
-                    <button class="btn btn-outline" onclick="callNow()">📞 Call Now</button>
-                    <button class="btn btn-pay" onclick="openPaymentModal()">💳 Book & Pay</button>
+                    <a href="tel:6575055112" class="btn btn-primary btn-lg">
+                        📞 Book a Demo: (657) 505-5112
+                    </a>
+                    <a href="#services" class="btn btn-outline btn-lg">
+                        See How It Works →
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="number">15</span>
+                        <span class="label">Sec Answer Time</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">4.9</span>
+                        <span class="label">Rating</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">24/7</span>
+                        <span class="label">AI Coverage</span>
+                    </div>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="https://images.pexels.com/photos/8486976/pexels-photo-8486976.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Professional plumber at work">
+                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80" alt="Plumber using phone on the job">
+                <div class="hero-floating-card card-1">
+                    <i class="green">✓</i>
+                    Never Miss a Call
+                </div>
+                <div class="hero-floating-card card-2">
+                    <i class="blue">⚡</i>
+                    Instant Booking
+                </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- STATS BAR -->
+    <!-- ===== STATS BAR ===== -->
     <div class="stats-bar">
-        <div class="stats-grid">
+        <div class="stats-container">
             <div class="stat-item">
-                <h3 data-count="5000">0</h3>
-                <p>Happy Customers</p>
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Plumbing Companies Using Us</span>
             </div>
             <div class="stat-item">
-                <h3 data-count="15">0</h3>
-                <p>Years Experience</p>
+                <span class="stat-number">5,000+</span>
+                <span class="stat-label">Calls Answered</span>
             </div>
             <div class="stat-item">
-                <h3><span data-count="60">0</span>min</h3>
-                <p>Response Time</p>
+                <span class="stat-number">4.9★</span>
+                <span class="stat-label">Average Rating</span>
             </div>
             <div class="stat-item">
-                <h3><span data-count="24">0</span>/7</h3>
-                <p>Availability</p>
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Always On</span>
             </div>
         </div>
     </div>
 
-    <!-- PROBLEM SECTION -->
-    <section class="problem" id="services">
-        <div class="section-container">
-            <div class="section-title">
-                <h2>Plumbing Emergencies We Handle</h2>
-                <p>From burst pipes to clogged drains, our expert plumbers solve it all</p>
+    <!-- ===== PROBLEM SECTION ===== -->
+    <section class="section problem-section" id="problems">
+        <div class="problem-grid">
+            <div class="problem-image">
+                <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&q=80" alt="Plumber busy on a job losing calls">
             </div>
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">🚰</div>
-                    <h3>Burst Pipes</h3>
-                    <p>Immediate response to stop water damage and repair burst pipes efficiently</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🚽</div>
-                    <h3>Toilet Repairs</h3>
-                    <p>Quick fixes for running, clogged, or broken toilets, any time of day</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🚿</div>
-                    <h3>Water Heater Issues</h3>
-                    <p>No hot water? We repair and replace water heaters 24/7</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🔧</div>
-                    <h3>Leaky Faucets</h3>
-                    <p>Stop wasting water with our fast and professional faucet repairs</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🚨</div>
-                    <h3>Drain Cleaning</h3>
-                    <p>Professional drain cleaning to clear even the toughest clogs</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🏠</div>
-                    <h3>Sewer Line Repair</h3>
-                    <p>Complete sewer line inspection, repair, and replacement services</p>
+            <div class="problem-content">
+                <h2>Every Missed Call Is a Job That Went to Your Competitor</h2>
+                <p>You're under a sink or elbow-deep in a job, and the phone rings. You can't answer. It goes to voicemail. Most callers just hang up and call the next plumber on the list. Sound familiar?</p>
+                <ul class="problem-list">
+                    <li><i>✗</i> Calls going to voicemail during jobs</li>
+                    <li><i>✗</i> Answering services that don't know plumbing</li>
+                    <li><i>✗</i> Leads lost to whoever answers first</li>
+                    <li><i>✗</i> No system for after-hours emergencies</li>
+                </ul>
+                <div class="problem-cta">
+                    <a href="tel:6575055112" class="btn btn-primary">
+                        📞 Book a Demo
+                    </a>
+                    <a href="#how-it-works" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">
+                        How We're Different
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FEATURES SECTION -->
-    <section class="features">
-        <div class="section-container">
-            <div class="features-grid">
-                <div class="feature-image">
-                    <img src="https://images.pexels.com/photos/7551539/pexels-photo-7551539.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Plumber fixing sink">
-                </div>
-                <div class="feature-content">
-                    <h2>Why Choose My Ring Reply?</h2>
-                    <ul class="feature-list">
-                        <li>Licensed & fully insured plumbers</li>
-                        <li>24/7 emergency availability</li>
-                        <li>Upfront, transparent pricing</li>
-                        <li>100% satisfaction guarantee</li>
-                        <li>Clean, professional service</li>
-                        <li>Senior & military discounts</li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="openPaymentModal()">Book a Service</button>
-                </div>
+    <!-- ===== GALLERY ===== -->
+    <section class="gallery-section">
+        <div class="section-header">
+            <h2>Built By People Who Know Plumbing</h2>
+            <p>My Ring Reply is made for the crews out in the field every day.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&q=80" alt="Plumber with wrench and tools">
+                <span>On every job, on time</span>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600&q=80" alt="Plumber repairing a kitchen sink">
+                <span>Kitchen & bath repairs</span>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Plumber working under a sink">
+                <span>Hands-on, every time</span>
             </div>
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="section-container">
-            <div class="section-title">
-                <h2 style="color: var(--white);">How It Works</h2>
-                <p style="color: rgba(255, 255, 255, 0.9);">Get your plumbing fixed in 4 simple steps</p>
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="section features-section" id="features">
+        <div class="section-header">
+            <h2>What My Ring Reply Does For Your Business</h2>
+            <p>Everything you need to stop losing jobs to a ringing phone.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📞</div>
+                <h3>24/7 AI Call Answering</h3>
+                <p>Every call gets picked up in seconds, day or night, whether your team is on a job or off the clock.</p>
             </div>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Book Online</h3>
-                    <p>Choose your service and book instantly with our easy online form</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Get Matched</h3>
-                    <p>We match you with the best plumber for your specific needs</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>We Arrive Fast</h3>
-                    <p>Your plumber arrives within 60 minutes, fully equipped</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <h3>Problem Solved</h3>
-                    <p>We fix the issue quickly and professionally. Guaranteed!</p>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Automatic Job Booking</h3>
+                <p>The AI collects the details and books the job straight into your calendar — no back-and-forth required.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Missed-Call Text-Back</h3>
+                <p>If a call ever slips through, we instantly text the customer so they don't call a competitor instead.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚨</div>
+                <h3>Emergency Call Triage</h3>
+                <p>The AI knows the difference between a slow drain and a burst pipe, and routes urgent jobs to you first.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Automated Review Requests</h3>
+                <p>After every completed job, happy customers get a friendly nudge to leave you a 5-star review.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Call Dashboard & Insights</h3>
+                <p>See every call, booked job, and missed lead in one simple dashboard — know exactly what's driving revenue.</p>
             </div>
         </div>
     </section>
 
-    <!-- PRICING -->
-    <section class="pricing" id="pricing">
-        <div class="section-container">
-            <div class="section-title">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>No hidden fees. No surprises. Just quality plumbing service.</p>
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="section how-it-works" id="how-it-works">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Getting set up takes minutes. Here's what happens after you sign up.</p>
+        </div>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>We Set Up Your Line</h3>
+                <p>We connect My Ring Reply to your existing business number — no new number needed.</p>
             </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Basic Service</h3>
-                    <div class="price">$99<span>/visit</span></div>
-                    <ul class="pricing-features">
-                        <li>Standard inspection</li>
-                        <li>Minor repairs</li>
-                        <li>30-minute service</li>
-                        <li>Basic parts included</li>
-                    </ul>
-                    <button class="btn btn-outline" style="width: 100%;" onclick="openPaymentModal('Basic Service', 99)">Book Now</button>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">Most Popular</div>
-                    <h3>Standard Service</h3>
-                    <div class="price">$149<span>/visit</span></div>
-                    <ul class="pricing-features">
-                        <li>Full inspection</li>
-                        <li>Repairs & maintenance</li>
-                        <li>60-minute service</li>
-                        <li>All parts included</li>
-                        <li>Priority scheduling</li>
-                    </ul>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="openPaymentModal('Standard Service', 149)">Book Now</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>Premium Service</h3>
-                    <div class="price">$249<span>/visit</span></div>
-                    <ul class="pricing-features">
-                        <li>Comprehensive inspection</li>
-                        <li>All repairs included</li>
-                        <li>2-hour service</li>
-                        <li>Premium parts</li>
-                        <li>24/7 priority support</li>
-                        <li>1-year warranty</li>
-                    </ul>
-                    <button class="btn btn-outline" style="width: 100%;" onclick="openPaymentModal('Premium Service', 249)">Book Now</button>
-                </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>AI Answers Every Call</h3>
+                <p>Customers get a friendly, knowledgeable voice that sounds just like a real dispatcher.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Job Gets Booked</h3>
+                <p>Details are captured and the job is scheduled straight into your calendar automatically.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>You Show Up & Get Paid</h3>
+                <p>You just show up to a booked job — no missed leads, no phone tag, no hassle.</p>
             </div>
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section class="testimonials">
-        <div class="section-container">
-            <div class="section-title">
-                <h2>What Our Customers Say</h2>
-                <p>Don't just take our word for it - hear from our satisfied customers</p>
+    <!-- ===== PRICING ===== -->
+    <section class="section pricing-section" id="pricing">
+        <div class="section-header">
+            <h2>Simple, Honest Pricing</h2>
+            <p>No hidden fees. No long-term contracts. Just plans built for plumbing businesses.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card" data-plan="Starter Plan" data-amount="149">
+                <h3>Starter</h3>
+                <div class="pricing-price">$149<span>/mo</span></div>
+                <div class="pricing-period">For solo operators</div>
+                <ul class="pricing-features">
+                    <li><i>✓</i> 24/7 AI call answering</li>
+                    <li><i>✓</i> Automatic job booking</li>
+                    <li><i>✓</i> Missed-call text-back</li>
+                    <li><i>✓</i> Basic call dashboard</li>
+                </ul>
+                <a href="#" class="btn btn-primary pay-plan-btn">Subscribe Now</a>
             </div>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Amazing service! Our pipe burst at 2 AM and they were here within 45 minutes. Saved our home from serious water damage!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">JD</div>
-                        <div>
-                            <div class="testimonial-name">John Davis</div>
-                            <div class="testimonial-role">Homeowner</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Professional, fast, and fair pricing. The plumber explained everything before starting work. Highly recommend!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">SM</div>
-                        <div>
-                            <div class="testimonial-name">Sarah Miller</div>
-                            <div class="testimonial-role">Property Manager</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Booked online and paid with my card - so easy! The plumber arrived on time and fixed our water heater in an hour."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">RB</div>
-                        <div>
-                            <div class="testimonial-name">Robert Brown</div>
-                            <div class="testimonial-role">Business Owner</div>
-                        </div>
+            <div class="pricing-card featured" data-plan="Growth Plan" data-amount="299">
+                <div class="pricing-badge">Most Popular</div>
+                <h3>Growth</h3>
+                <div class="pricing-price">$299<span>/mo</span></div>
+                <div class="pricing-period">For growing teams</div>
+                <ul class="pricing-features">
+                    <li><i>✓</i> Everything in Starter</li>
+                    <li><i>✓</i> Emergency call triage</li>
+                    <li><i>✓</i> Automated review requests</li>
+                    <li><i>✓</i> Priority support</li>
+                    <li><i>✓</i> Multi-crew scheduling</li>
+                </ul>
+                <a href="#" class="btn btn-white pay-plan-btn">Subscribe Now</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="pricing-price">Custom</div>
+                <div class="pricing-period">For multi-location shops</div>
+                <ul class="pricing-features">
+                    <li><i>✓</i> Everything in Growth</li>
+                    <li><i>✓</i> Custom integrations</li>
+                    <li><i>✓</i> Dedicated account manager</li>
+                    <li><i>✓</i> Multi-location support</li>
+                </ul>
+                <a href="tel:6575055112" class="btn btn-primary">Talk to Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section testimonials-section" id="testimonials">
+        <div class="section-header">
+            <h2>What Plumbing Business Owners Say</h2>
+            <p>Don't just take our word for it — hear from shops using My Ring Reply.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">We were losing three or four calls a day while out on jobs. Since switching to My Ring Reply, every single one gets answered and booked automatically. It paid for itself in the first week.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MS</div>
+                    <div>
+                        <div class="testimonial-name">Mike S.</div>
+                        <div class="testimonial-location">Owner, Anaheim, CA</div>
                     </div>
                 </div>
             </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">My old answering service didn't know a wax ring from a P-trap. This AI actually understands plumbing terms and books jobs correctly the first time. Total game changer for my two-man crew.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SR</div>
+                    <div>
+                        <div class="testimonial-name">Sarah R.</div>
+                        <div class="testimonial-location">Owner, Fullerton, CA</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">Setup took maybe 20 minutes and it was already picking up calls that night. Our after-hours emergency bookings have basically doubled since we turned it on.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">JL</div>
+                    <div>
+                        <div class="testimonial-name">James L.</div>
+                        <div class="testimonial-location">Owner, Irvine, CA</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- CTA SECTION -->
-    <section class="cta" id="contact">
-        <h2>Ready to Fix Your Plumbing?</h2>
-        <p>Book now and get your problem solved in under 60 minutes!</p>
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta-section">
+        <h2>Stop Losing Jobs to a Ringing Phone</h2>
+        <p>See how My Ring Reply can answer, book, and grow your plumbing business — book a free demo today.</p>
         <div class="cta-buttons">
-            <button class="btn btn-primary" onclick="openPaymentModal()">💳 Book & Pay Online</button>
-            <button class="btn btn-outline" onclick="callNow()">📞 Call Us Now</button>
-        </div>
-        <div class="cta-phone">
-            Or call us at <a href="tel:6575055112">(657) 505-5112</a>
+            <a href="tel:6575055112" class="cta-phone">
+                📞 (657) 505-5112
+            </a>
+            <a href="#features" class="btn btn-outline btn-lg" style="color: var(--white); border-color: rgba(255,255,255,0.5);">
+                See Features
+            </a>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
-        <div class="footer-grid">
+        <div class="footer-content">
             <div>
                 <h3>🔧 My Ring Reply</h3>
-                <p>Your trusted 24/7 emergency plumbing service. Fast, reliable, and professional.</p>
+                <p>AI-powered call answering and booking built for plumbing businesses. Never miss a job again.</p>
             </div>
             <div>
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
+                    <li><a href="#problems">The Problem</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
                     <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
                 </ul>
             </div>
             <div>
-                <h3>Contact Info</h3>
+                <h3>Features</h3>
                 <ul class="footer-links">
-                    <li>📞 <a href="tel:6575055112">(657) 505-5112</a></li>
-                    <li>📧 info@myringreply.com</li>
-                    <li>📍 Southern California</li>
-                    <li>🕐 24/7 Available</li>
+                    <li><a href="#">24/7 Call Answering</a></li>
+                    <li><a href="#">Automatic Job Booking</a></li>
+                    <li><a href="#">Missed-Call Text-Back</a></li>
+                    <li><a href="#">Review Requests</a></li>
+                    <li><a href="#">Call Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <ul class="footer-contact">
+                    <li>📞 <a href="tel:6575055112" style="color: inherit;">(657) 505-5112</a></li>
+                    <li>📧 <a href="mailto:info@myringreply.com" style="color: inherit;">info@myringreply.com</a></li>
+                    <li>📍 Orange County, CA</li>
+                    <li>🕐 Support Available 24/7</li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 My Ring Reply. All rights reserved. | Licensed & Insured</p>
+            © 2024 My Ring Reply. All rights reserved.
         </div>
     </footer>
 
-    <!-- PAYMENT MODAL -->
-    <div class="modal" id="paymentModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closePaymentModal()">✕</button>
-            <h2>Book & Pay Online</h2>
-            
-            <div class="form-group">
-                <label for="service">Select Service</label>
-                <select id="service" onchange="updateOrderSummary()">
-                    <option value="Basic Service">Basic Service - $99</option>
-                    <option value="Standard Service">Standard Service - $149</option>
-                    <option value="Premium Service">Premium Service - $249</option>
-                    <option value="Emergency Service">Emergency Service - $199</option>
-                    <option value="Water Heater Repair">Water Heater Repair - $179</option>
-                    <option value="Drain Cleaning">Drain Cleaning - $129</option>
-                </select>
-            </div>
+    <!-- ===== CHECKOUT PAGE ===== -->
+    <div class="checkout-overlay" id="checkoutOverlay">
+        <div class="checkout-wrap">
+            <!-- Left: order summary -->
+            <div class="checkout-summary">
+                <button class="checkout-back" id="closeCheckout" type="button">
+                    <span class="arrow">←</span> 🔧 My Ring Reply
+                </button>
 
-            <div class="form-group">
-                <label for="date">Preferred Date</label>
-                <input type="date" id="date" onchange="updateOrderSummary()">
-            </div>
+                <div class="checkout-eyebrow" id="checkoutEyebrow">Pay My Ring Reply</div>
+                <div class="checkout-price" id="checkoutPrice">$149.00</div>
 
-            <div class="form-group">
-                <label for="time">Preferred Time</label>
-                <input type="time" id="time" onchange="updateOrderSummary()">
-            </div>
-
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" placeholder="John Doe" required>
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" placeholder="(555) 555-5555" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="john@example.com" required>
-            </div>
-
-            <div class="form-group">
-                <label for="address">Service Address</label>
-                <input type="text" id="address" placeholder="123 Main St, City, CA 12345" required>
-            </div>
-
-            <div class="payment-methods">
-                <div class="payment-method active" onclick="selectPaymentMethod('card')">
-                    <i>💳</i>
-                    <span>Credit Card</span>
+                <div class="checkout-lineitem">
+                    <div>
+                        <div class="item-name" id="checkoutPlanName">Starter Plan</div>
+                        <div class="item-sub" id="checkoutPlanSub">Monthly subscription</div>
+                    </div>
+                    <div class="price" id="checkoutPlanPrice">$149.00</div>
                 </div>
-                <div class="payment-method" onclick="selectPaymentMethod('paypal')">
-                    <i>🅿️</i>
-                    <span>PayPal</span>
+
+                <div class="checkout-lineitem">
+                    <div class="item-name">Subtotal</div>
+                    <div class="price" id="checkoutSubtotal">$149.00</div>
+                </div>
+
+                <div class="checkout-lineitem">
+                    <div class="item-name muted">Tax</div>
+                    <div class="price muted">Calculated at billing</div>
+                </div>
+
+                <div class="checkout-lineitem total">
+                    <div class="item-name">Total due</div>
+                    <div class="price" id="checkoutTotal">$149.00</div>
                 </div>
             </div>
 
-            <div class="order-summary">
-                <h3>Order Summary</h3>
-                <p>Service: <span id="summaryService">Basic Service</span></p>
-                <p>Date: <span id="summaryDate">Not selected</span></p>
-                <p>Time: <span id="summaryTime">Not selected</span></p>
-                <p>Customer: <span id="summaryName">Not provided</span></p>
-                <div class="total">Total: $<span id="summaryTotal">99.00</span></div>
-            </div>
+            <!-- Right: payment form -->
+            <div class="checkout-form-panel">
+                <h2>Pay with card</h2>
 
-            <!-- Stripe Payment Element -->
-            <div id="card-element" class="stripe-element" style="display: none;">
-                <!-- Stripe Card Element will be inserted here -->
-            </div>
-            <div id="card-errors" role="alert" style="color: #ff6b6b; margin: 0.5rem 0;"></div>
+                <div class="checkout-field-box">
+                    <label for="checkoutEmail">Email</label>
+                    <input type="email" id="checkoutEmail" placeholder="you@company.com" required>
+                </div>
 
-            <button class="btn-pay-now" id="payButton" onclick="processPayment()">
-                💳 Pay $<span id="payAmount">99.00</span> Now
-            </button>
+                <div class="checkout-section-label">Payment method</div>
+                <form id="payForm">
+                    <div class="checkout-method-box">
+                        <div class="checkout-method-header">💳 Card</div>
+
+                        <label class="checkout-section-label" style="font-weight:600; font-size:0.8rem;" for="card-element">Card information</label>
+                        <div id="card-element" class="checkout-card-element"></div>
+                        <div id="card-errors" class="checkout-card-errors" role="alert"></div>
+
+                        <label class="checkout-label" for="payName">Cardholder name</label>
+                        <input type="text" id="payName" class="checkout-input" style="margin-top:0;" placeholder="Full name on card" required>
+
+                        <label class="checkout-label" for="billingCountry">Billing address</label>
+                        <select id="billingCountry" class="checkout-input" style="margin-top:0; margin-bottom:0.75rem;">
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>United Kingdom</option>
+                            <option>Australia</option>
+                        </select>
+                        <input type="text" id="billingAddress" class="checkout-input" style="margin-top:0;" placeholder="Address">
+
+                        <div class="checkout-checkbox-row">
+                            <input type="checkbox" id="saveCard">
+                            <label for="saveCard">Save my payment information for future purchases</label>
+                        </div>
+                    </div>
+
+                    <p class="checkout-terms">
+                        By submitting payment information you agree to My Ring Reply's Terms of Service and Privacy Policy. Your payment information is stored securely by Stripe, Inc. — My Ring Reply never sees or stores your full card number.
+                    </p>
+
+                    <button type="submit" id="paySubmitBtn" class="btn btn-primary checkout-pay-btn">
+                        Pay
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <!-- ===== TOAST ===== -->
     <div class="toast" id="toast">
-        <span id="toastMessage">Notification</span>
-        <button class="toast-close" onclick="hideToast()">✕</button>
+        <i id="toastIcon">✓</i>
+        <span id="toastMessage">Hello!</span>
     </div>
 
-    <script>
-        // ===== STRIPE INITIALIZATION =====
-        // ✅ Your publishable key (safe for frontend)
-        const stripe = Stripe('pk_live_51U1Mt82K1gCJDsC4eFn6pzjjoZE0LBjF5a1e607FkZW8BwHRTWSAQBwwkc0kMtgrq8wt3fJhGHoNM3DQZSQIERJ600K4rcnIRy');
-        const elements = stripe.elements();
-        
-        // Create card element
-        let cardElement;
-        let paymentMethod = 'card';
-        let selectedService = 'Basic Service';
-        let selectedPrice = 99;
+    <!-- ===== STRIPE.JS ===== -->
+    <script src="https://js.stripe.com/v3/"></script>
 
-        // ===== NAVBAR SCROLL EFFECT =====
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
@@ -1554,350 +2210,240 @@
             }
         });
 
-        // ===== MOBILE MENU =====
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-        }
+        });
 
-        // ===== ANIMATED COUNTERS =====
-        function animateCounters() {
-            const counters = document.querySelectorAll('[data-count]');
-            counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-count'));
-                const duration = 2000;
-                const step = target / (duration / 16);
-                let current = 0;
-
-                const updateCounter = () => {
-                    current += step;
-                    if (current < target) {
-                        counter.textContent = Math.floor(current);
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = target;
-                    }
-                };
-
-                updateCounter();
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
             });
-        }
+        });
 
-        // Trigger counters when stats bar is in view
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statsObserver.observe(document.querySelector('.stats-bar'));
-
-        // ===== SCROLL REVEAL =====
-        const revealElements = document.querySelectorAll('.problem-card, .feature-content, .step-card, .pricing-card, .testimonial-card');
-
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('active');
                 }
             });
         }, { threshold: 0.1 });
 
-        revealElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            revealObserver.observe(el);
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
         });
 
-        // ===== PAYMENT MODAL =====
-        function openPaymentModal(service = null, price = null) {
-            if (service && price) {
-                document.getElementById('service').value = service;
-                selectedService = service;
-                selectedPrice = price;
-            }
-            
-            document.getElementById('paymentModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Initialize Stripe card element
-            if (!cardElement) {
-                cardElement = elements.create('card', {
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: '#32325d',
-                            '::placeholder': {
-                                color: '#aab7c4'
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Toast notification
+        const toast = document.getElementById('toast');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastMessage = document.getElementById('toastMessage');
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast show ' + type;
+            toastIcon.textContent = type === 'success' ? '✓' : 'ℹ';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show welcome toast
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showToast('Want to see it in action? Call (657) 505-5112', 'info');
+            }, 2000);
+        });
+
+        // Phone link tracking
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', () => {
+                showToast('Connecting you to book your demo...');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Animated counter for stats
+        const counters = document.querySelectorAll('.stat-number');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.textContent);
+                    if (!isNaN(target)) {
+                        let current = 0;
+                        const increment = target / 100;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                counter.textContent = target + '+';
+                                clearInterval(timer);
+                            } else {
+                                counter.textContent = Math.floor(current) + '+';
                             }
-                        }
+                        }, 20);
                     }
-                });
-                cardElement.mount('#card-element');
-                cardElement.on('change', ({error}) => {
-                    const displayError = document.getElementById('card-errors');
-                    if (error) {
-                        displayError.textContent = error.message;
-                    } else {
-                        displayError.textContent = '';
-                    }
-                });
-            }
-            
-            updateOrderSummary();
-        }
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
 
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+        counters.forEach(counter => counterObserver.observe(counter));
 
-        // Close modal on outside click
-        document.getElementById('paymentModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('paymentModal')) {
-                closePaymentModal();
+        // ===== STRIPE CHECKOUT =====
+        // Publishable key only — safe to expose in client-side code.
+        const stripe = Stripe('pk_live_51U1Mt82K1gCJDsC4eFn6pzjjoZE0LBjF5a1e607FkZW8BwHRTWSAQBwwkc0kMtgrq8wt3fJhGHoNM3DQZSQIERJ600K4rcnIRy');
+        const elements = stripe.elements();
+
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '15px',
+                    color: '#1e293b',
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    '::placeholder': { color: '#94a3b8' }
+                },
+                invalid: { color: '#ef4444' }
             }
         });
+        cardElement.mount('#card-element');
 
-        // Close modal on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closePaymentModal();
-            }
+        cardElement.on('change', (event) => {
+            document.getElementById('card-errors').textContent = event.error ? event.error.message : '';
         });
 
-        // ===== PAYMENT METHOD SELECTION =====
-        function selectPaymentMethod(method) {
-            paymentMethod = method;
-            const methods = document.querySelectorAll('.payment-method');
-            methods.forEach(m => m.classList.remove('active'));
-            
-            if (method === 'card') {
-                methods[0].classList.add('active');
-                document.getElementById('card-element').style.display = 'block';
-            } else {
-                methods[1].classList.add('active');
-                document.getElementById('card-element').style.display = 'none';
-            }
+        const checkoutOverlay = document.getElementById('checkoutOverlay');
+        const closeCheckout = document.getElementById('closeCheckout');
+        const payForm = document.getElementById('payForm');
+        const paySubmitBtn = document.getElementById('paySubmitBtn');
+
+        const checkoutEyebrow = document.getElementById('checkoutEyebrow');
+        const checkoutPrice = document.getElementById('checkoutPrice');
+        const checkoutPlanName = document.getElementById('checkoutPlanName');
+        const checkoutPlanSub = document.getElementById('checkoutPlanSub');
+        const checkoutPlanPrice = document.getElementById('checkoutPlanPrice');
+        const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+        const checkoutTotal = document.getElementById('checkoutTotal');
+
+        let currentAmountCents = 14900; // default: Starter plan
+
+        function openCheckout(planName, planSub, amount) {
+            const formatted = '$' + amount.toFixed(2);
+            checkoutEyebrow.textContent = 'Pay My Ring Reply';
+            checkoutPrice.textContent = formatted;
+            checkoutPlanName.textContent = planName;
+            checkoutPlanSub.textContent = planSub;
+            checkoutPlanPrice.textContent = formatted;
+            checkoutSubtotal.textContent = formatted;
+            checkoutTotal.textContent = formatted;
+            currentAmountCents = Math.round(amount * 100);
+            checkoutOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
-        // ===== ORDER SUMMARY UPDATE =====
-        function updateOrderSummary() {
-            const service = document.getElementById('service');
-            const date = document.getElementById('date');
-            const time = document.getElementById('time');
-            const name = document.getElementById('name');
-
-            selectedService = service.value;
-            const prices = {
-                'Basic Service': 99,
-                'Standard Service': 149,
-                'Premium Service': 249,
-                'Emergency Service': 199,
-                'Water Heater Repair': 179,
-                'Drain Cleaning': 129
-            };
-            selectedPrice = prices[selectedService] || 99;
-
-            document.getElementById('summaryService').textContent = selectedService;
-            document.getElementById('summaryDate').textContent = date.value || 'Not selected';
-            document.getElementById('summaryTime').textContent = time.value || 'Not selected';
-            document.getElementById('summaryName').textContent = name.value || 'Not provided';
-            document.getElementById('summaryTotal').textContent = selectedPrice.toFixed(2);
-            document.getElementById('payAmount').textContent = selectedPrice.toFixed(2);
+        function hideCheckout() {
+            checkoutOverlay.classList.remove('show');
+            document.body.style.overflow = '';
         }
 
-        // ===== PROCESS PAYMENT =====
-        async function processPayment() {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const address = document.getElementById('address').value;
-
-            // Validation
-            if (!name || !phone || !email || !address) {
-                showToast('Please fill in all required fields', 'error');
-                return;
-            }
-
-            if (paymentMethod === 'card') {
-                await processCardPayment();
-            } else {
-                await processPayPalPayment();
-            }
+        // Generic "Pay Online" nav link — opens with a blank/custom amount
+        const openPayModal = document.getElementById('openPayModal');
+        if (openPayModal) {
+            openPayModal.addEventListener('click', () => {
+                openCheckout('Custom Payment', 'One-time payment', 0);
+                checkoutPrice.textContent = '$0.00';
+            });
         }
 
-        async function processCardPayment() {
-            const button = document.getElementById('payButton');
-            button.disabled = true;
-            button.textContent = 'Processing...';
+        // Wire up plan buttons in pricing cards
+        document.querySelectorAll('.pricing-card[data-plan]').forEach(card => {
+            const btn = card.querySelector('.pay-plan-btn');
+            if (!btn) return;
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const plan = card.dataset.plan;
+                const amount = parseFloat(card.dataset.amount);
+                openCheckout(plan, 'Monthly subscription', amount);
+            });
+        });
+
+        closeCheckout.addEventListener('click', hideCheckout);
+
+        payForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            paySubmitBtn.disabled = true;
+            paySubmitBtn.textContent = 'Processing...';
+            document.getElementById('card-errors').textContent = '';
+
+            const email = document.getElementById('checkoutEmail').value;
+            const name = document.getElementById('payName').value;
 
             try {
-                // In production, you would create a PaymentIntent on your backend
-                // and use the client_secret to confirm the payment
-                // For this demo, we'll simulate a successful payment
-                
-                showToast('Processing payment...', 'info');
-                
-                // Simulate API call to create PaymentIntent
-                setTimeout(() => {
-                    showToast('Payment successful! A plumber will contact you shortly.', 'success');
-                    closePaymentModal();
-                    resetForm();
-                    button.disabled = false;
-                    button.innerHTML = '💳 Pay $<span id="payAmount">' + selectedPrice.toFixed(2) + '</span> Now';
-                }, 2000);
-
-                /* REAL STRIPE IMPLEMENTATION (UNCOMMENT WHEN BACKEND IS READY):
-                
-                // 1. Create PaymentIntent on your backend
-                const response = await fetch('/api/create-payment-intent', {
+                // NOTE: Charging a card requires a PaymentIntent created on a
+                // backend server using your Stripe SECRET key (never expose
+                // that key in this file). This calls a placeholder endpoint —
+                // replace '/create-payment-intent' with your real server route.
+                const response = await fetch('/create-payment-intent', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        amount: selectedPrice,
-                        service: selectedService,
-                        customerName: document.getElementById('name').value,
-                        customerEmail: document.getElementById('email').value,
-                        customerPhone: document.getElementById('phone').value,
-                        address: document.getElementById('address').value
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: currentAmountCents, name, email })
                 });
-                
+
+                if (!response.ok) {
+                    throw new Error('Payment server is not set up yet. Please call (657) 505-5112 to complete payment.');
+                }
+
                 const { clientSecret } = await response.json();
-                
-                // 2. Confirm the payment
-                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                const result = await stripe.confirmCardPayment(clientSecret, {
                     payment_method: {
                         card: cardElement,
-                        billing_details: {
-                            name: document.getElementById('name').value,
-                            email: document.getElementById('email').value,
-                            phone: document.getElementById('phone').value,
-                            address: {
-                                line1: document.getElementById('address').value
-                            }
-                        }
+                        billing_details: { name, email }
                     }
                 });
-                
-                if (error) {
-                    showToast(error.message, 'error');
-                    button.disabled = false;
-                    button.innerHTML = '💳 Pay $<span id="payAmount">' + selectedPrice.toFixed(2) + '</span> Now';
-                } else if (paymentIntent.status === 'succeeded') {
-                    showToast('Payment successful! A plumber will contact you shortly.', 'success');
-                    closePaymentModal();
-                    resetForm();
-                    button.disabled = false;
-                    button.innerHTML = '💳 Pay $<span id="payAmount">' + selectedPrice.toFixed(2) + '</span> Now';
+
+                if (result.error) {
+                    document.getElementById('card-errors').textContent = result.error.message;
+                } else if (result.paymentIntent.status === 'succeeded') {
+                    showToast('Payment successful! Thank you.');
+                    hideCheckout();
+                    payForm.reset();
+                    cardElement.clear();
                 }
-                */
-                
-            } catch (error) {
-                showToast('Payment failed: ' + error.message, 'error');
-                button.disabled = false;
-                button.innerHTML = '💳 Pay $<span id="payAmount">' + selectedPrice.toFixed(2) + '</span> Now';
+            } catch (err) {
+                document.getElementById('card-errors').textContent = err.message;
+            } finally {
+                paySubmitBtn.disabled = false;
+                paySubmitBtn.textContent = 'Pay';
             }
-        }
-
-        async function processPayPalPayment() {
-            const button = document.getElementById('payButton');
-            button.disabled = true;
-            button.textContent = 'Redirecting to PayPal...';
-
-            try {
-                // Simulate PayPal redirect
-                showToast('Redirecting to PayPal...', 'info');
-                
-                setTimeout(() => {
-                    showToast('Payment successful! A plumber will contact you shortly.', 'success');
-                    closePaymentModal();
-                    resetForm();
-                    button.disabled = false;
-                    button.innerHTML = '💳 Pay $<span id="payAmount">' + selectedPrice.toFixed(2) + '</span> Now';
-                }, 2000);
-
-                /* REAL PAYPAL IMPLEMENTATION (UNCOMMENT WHEN BACKEND IS READY):
-                
-                const response = await fetch('/api/create-paypal-order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        amount: selectedPrice,
-                        service: selectedService
-                    })
-                });
-                
-                const { approvalUrl } = await response.json();
-                window.location.href = approvalUrl;
-                */
-                
-            } catch (error) {
-                showToast('Payment failed: ' + error.message, 'error');
-                button.disabled = false;
-                button.innerHTML = '💳 Pay $<span id="payAmount">' + selectedPrice.toFixed(2) + '</span> Now';
-            }
-        }
-
-        // ===== RESET FORM =====
-        function resetForm() {
-            document.getElementById('service').value = 'Basic Service';
-            document.getElementById('date').value = '';
-            document.getElementById('time').value = '';
-            document.getElementById('name').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('address').value = '';
-            updateOrderSummary();
-        }
-
-        // ===== TOAST NOTIFICATIONS =====
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            
-            toast.className = 'toast ' + type;
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(hideToast, 4000);
-        }
-
-        function hideToast() {
-            document.getElementById('toast').classList.remove('show');
-        }
-
-        // ===== CALL NOW =====
-        function callNow() {
-            window.location.href = 'tel:6575055112';
-            showToast('Calling (657) 505-5112...', 'info');
-        }
-
-        // ===== INITIALIZE =====
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set today's date as minimum for date picker
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('date').min = today;
-            
-            // Set default date to tomorrow
-            const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-            document.getElementById('date').value = tomorrow;
-            
-            // Set default time to next hour
-            const nextHour = new Date(Date.now() + 3600000);
-            document.getElementById('time').value = nextHour.toTimeString().slice(0, 5);
-            
-            updateOrderSummary();
         });
     </script>
 
