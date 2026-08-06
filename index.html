@@ -1,914 +1,909 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeReply — Never Miss A Job Again</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffffff;
-            color: #1a1a2e;
-        }
-
-        /* NAVIGATION */
-        nav {
-            background-color: #ffffff;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(75, 0, 130, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: #4b0082;
-        }
-
-        .logo span {
-            color: #7b2fff;
-        }
-
-        .nav-btn {
-            background-color: #4b0082;
-            color: white;
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: background 0.3s;
-        }
-
-        .nav-btn:hover {
-            background-color: #7b2fff;
-        }
-
-        /* HERO SECTION */
-        .hero {
-            background: linear-gradient(135deg, #ffffff 0%, #f3e8ff 100%);
-            padding: 100px 40px;
-            text-align: center;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background-color: #f3e8ff;
-            color: #4b0082;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            border: 1px solid #d8b4fe;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 900;
-            color: #1a1a2e;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero h1 span {
-            color: #4b0082;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: #555;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background-color: #4b0082;
-            color: white;
-            padding: 16px 36px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 17px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(75, 0, 130, 0.3);
-        }
-
-        .btn-primary:hover {
-            background-color: #7b2fff;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: #4b0082;
-            padding: 16px 36px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 17px;
-            border: 2px solid #4b0082;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f3e8ff;
-        }
-
-        /* STATS BAR */
-        .stats-bar {
-            background-color: #4b0082;
-            padding: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 80px;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-            color: white;
-        }
-
-        .stat-number {
-            font-size: 42px;
-            font-weight: 900;
-            color: #d8b4fe;
-        }
-
-        .stat-label {
-            font-size: 15px;
-            color: #e9d5ff;
-            margin-top: 4px;
-        }
-
-        /* PROBLEM SECTION */
-        .problem {
-            padding: 100px 40px;
-            background-color: #ffffff;
-            text-align: center;
-        }
-
-        .section-tag {
-            display: inline-block;
-            background-color: #f3e8ff;
-            color: #4b0082;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-title {
-            font-size: 40px;
-            font-weight: 800;
-            color: #1a1a2e;
-            margin-bottom: 16px;
-        }
-
-        .section-subtitle {
-            font-size: 18px;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto 60px;
-            line-height: 1.6;
-        }
-
-        .problem-cards {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .problem-card {
-            background-color: #fff;
-            border: 2px solid #f3e8ff;
-            border-radius: 16px;
-            padding: 36px 28px;
-            width: 300px;
-            text-align: left;
-            transition: all 0.3s;
-        }
-
-        .problem-card:hover {
-            border-color: #4b0082;
-            box-shadow: 0 8px 30px rgba(75, 0, 130, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .problem-icon {
-            font-size: 40px;
-            margin-bottom: 16px;
-        }
-
-        .problem-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-        }
-
-        .problem-card p {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* HOW IT WORKS */
-        .how-it-works {
-            background: linear-gradient(135deg, #f3e8ff 0%, #ffffff 100%);
-            padding: 100px 40px;
-            text-align: center;
-        }
-
-        .steps {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .step-card {
-            background-color: #ffffff;
-            border-radius: 16px;
-            padding: 40px 28px;
-            width: 300px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(75, 0, 130, 0.08);
-            position: relative;
-        }
-
-        .step-number {
-            background-color: #4b0082;
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 800;
-            margin: 0 auto 20px;
-        }
-
-        .step-icon {
-            font-size: 44px;
-            margin-bottom: 16px;
-        }
-
-        .step-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-        }
-
-        .step-card p {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* FEATURES */
-        .features {
-            padding: 100px 40px;
-            background-color: #ffffff;
-            text-align: center;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .feature-item {
-            background-color: #fafafa;
-            border-radius: 14px;
-            padding: 32px 24px;
-            text-align: left;
-            border-left: 4px solid #4b0082;
-            transition: all 0.3s;
-        }
-
-        .feature-item:hover {
-            background-color: #f3e8ff;
-            transform: translateX(4px);
-        }
-
-        .feature-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .feature-item h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-
-        .feature-item p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* PRICING */
-        .pricing {
-            background: linear-gradient(135deg, #f3e8ff 0%, #ffffff 100%);
-            padding: 100px 40px;
-            text-align: center;
-        }
-
-        .pricing-cards {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .pricing-card {
-            background-color: #ffffff;
-            border-radius: 20px;
-            padding: 48px 36px;
-            width: 360px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(75, 0, 130, 0.08);
-            border: 2px solid #f3e8ff;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border-color: #4b0082;
-            box-shadow: 0 8px 40px rgba(75, 0, 130, 0.2);
-            transform: scale(1.03);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4b0082;
-            color: white;
-            padding: 6px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .pricing-name {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-
-        .pricing-price {
-            font-size: 56px;
-            font-weight: 900;
-            color: #4b0082;
-            margin-bottom: 4px;
-        }
-
-        .pricing-price span {
-            font-size: 20px;
-            font-weight: 500;
-            color: #888;
-        }
-
-        .pricing-desc {
-            font-size: 15px;
-            color: #888;
-            margin-bottom: 32px;
-        }
-
-        .pricing-features {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 36px;
-        }
-
-        .pricing-features li {
-            padding: 10px 0;
-            font-size: 15px;
-            color: #444;
-            border-bottom: 1px solid #f3e8ff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pricing-features li::before {
-            content: "✓";
-            color: #4b0082;
-            font-weight: 800;
-            font-size: 16px;
-        }
-
-        .pricing-btn {
-            display: block;
-            background-color: #4b0082;
-            color: white;
-            padding: 16px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .pricing-btn:hover {
-            background-color: #7b2fff;
-        }
-
-        /* TESTIMONIALS */
-        .testimonials {
-            padding: 100px 40px;
-            background-color: #ffffff;
-            text-align: center;
-        }
-
-        .testimonial-grid {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            background-color: #fafafa;
-            border-radius: 16px;
-            padding: 36px 28px;
-            width: 320px;
-            text-align: left;
-            border-top: 4px solid #4b0082;
-        }
-
-        .stars {
-            color: #f59e0b;
-            font-size: 20px;
-            margin-bottom: 16px;
-        }
-
-        .testimonial-text {
-            font-size: 16px;
-            color: #444;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .author-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: #4b0082;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .author-name {
-            font-weight: 700;
-            color: #1a1a2e;
-            font-size: 15px;
-        }
-
-        .author-title {
-            font-size: 13px;
-            color: #888;
-        }
-
-        /* CTA SECTION */
-        .cta {
-            background: linear-gradient(135deg, #4b0082 0%, #7b2fff 100%);
-            padding: 100px 40px;
-            text-align: center;
-        }
-
-        .cta h2 {
-            font-size: 48px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 20px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta p {
-            font-size: 20px;
-            color: #e9d5ff;
-            margin-bottom: 40px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background-color: #ffffff;
-            color: #4b0082;
-            padding: 18px 48px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 18px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* FOOTER */
-        footer {
-            background-color: #1a1a2e;
-            color: #888;
-            padding: 40px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        footer .footer-logo {
-            font-size: 22px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 12px;
-        }
-
-        footer .footer-logo span {
-            color: #7b2fff;
-        }
-
-        footer p {
-            margin-top: 8px;
-        }
-
-        /* PLUMBER IMAGES SECTION */
-        .social-proof {
-            background-color: #f9f9f9;
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .social-proof p {
-            font-size: 15px;
-            color: #888;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
-
-        .plumber-avatars {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0;
-        }
-
-        .plumber-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: #4b0082;
-            border: 3px solid white;
-            margin-left: -12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .plumber-count {
-            margin-left: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .stats-bar {
-                gap: 40px;
-            }
-
-            .section-title {
-                font-size: 30px;
-            }
-
-            .cta h2 {
-                font-size: 32px;
-            }
-
-            .pricing-card.featured {
-                transform: scale(1);
-            }
-
-            nav {
-                padding: 16px 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Ring Reply</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1a1a2e;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: #ffffff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      color: #4b0082;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: #7b2ff7;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #1a1a2e;
+      font-weight: 600;
+      margin-left: 30px;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: #4b0082; }
+
+    .nav-cta {
+      background: #4b0082;
+      color: #ffffff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      margin-left: 30px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: #7b2ff7 !important; }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 60px;
+      background: linear-gradient(135deg, #f8f4ff 0%, #ffffff 100%);
+      gap: 60px;
+    }
+
+    .hero-text { flex: 1; }
+
+    .hero-badge {
+      display: inline-block;
+      background: #ede7f6;
+      color: #4b0082;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span { color: #4b0082; }
+
+    .hero p {
+      font-size: 18px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 35px;
+      max-width: 500px;
+    }
+
+    .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: #4b0082;
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #7b2ff7;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #4b0082;
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid #4b0082;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: #4b0082;
+      color: #fff;
+    }
+
+    .hero-image {
+      flex: 1;
+      max-width: 520px;
+    }
+
+    .hero-image img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(75,0,130,0.2);
+      object-fit: cover;
+      height: 420px;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: #4b0082;
+      padding: 0;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 50px 30px;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-size: 48px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    /* PROBLEM SECTION */
+    .problem {
+      padding: 100px 60px;
+      text-align: center;
+      background: #ffffff;
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: #ede7f6;
+      color: #4b0082;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .problem h2 {
+      font-size: 40px;
+      font-weight: 900;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+    }
+
+    .problem h2 span { color: #4b0082; }
+
+    .problem p {
+      font-size: 18px;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto 60px;
+      line-height: 1.7;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .problem-card {
+      background: #f8f4ff;
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: left;
+      border-left: 4px solid #4b0082;
+      transition: transform 0.2s;
+    }
+
+    .problem-card:hover { transform: translateY(-4px); }
+
+    .problem-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+
+    .problem-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+
+    .problem-card p {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* PLUMBER IMAGE SECTION */
+    .plumber-section {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      padding: 100px 60px;
+      background: #f8f4ff;
+    }
+
+    .plumber-section.reverse { flex-direction: row-reverse; background: #ffffff; }
+
+    .plumber-img {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .plumber-img img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(75,0,130,0.15);
+      object-fit: cover;
+      height: 380px;
+    }
+
+    .plumber-content { flex: 1; }
+
+    .plumber-content h2 {
+      font-size: 36px;
+      font-weight: 900;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .plumber-content h2 span { color: #4b0082; }
+
+    .plumber-content p {
+      font-size: 17px;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .check-list { list-style: none; }
+
+    .check-list li {
+      font-size: 16px;
+      color: #333;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      background: #4b0082;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* HOW IT WORKS */
+    .how {
+      padding: 100px 60px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .how h2 {
+      font-size: 40px;
+      font-weight: 900;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+    }
+
+    .how h2 span { color: #4b0082; }
+
+    .how > p {
+      font-size: 18px;
+      color: #666;
+      max-width: 550px;
+      margin: 0 auto 60px;
+      line-height: 1.7;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .step {
+      text-align: center;
+      padding: 40px 20px;
+      background: #f8f4ff;
+      border-radius: 16px;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .step:hover { transform: translateY(-4px); }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: #4b0082;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      margin: 0 auto 20px;
+    }
+
+    .step h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* PRICING */
+    .pricing {
+      padding: 100px 60px;
+      background: #f8f4ff;
+      text-align: center;
+    }
+
+    .pricing h2 {
+      font-size: 40px;
+      font-weight: 900;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+    }
+
+    .pricing h2 span { color: #4b0082; }
+
+    .pricing > p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 60px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 50px 40px;
+      text-align: left;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .pricing-card:hover { transform: translateY(-4px); }
+
+    .pricing-card.popular {
+      border: 3px solid #4b0082;
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4b0082;
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 20px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .plan-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #4b0082;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .plan-price {
+      font-size: 52px;
+      font-weight: 900;
+      color: #1a1a2e;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .plan-price span {
+      font-size: 20px;
+      font-weight: 600;
+      color: #888;
+    }
+
+    .plan-desc {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .plan-features { list-style: none; margin-bottom: 35px; }
+
+    .plan-features li {
+      font-size: 15px;
+      color: #333;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .plan-features li::before {
+      content: "✓";
+      color: #4b0082;
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .plan-btn {
+      display: block;
+      text-align: center;
+      background: #4b0082;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .plan-btn:hover { background: #7b2ff7; }
+
+    /* TESTIMONIAL */
+    .testimonials {
+      padding: 100px 60px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-size: 40px;
+      font-weight: 900;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+    }
+
+    .testimonials h2 span { color: #4b0082; }
+
+    .testimonials > p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 60px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: #f8f4ff;
+      border-radius: 16px;
+      padding: 35px 30px;
+      text-align: left;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-card p {
+      font-size: 15px;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1a1a2e;
+    }
+
+    .author-title {
+      font-size: 13px;
+      color: #888;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      padding: 100px 60px;
+      background: linear-gradient(135deg, #4b0082 0%, #7b2ff7 100%);
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .cta-section p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 40px;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .btn-white {
+      background: #ffffff;
+      color: #4b0082;
+      padding: 18px 40px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-white:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* FOOTER */
+    footer {
+      background: #1a1a2e;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 40px 60px;
+      font-size: 14px;
+    }
+
+    footer strong {
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .hero { flex-direction: column; padding: 50px 20px; }
+      .hero h1 { font-size: 36px; }
+      .hero-image { max-width: 100%; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .problem-grid { grid-template-columns: 1fr; }
+      .plumber-section { flex-direction: column; padding: 60px 20px; }
+      .plumber-section.reverse { flex-direction: column; }
+      .plumber-img { max-width: 100%; }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+      .problem, .how, .pricing, .testimonials, .cta-section { padding: 60px 20px; }
+      footer { padding: 30px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <div class="logo">Trade<span>Reply</span></div>
-        <a href="#book" class="nav-btn">Book Free Demo</a>
-    </nav>
-
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-badge">🔧 Built Exclusively For Plumbers</div>
-        <h1>Stop Losing Jobs To <span>Missed Calls</span></h1>
-        <p>Every missed call is a job going to your competitor. TradeReply automatically follows up with every missed call so you never lose a lead again.</p>
-        <div class="hero-buttons">
-            <a href="#book" class="btn-primary">Get Started Free →</a>
-            <a href="#how" class="btn-secondary">See How It Works</a>
-        </div>
-    </section>
-
-    <!-- SOCIAL PROOF BAR -->
-    <div class="social-proof">
-        <p>Trusted by plumbers across the UK</p>
-        <div class="plumber-avatars">
-            <div class="plumber-avatar">🔧</div>
-            <div class="plumber-avatar">🪠</div>
-            <div class="plumber-avatar">💧</div>
-            <div class="plumber-avatar">🔩</div>
-            <div class="plumber-avatar">🛠️</div>
-            <span class="plumber-count">50+ plumbers already onboard</span>
-        </div>
+  <!-- NAV -->
+  <nav>
+    <div class="logo">My Ring<span>Reply</span></div>
+    <div>
+      <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact" class="nav-cta">Get Started</a>
     </div>
+  </nav>
 
-    <!-- STATS BAR -->
-    <div class="stats-bar">
-        <div class="stat-item">
-            <div class="stat-number">47%</div>
-            <div class="stat-label">of plumber calls go unanswered</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">£800</div>
-            <div class="stat-label">average job value missed per call</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">90sec</div>
-            <div class="stat-label">average response time with TradeReply</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">3x</div>
-            <div class="stat-label">more bookings for our customers</div>
-        </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">🇺🇸 Serving California Plumbers</div>
+      <h1>Stop Losing Jobs to <span>Missed Calls</span></h1>
+      <p>My Ring Reply automatically texts every missed call within 90 seconds — qualifying leads and booking jobs while you're on the tools.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">Start Free Trial</a>
+        <a href="#how" class="btn-secondary">See How It Works</a>
+      </div>
     </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&q=80" alt="Plumber at work" />
+    </div>
+  </section>
 
-    <!-- PROBLEM SECTION -->
-    <section class="problem">
-        <div class="section-tag">The Problem</div>
-        <h2 class="section-title">Sound Familiar?</h2>
-        <p class="section-subtitle">Every day plumbers across the UK are losing thousands in revenue without even knowing it.</p>
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat-item">
+      <div class="stat-number">47%</div>
+      <div class="stat-label">of plumber calls go unanswered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">$800</div>
+      <div class="stat-label">average job value missed per call</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">90sec</div>
+      <div class="stat-label">average response time with My Ring Reply</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">3x</div>
+      <div class="stat-label">more bookings for our customers</div>
+    </div>
+  </section>
 
-        <div class="problem-cards">
-            <div class="problem-card">
-                <div class="problem-icon">📵</div>
-                <h3>You're Under The Sink</h3>
-                <p>You can't answer calls when you're mid job. The customer hangs up and calls the next plumber on Google.</p>
-            </div>
-            <div class="problem-card">
-                <div class="problem-icon">💸</div>
-                <h3>Revenue Walking Out The Door</h3>
-                <p>Each missed call is worth hundreds of pounds. Missing 3 calls a week adds up to thousands every month.</p>
-            </div>
-            <div class="problem-card">
-                <div class="problem-icon">😤</div>
-                <h3>Customers Don't Wait</h3>
-                <p>People with a leaking pipe need help NOW. If you don't reply in minutes they move on to someone who does.</p>
-            </div>
+  <!-- PROBLEM -->
+  <section class="problem" id="problem">
+    <div class="section-tag">The Problem</div>
+    <h2>Every Missed Call is a <span>Lost Job</span></h2>
+    <p>California plumbers are busier than ever — but that means more calls going to voicemail and more revenue walking out the door.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📵</div>
+        <h3>Calls Go Unanswered</h3>
+        <p>When you're under a sink or on a job, you can't answer every call. Customers don't wait — they call the next plumber.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <h3>Revenue Slips Away</h3>
+        <p>At $800 average job value, even 3 missed calls a week costs you nearly $10,000 a month in lost revenue.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">😤</div>
+        <h3>Competitors Win</h3>
+        <p>The plumber who responds first gets the job. If you're not replying within minutes, someone else is taking your customers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLUMBER IMAGE SECTION 1 -->
+  <section class="plumber-section">
+    <div class="plumber-img">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Plumber working on pipes" />
+    </div>
+    <div class="plumber-content">
+      <div class="section-tag">Built For Plumbers</div>
+      <h2>We Know You Can't <span>Stop Mid-Job</span></h2>
+      <p>My Ring Reply was built specifically for California plumbers who are too busy working to answer every call — but can't afford to miss them either.</p>
+      <ul class="check-list">
+        <li>Instant SMS reply sent within 90 seconds</li>
+        <li>AI qualifies the lead automatically</li>
+        <li>Customer books directly into your calendar</li>
+        <li>You get notified of every new lead</li>
+        <li>No apps to learn, no changes to your workflow</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PLUMBER IMAGE SECTION 2 -->
+  <section class="plumber-section reverse">
+    <div class="plumber-img">
+      <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80" alt="Plumber fixing pipes" />
+    </div>
+    <div class="plumber-content">
+      <div class="section-tag">More Bookings</div>
+      <h2>Turn Missed Calls Into <span>Booked Jobs</span></h2>
+      <p>Our customers see 3x more bookings within the first 30 days. The system works 24/7 so you never miss an opportunity — even on weekends.</p>
+      <ul class="check-list">
+        <li>Works nights, weekends, and holidays</li>
+        <li>Handles multiple missed calls at once</li>
+        <li>Sends follow-up if no reply after 10 minutes</li>
+        <li>Full lead history in your dashboard</li>
+        <li>Setup takes less than 24 hours</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="section-tag">How It Works</div>
+    <h2>Simple, Fast, and <span>Fully Automatic</span></h2>
+    <p>Set it up once and let My Ring Reply handle everything. No tech skills needed.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Call Comes In</h3>
+        <p>A customer calls your number while you're busy on a job</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Call Goes Missed</h3>
+        <p>You can't answer — the system detects the missed call instantly</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>AI Texts Back</h3>
+        <p>Within 90 seconds, an AI text is sent to qualify the lead</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Job Gets Booked</h3>
+        <p>Customer books directly into your calendar — job secured</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-tag">Pricing</div>
+    <h2>Simple, Transparent <span>Pricing</span></h2>
+    <p>No setup fees. No contracts. Cancel anytime.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$297<span>/mo</span></div>
+        <div class="plan-desc">Perfect for solo plumbers getting started</div>
+        <ul class="plan-features">
+          <li>Missed call SMS reply</li>
+          <li>AI lead qualification</li>
+          <li>Calendly booking integration</li>
+          <li>1 phone number</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#contact" class="plan-btn">Get Started</a>
+      </div>
+      <div class="pricing-card popular">
+        <div class="popular-badge">⭐ Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$497<span>/mo</span></div>
+        <div class="plan-desc">For plumbers serious about growing fast</div>
+        <ul class="plan-features">
+          <li>Everything in Starter</li>
+          <li>Airtable leads dashboard</li>
+          <li>Monthly performance report</li>
+          <li>Custom AI responses</li>
+          <li>Up to 3 locations</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#contact" class="plan-btn">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-tag">Results</div>
+    <h2>What California Plumbers <span>Are Saying</span></h2>
+    <p>Real results from real plumbers across California</p>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"I was losing 5 to 6 calls a week without even knowing. My Ring Reply fixed that overnight. Best investment I've made."</p>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Mike" class="author-avatar"/>
+          <div>
+            <div class="author-name">Mike T.</div>
+            <div class="author-title">Plumber · Los Angeles, CA</div>
+          </div>
         </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works" id="how">
-        <div class="section-tag">How It Works</div>
-        <h2 class="section-title">Simple. Automatic. Powerful.</h2>
-        <p class="section-subtitle">TradeReply works silently in the background so you can focus on the job in front of you.</p>
-
-        <div class="steps">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <div class="step-icon">📞</div>
-                <h3>You Miss A Call</h3>
-                <p>A customer calls while you're busy on a job. No problem. TradeReply detects the missed call instantly.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <div class="step-icon">💬</div>
-                <h3>Automatic SMS Sent</h3>
-                <p>Within 90 seconds the customer receives a personalised text from your number asking how you can help.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <div class="step-icon">📅</div>
-                <h3>Job Gets Booked</h3>
-                <p>The AI qualifies the lead and books them straight into your calendar. You finish the job and check your bookings.</p>
-            </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Set it up in a day and it paid for itself in the first week. I booked 4 jobs I would have completely missed."</p>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Carlos" class="author-avatar"/>
+          <div>
+            <div class="author-name">Carlos R.</div>
+            <div class="author-title">Plumber · San Diego, CA</div>
+          </div>
         </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="features">
-        <div class="section-tag">Features</div>
-        <h2 class="section-title">Everything You Need</h2>
-        <p class="section-subtitle">Built specifically for plumbers. No tech knowledge required.</p>
-
-        <div class="features-grid">
-            <div class="feature-item">
-                <div class="feature-icon">⚡</div>
-                <h3>Instant SMS Reply</h3>
-                <p>Every missed call gets an automatic text back within 90 seconds keeping the customer engaged.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🤖</div>
-                <h3>AI Conversation</h3>
-                <p>Smart AI chats with the customer, asks the right questions and qualifies the job for you.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">📅</div>
-                <h3>Automatic Booking</h3>
-                <p>Qualified leads get booked straight into your calendar without you lifting a finger.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">📊</div>
-                <h3>Lead Dashboard</h3>
-                <p>See every lead, conversation and booking in one simple dashboard on your phone.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🔔</div>
-                <h3>Instant Notifications</h3>
-                <p>Get notified the moment a new job is booked so you are always in the loop.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🛠️</div>
-                <h3>Done For You Setup</h3>
-                <p>We set everything up for you. You just forward your calls and we handle the rest.</p>
-            </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"My customers love getting a text back so fast. It makes me look professional and I never lose a job to a competitor anymore."</p>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80" alt="Jason" class="author-avatar"/>
+          <div>
+            <div class="author-name">Jason M.</div>
+            <div class="author-title">Plumber · Sacramento, CA</div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- PRICING -->
-    <section class="pricing" id="pricing">
-        <div class="section-tag">Pricing</div>
-        <h2 class="section-title">Simple Honest Pricing</h2>
-        <p class="section-subtitle">No contracts. No setup fees. Cancel anytime.</p>
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <h2>Ready to Stop Losing Jobs to Missed Calls?</h2>
+    <p>Join California plumbers who are booking more jobs with My Ring Reply. Setup takes less than 24 hours.</p>
+    <a href="mailto:hello@myringreply.com" class="btn-white">📞 Get Started Today</a>
+  </section>
 
-        <div class="pricing-cards">
-            <div class="pricing-card">
-                <div class="pricing-name">Starter</div>
-                <div class="pricing-price">£297<span>/mo</span></div>
-                <div class="pricing-desc">Perfect for solo plumbers</div>
-                <ul class="pricing-features">
-                    <li>Missed call SMS follow up</li>
-                    <li>AI lead qualification</li>
-                    <li>Calendar booking</li>
-                    <li>Lead dashboard</li>
-                    <li>Email support</li>
-                </ul>
-                <a href="#book" class="pricing-btn">Get Started</a>
-            </div>
-
-            <div class="pricing-card featured">
-                <div class="popular-badge">Most Popular</div>
-                <div class="pricing-name">Pro</div>
-                <div class="pricing-price">£497<span>/mo</span></div>
-                <div class="pricing-desc">For growing plumbing businesses</div>
-                <ul class="pricing-features">
-                    <li>Everything in Starter</li>
-                    <li>Priority SMS responses</li>
-                    <li>Custom AI personality</li>
-                    <li>Advanced lead dashboard</li>
-                    <li>Monthly performance report</li>
-                    <li>Priority phone support</li>
-                </ul>
-                <a href="#book" class="pricing-btn">Get Started</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="testimonials">
-        <div class="section-tag">Results</div>
-        <h2 class="section-title">What Plumbers Are Saying</h2>
-        <p class="section-subtitle">Real results from real plumbers across the UK.</p>
-
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p class="testimonial-text">"I was losing at least 5 jobs a week just from missed calls. Since using TradeReply I have not missed a single lead. It paid for itself in the first week."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">M</div>
-                    <div>
-                        <div class="author-name">Mike Thompson</div>
-                        <div class="author-title">Self Employed Plumber, Manchester</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p class="testimonial-text">"Dead simple to set up. Within 24 hours it was running and I had 3 new bookings from calls I would have missed. Absolutely brilliant."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">J</div>
-                    <div>
-                        <div class="author-name">James O'Brien</div>
-                        <div class="author-title">Plumbing & Heating Engineer, Birmingham</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p class="testimonial-text">"My wife used to handle all the calls. Now TradeReply does it automatically. We save hours every week and earn more. Wish I found this sooner."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">D</div>
-                    <div>
-                        <div class="author-name">Dave Richards</div>
-                        <div class="author-title">Richards Plumbing Ltd, Leeds</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta" id="book">
-        <h2>Ready To Stop Losing Jobs?</h2>
-        <p>Book a free 15 minute demo and see exactly how TradeReply works for your business.</p>
-        <a href="YOUR_CALENDLY_LINK_HERE" class="cta-btn">Book Your Free Demo →</a>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-logo">Trade<span>Reply</span></div>
-        <p>Built for plumbers. Powered by AI.</p>
-        <p style="margin-top: 16px;">© 2025 TradeReply. All rights reserved.</p>
-    </footer>
+  <!-- FOOTER -->
+  <footer>
+    <p><strong>My Ring Reply</strong> · AI Automation for California Plumbers · hello@myringreply.com</p>
+    <p style="margin-top:8px;">© 2025 My Ring Reply. All rights reserved.</p>
+  </footer>
 
 </body>
 </html>
