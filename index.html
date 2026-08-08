@@ -3,84 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyRingReply — Never Miss Another Call</title>
+    <title>CallCapture - Never Miss a Customer Again</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #7C3AED;
-            --primary-dark: #6D28D9;
-            --primary-light: #A78BFA;
+            --primary: #6B46C1;
+            --primary-light: #9F7AEA;
+            --primary-dark: #553C9A;
             --black: #0A0A0A;
-            --dark: #111111;
-            --gray: #1A1A1A;
-            --light-gray: #2A2A2A;
-            --white: #FFFFFF;
-            --text-gray: #9CA3AF;
+            --dark-bg: #111111;
+            --card-bg: #1A1A1A;
+            --text-light: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --accent: #E53E3E;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--black);
-            color: var(--white);
+            color: var(--text-light);
             line-height: 1.6;
             overflow-x: hidden;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* ===== NAVBAR ===== */
-        .navbar {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--light-gray);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .nav-content {
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(107, 70, 193, 0.2);
+            padding: 15px 0;
+        }
+
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-light);
             text-decoration: none;
         }
-        .logo span { color: var(--primary); }
+
+        .logo span {
+            color: var(--primary-light);
+        }
+
         .nav-links {
             display: flex;
             gap: 30px;
             list-style: none;
         }
+
         .nav-links a {
-            color: var(--text-gray);
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 14px;
+            font-weight: 500;
             transition: color 0.3s;
         }
-        .nav-links a:hover { color: var(--primary-light); }
+
+        .nav-links a:hover {
+            color: var(--text-light);
+        }
+
         .nav-cta {
             background: var(--primary);
             color: white;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 8px;
             text-decoration: none;
-            font-size: 14px;
             font-weight: 600;
             transition: all 0.3s;
         }
-        .nav-cta:hover { background: var(--primary-dark); }
 
-        /* ===== HERO SECTION ===== */
+        .nav-cta:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION */
         .hero {
-            padding: 150px 0 100px;
-            background: linear-gradient(135deg, var(--black) 0%, var(--dark) 100%);
+            padding: 150px 0 80px;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-bg) 50%, #1a0a2e 100%);
             position: relative;
             overflow: hidden;
         }
+
         .hero::before {
             content: '';
             position: absolute;
@@ -88,1480 +115,1723 @@
             right: -20%;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(107, 70, 193, 0.2) 0%, transparent 70%);
             border-radius: 50%;
         }
-        .hero-content {
+
+        .hero-grid {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
-        .hero-text h1 {
-            font-size: 56px;
+
+        .hero-content h1 {
+            font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.2;
             margin-bottom: 20px;
         }
-        .hero-text h1 span { color: var(--primary); }
-        .hero-subtitle {
-            font-size: 18px;
-            color: var(--text-gray);
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
             margin-bottom: 30px;
             max-width: 500px;
         }
-        .hero-cta {
+
+        .hero-stats {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
         }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
         .btn-primary {
             background: var(--primary);
             color: white;
-            padding: 15px 30px;
+            padding: 15px 35px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 1.1rem;
             transition: all 0.3s;
-            border: none;
-            cursor: pointer;
+            display: inline-block;
+            margin-right: 15px;
         }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn-secondary {
-            background: transparent;
-            color: var(--white);
-            padding: 15px 30px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            border: 2px solid var(--light-gray);
-            transition: all 0.3s;
-        }
-        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* ===== PHONE MOCKUP ===== */
-        .phone-wrapper {
-            position: relative;
-            perspective: 1000px;
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(107, 70, 193, 0.3);
         }
-        .phone-mockup {
-            width: 320px;
-            height: 650px;
-            background: #000;
-            border-radius: 50px;
-            padding: 12px;
+
+        .btn-secondary {
+            color: var(--text-light);
+            padding: 15px 35px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid var(--primary);
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(107, 70, 193, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        /* PHONE MOCKUP */
+        .phone-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            margin: 0 auto;
-            box-shadow:
+        }
+
+        .phone-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(107, 70, 193, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .phone {
+            width: 340px;
+            height: 680px;
+            background: #1a1a1a;
+            border-radius: 55px;
+            padding: 15px;
+            position: relative;
+            box-shadow: 
                 0 0 0 3px #2a2a2a,
                 0 0 0 6px #1a1a1a,
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                0 0 80px rgba(124, 58, 237, 0.2);
-            transform: rotateY(-5deg) rotateX(2deg);
+                0 0 0 8px #333,
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(107, 70, 193, 0.2);
+            transform: rotate(-5deg);
+            animation: float 6s ease-in-out infinite;
             transition: transform 0.5s;
         }
-        .phone-mockup:hover {
-            transform: rotateY(0deg) rotateX(0deg);
+
+        @keyframes float {
+            0%, 100% { transform: rotate(-5deg) translateY(0); }
+            50% { transform: rotate(-5deg) translateY(-20px); }
         }
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background: #000;
-            border-radius: 40px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
+
+        .phone:hover {
+            transform: rotate(0deg) translateY(-10px);
         }
-        .dynamic-island {
+
+        .phone-notch {
             position: absolute;
             top: 12px;
             left: 50%;
             transform: translateX(-50%);
             width: 120px;
-            height: 36px;
-            background: #000;
+            height: 30px;
+            background: #0a0a0a;
             border-radius: 20px;
             z-index: 10;
-            box-shadow: inset 0 0 0 1px #222;
         }
-        .status-bar {
-            padding: 15px 25px 5px;
+
+        .phone-speaker {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            z-index: 11;
+        }
+
+        .phone-screen {
+            background: #0a0a0a;
+            border-radius: 40px;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 12px 20px 8px;
+            font-size: 12px;
             color: white;
-            font-size: 14px;
-            font-weight: 600;
+            background: rgba(10, 10, 10, 0.95);
+            position: relative;
             z-index: 5;
         }
-        .status-icons { font-size: 12px; }
-        .call-screen {
+
+        .status-icons {
+            display: flex;
+            gap: 5px;
+            font-size: 11px;
+        }
+
+        .phone-app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .app-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .app-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .app-info p {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .app-call-badge {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .phone-chat {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow: hidden;
+            background: #0d0d0d;
+        }
+
+        .chat-date {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #666;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 12px;
+            align-self: center;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            position: relative;
+            animation: messageIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.sent {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+            align-self: flex-end;
+            animation-delay: 0.5s;
+        }
+
+        .chat-message.received {
+            background: #2a2a2a;
+            color: white;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+            animation-delay: 1s;
+        }
+
+        .chat-message.system {
+            background: rgba(107, 70, 193, 0.2);
+            color: var(--primary-light);
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 8px 12px;
+            border-radius: 12px;
+            align-self: center;
+            animation-delay: 1.5s;
+            border: 1px solid rgba(107, 70, 193, 0.3);
+        }
+
+        .chat-message .time {
+            display: block;
+            font-size: 0.6rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .chat-message.sent .time {
+            text-align: right;
+        }
+
+        .chat-typing {
+            display: flex;
+            gap: 4px;
+            padding: 8px;
+            align-self: flex-start;
+            animation: messageIn 0.5s ease-out 2s forwards;
+            opacity: 0;
+        }
+
+        .chat-typing span {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        .phone-input-bar {
+            padding: 12px 15px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .input-field {
+            flex: 1;
+            background: #2a2a2a;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .input-field::placeholder {
+            color: #666;
+        }
+
+        .send-btn {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.1);
+        }
+
+        .phone-call-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 20px;
             z-index: 20;
-            transition: opacity 0.5s;
+            opacity: 0;
+            animation: callOverlay 3s ease-in-out forwards;
+            pointer-events: none;
         }
+
+        @keyframes callOverlay {
+            0%, 30% { opacity: 1; }
+            70%, 100% { opacity: 0; }
+        }
+
         .call-avatar {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .caller-name {
-            font-size: 24px;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 5px;
-        }
-        .caller-type {
-            font-size: 14px;
-            color: var(--primary-light);
-            margin-bottom: 20px;
-        }
-        .caller-number {
-            font-size: 16px;
-            color: var(--text-gray);
-            margin-bottom: 30px;
-        }
-        .call-actions {
-            display: flex;
-            gap: 20px;
-        }
-        .call-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.3s;
-        }
-        .call-btn:hover { transform: scale(1.1); }
-        .accept-btn { background: #22c55e; }
-        .decline-btn { background: #ef4444; }
-        .chat-area {
-            flex: 1;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-            margin-top: 60px;
-        }
-        .message {
-            max-width: 80%;
-            padding: 12px 15px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.4;
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .message.business {
-            background: var(--primary);
             color: white;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        .message.customer {
-            background: #2a2a2a;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        .message-time {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 4px;
-        }
-        .typing-indicator {
-            display: none;
-            align-self: flex-start;
-            background: #2a2a2a;
-            padding: 12px 15px;
-            border-radius: 18px;
-            border-bottom-left-radius: 4px;
-        }
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--text-gray);
-            border-radius: 50%;
-            margin-right: 4px;
-            animation: typing 1.4s infinite;
-        }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-8px); }
-        }
-        .phone-buttons {
-            position: absolute;
-            right: -3px;
-            top: 100px;
-            width: 3px;
-            height: 30px;
-            background: #2a2a2a;
-            border-radius: 2px;
-        }
-        .phone-buttons::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 40px;
-            width: 3px;
-            height: 50px;
-            background: #2a2a2a;
-            border-radius: 2px;
-        }
-        .phone-buttons::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 100px;
-            width: 3px;
-            height: 50px;
-            background: #2a2a2a;
-            border-radius: 2px;
-        }
-        .phone-left-buttons {
-            position: absolute;
-            left: -3px;
-            top: 150px;
-            width: 3px;
-            height: 30px;
-            background: #2a2a2a;
-            border-radius: 2px;
-        }
-        .phone-left-buttons::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 40px;
-            width: 3px;
-            height: 50px;
-            background: #2a2a2a;
-            border-radius: 2px;
+            box-shadow: 0 0 30px rgba(107, 70, 193, 0.5);
         }
 
-        /* ===== ROI SECTION ===== */
-        .roi-section {
-            padding: 100px 0;
-            background: var(--dark);
-        }
-        .roi-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-        .roi-tab {
-            padding: 12px 24px;
-            background: var(--gray);
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            color: var(--text-gray);
-            cursor: pointer;
-            font-size: 14px;
+        .call-status {
+            color: white;
+            font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s;
-        }
-        .roi-tab.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-        .roi-tab:hover { border-color: var(--primary); }
-        .roi-content {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--gray);
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid var(--light-gray);
-        }
-        .roi-calculator {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .calc-input label {
-            display: block;
-            color: var(--text-gray);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        .calc-input input {
-            width: 100%;
-            padding: 12px;
-            background: var(--black);
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-        }
-        .calc-result {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 20px;
-            background: var(--black);
-            border-radius: 8px;
-        }
-        .calc-result h3 {
-            color: var(--primary-light);
-            margin-bottom: 10px;
-        }
-        .calc-result .result-value {
-            font-size: 48px;
-            font-weight: 800;
-            color: white;
-        }
-        .roi-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            text-align: center;
-        }
-        .stat-card {
-            padding: 20px;
-            background: var(--black);
-            border-radius: 12px;
-            border: 1px solid var(--light-gray);
-        }
-        .stat-card .stat-value {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        .stat-card .stat-label {
-            color: var(--text-gray);
-            font-size: 14px;
-            margin-top: 8px;
-        }
-        .roi-example {
-            text-align: center;
-        }
-        .roi-example h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .roi-example p {
-            color: var(--text-gray);
-            margin-bottom: 15px;
-            line-height: 1.8;
         }
 
-        /* ===== HOW IT WORKS ===== */
-        .how-section {
-            padding: 100px 0;
-            background: var(--black);
+        .call-timer {
+            color: var(--primary-light);
+            font-size: 0.8rem;
+            font-family: monospace;
         }
-        .how-grid {
+
+        /* PROBLEM SECTION */
+        .problem-section {
+            padding: 100px 0;
+            background: var(--dark-bg);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-top: 50px;
-        }
-        .how-card {
-            background: var(--gray);
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid var(--light-gray);
-            transition: all 0.3s;
-        }
-        .how-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-        .how-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-        .how-card h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-        .how-card p {
-            color: var(--text-gray);
-            font-size: 14px;
-            line-height: 1.7;
         }
 
-        /* ===== PRICING ===== */
+        .problem-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(107, 70, 193, 0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(107, 70, 193, 0.2);
+        }
+
+        .problem-icon {
+            font-size: 2.5rem;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+        }
+
+        .problem-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .problem-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .problem-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(107, 70, 193, 0.2);
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-light);
+        }
+
+        .stat-box .label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* SOLUTION SECTION */
+        .solution-section {
+            padding: 100px 0;
+            background: var(--black);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .solution-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .solution-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .solution-features {
+            list-style: none;
+        }
+
+        .solution-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .solution-features .icon {
+            background: rgba(107, 70, 193, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-light);
+            flex-shrink: 0;
+        }
+
+        .solution-features .text h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .solution-features .text p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--dark-bg);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(107, 70, 193, 0.1);
+            position: relative;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(107, 70, 193, 0.3);
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            color: var(--primary-light);
+            margin: 20px 0;
+        }
+
+        .step-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* PRICING SECTION */
         .pricing-section {
             padding: 100px 0;
-            background: var(--dark);
+            background: var(--black);
         }
+
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-top: 50px;
+            margin-top: 60px;
         }
+
         .pricing-card {
-            background: var(--gray);
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid var(--light-gray);
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(107, 70, 193, 0.1);
             text-align: center;
+            position: relative;
             transition: all 0.3s;
         }
+
         .pricing-card:hover {
-            border-color: var(--primary);
             transform: translateY(-5px);
-        }
-        .pricing-card.featured {
             border-color: var(--primary);
-            box-shadow: 0 0 40px rgba(124, 58, 237, 0.2);
+            box-shadow: 0 20px 40px rgba(107, 70, 193, 0.2);
         }
-        .plan-name {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-bottom: 10px;
+
+        .pricing-card.popular {
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(107, 70, 193, 0.3);
         }
-        .plan-price {
-            font-size: 48px;
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 5px;
-        }
-        .plan-price span {
-            font-size: 18px;
-            font-weight: 400;
-            color: var(--text-gray);
-        }
-        .plan-desc {
-            color: var(--text-gray);
-            font-size: 14px;
             margin-bottom: 30px;
         }
-        .plan-features {
+
+        .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .pricing-features {
             list-style: none;
             margin-bottom: 30px;
             text-align: left;
         }
-        .plan-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--light-gray);
-            font-size: 14px;
+
+        .pricing-features li {
+            padding: 8px 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .plan-features li::before {
-            content: '✓ ';
-            color: var(--primary);
-            font-weight: 700;
+
+        .pricing-features li i {
+            color: var(--primary-light);
+            width: 20px;
+            text-align: center;
         }
-        .pricing-btn {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
+
+        .pricing-features li.disabled {
+            opacity: 0.4;
+        }
+
+        .pricing-features li.disabled i {
+            color: var(--accent);
+        }
+
+        .btn-subscribe {
+            background: var(--primary);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 10px;
             text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 8px;
             font-weight: 600;
             display: inline-block;
             transition: all 0.3s;
-        }
-        .pricing-btn:hover {
-            background: var(--primary);
-            color: white;
+            width: 100%;
         }
 
-        /* ===== PILOT PROGRAM ===== */
-        .pilot-section {
-            padding: 100px 0;
-            background: var(--black);
-        }
-        .pilot-content {
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            background: var(--gray);
-            padding: 50px;
-            border-radius: 16px;
-            border: 1px solid var(--primary);
-        }
-        .pilot-badge {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .pilot-content h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .pilot-content p {
-            color: var(--text-gray);
-            margin-bottom: 15px;
-        }
-        .pilot-content .pilot-price {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-light);
-            margin-bottom: 20px;
-        }
-        .spots-left {
-            display: inline-block;
-            background: #ef4444;
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .btn-subscribe:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(107, 70, 193, 0.3);
         }
 
-        /* ===== TESTIMONIALS ===== */
-        .testimonial-section {
+        /* TESTIMONIALS */
+        .testimonials-section {
             padding: 100px 0;
-            background: var(--dark);
+            background: var(--dark-bg);
         }
-        .testimonial-grid {
+
+        .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-top: 50px;
+            margin-top: 60px;
         }
+
         .testimonial-card {
-            background: var(--gray);
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 16px;
-            border: 1px solid var(--light-gray);
+            border-radius: 15px;
+            border: 1px solid rgba(107, 70, 193, 0.1);
+            transition: all 0.3s;
         }
-        .testimonial-card .quote {
-            font-size: 14px;
-            color: var(--text-gray);
-            line-height: 1.7;
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .testimonial-stars {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
             margin-bottom: 20px;
+            font-style: italic;
         }
-        .testimonial-card .author {
+
+        .testimonial-author {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        .testimonial-card .author-avatar {
+
+        .testimonial-avatar {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
             background: var(--primary);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-        }
-        .testimonial-card .author-name {
-            font-weight: 600;
-        }
-        .testimonial-card .author-role {
-            color: var(--text-gray);
-            font-size: 12px;
-        }
-        .testimonial-card .result {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(124, 58, 237, 0.1);
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--primary-light);
-            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
         }
 
-        /* ===== COMPARISON ===== */
-        .comparison-section {
+        .testimonial-author h4 {
+            font-size: 1rem;
+        }
+
+        .testimonial-author p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ROI SECTION */
+        .roi-section {
             padding: 100px 0;
-            background: var(--black);
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--black) 100%);
+            position: relative;
+            overflow: hidden;
         }
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 50px;
-        }
-        .comparison-table th,
-        .comparison-table td {
-            padding: 15px;
-            text-align: center;
-            border: 1px solid var(--light-gray);
-        }
-        .comparison-table th {
-            background: var(--gray);
-            font-weight: 600;
-        }
-        .comparison-table td {
-            background: var(--dark);
-            color: var(--text-gray);
-            font-size: 14px;
-        }
-        .comparison-table td:first-child {
-            text-align: left;
-            color: white;
-        }
-        .comparison-table .highlight {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--primary-light);
-            font-weight: 600;
-        }
-        .check { color: #22c55e; }
-        .cross { color: #ef4444; }
 
-        /* ===== GUARANTEE ===== */
-        .guarantee-section {
-            padding: 80px 0;
-            background: var(--dark);
+        .roi-section::before {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(107, 70, 193, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
         }
-        .guarantee-content {
-            max-width: 700px;
-            margin: 0 auto;
+
+        .roi-content {
             text-align: center;
-            background: var(--gray);
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid var(--light-gray);
+            position: relative;
+            z-index: 1;
         }
-        .guarantee-icon {
-            font-size: 60px;
+
+        .roi-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 20px;
         }
-        .guarantee-content h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-        .guarantee-content p {
-            color: var(--text-gray);
-            line-height: 1.7;
+
+        .roi-calculator {
+            background: var(--card-bg);
+            border: 1px solid rgba(107, 70, 193, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 600px;
         }
 
-        /* ===== FAQ ===== */
-        .faq-section {
+        .roi-input {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .roi-input label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .roi-input input {
+            width: 100%;
+            padding: 12px;
+            background: var(--black);
+            border: 1px solid rgba(107, 70, 193, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .roi-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .roi-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(107, 70, 193, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(107, 70, 193, 0.3);
+        }
+
+        .roi-result h3 {
+            color: var(--primary-light);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .roi-result p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* CONTACT SECTION */
+        .contact-section {
             padding: 100px 0;
             background: var(--black);
         }
-        .faq-list {
-            max-width: 800px;
-            margin: 50px auto 0;
-        }
-        .faq-item {
-            background: var(--gray);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid var(--light-gray);
-            overflow: hidden;
-        }
-        .faq-question {
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
-            font-weight: 600;
-        }
-        .faq-question::after {
-            content: '+';
-            font-size: 24px;
-            color: var(--primary);
-            transition: transform 0.3s;
-        }
-        .faq-item.active .faq-question::after {
-            transform: rotate(45deg);
-        }
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: var(--text-gray);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-        .faq-item.active .faq-answer {
-            padding: 0 20px 20px;
-            max-height: 500px;
         }
 
-        /* ===== CONTACT FORM ===== */
-        .contact-section {
-            padding: 100px 0;
-            background: var(--dark);
+        .contact-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
         }
+
+        .contact-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .contact-info li i {
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            width: 30px;
+        }
+
         .contact-form {
-            max-width: 600px;
-            margin: 40px auto 0;
-            background: var(--gray);
+            background: var(--card-bg);
             padding: 40px;
-            border-radius: 16px;
-            border: 1px solid var(--light-gray);
+            border-radius: 15px;
+            border: 1px solid rgba(107, 70, 193, 0.2);
         }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
-            color: var(--text-gray);
-            font-size: 14px;
             margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
+
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 12px;
             background: var(--black);
-            border: 1px solid var(--light-gray);
+            border: 1px solid rgba(107, 70, 193, 0.3);
             border-radius: 8px;
             color: white;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
         }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
         }
-        .form-group textarea {
-            resize: vertical;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .submit-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        .form-note {
-            text-align: center;
-            color: var(--text-gray);
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .form-note strong {
-            color: var(--primary-light);
+
+        /* FOOTER */
+        .footer {
+            padding: 60px 0 30px;
+            background: var(--dark-bg);
+            border-top: 1px solid rgba(107, 70, 193, 0.2);
         }
 
-        /* ===== FOOTER ===== */
-        .footer {
-            background: var(--black);
-            padding: 60px 0 30px;
-            border-top: 1px solid var(--light-gray);
-        }
-        .footer-content {
+        .footer-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 40px;
             margin-bottom: 40px;
         }
-        .footer h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        .footer ul {
-            list-style: none;
-        }
-        .footer ul li {
-            margin-bottom: 10px;
-        }
-        .footer ul li a {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-        .footer ul li a:hover { color: var(--primary-light); }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid var(--light-gray);
-            color: var(--text-gray);
-            font-size: 13px;
+
+        .footer-brand p {
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-size: 0.95rem;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .hero-content {
+        .footer-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(107, 70, 193, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .hero-grid,
+            .solution-grid,
+            .contact-grid {
                 grid-template-columns: 1fr;
-                text-align: center;
             }
-            .hero-text h1 { font-size: 36px; }
-            .hero-cta { justify-content: center; }
-            .phone-wrapper { margin-top: 50px; }
-            .how-grid,
-            .pricing-grid,
-            .testimonial-grid,
-            .roi-stats { grid-template-columns: 1fr; }
-            .roi-calculator { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .phone-wrapper {
+                margin-top: 50px;
+            }
+
+            .problem-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 60px auto 0;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* ANIMATIONS */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+    <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="container nav-content">
-            <a href="#" class="logo">My<span>Ring</span>Reply</a>
+        <div class="container nav-container">
+            <a href="#" class="logo">Call<span>Capture</span></a>
             <ul class="nav-links">
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#solution">Solution</a></li>
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <a href="#contact" class="nav-cta">Get Started</a>
+            <a href="#pricing" class="nav-cta">Get Started</a>
         </div>
     </nav>
 
-    <!-- ===== HERO ===== -->
+    <!-- HERO SECTION -->
     <section class="hero">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <h1>Never Miss Another <span>Customer Call</span></h1>
-                <p class="hero-subtitle">MyRingReply automatically texts back your missed calls within seconds. Recover leads, schedule jobs, and grow your plumbing business — all while you work.</p>
-                <div class="hero-cta">
-                    <a href="#contact" class="btn-primary">Get Started Free</a>
-                    <a href="#how-it-works" class="btn-secondary">See How It Works</a>
-                </div>
-            </div>
-            <div class="phone-wrapper">
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="dynamic-island"></div>
-                        <div class="status-bar">
-                            <span>9:41</span>
-                            <span class="status-icons">📶 🔋</span>
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>Never Miss a <span>Customer</span> Again</h1>
+                    <p>CallCapture automatically texts back your missed callers and alerts you instantly. Recover lost leads and grow your plumbing business while you're on the job.</p>
+                    <div>
+                        <a href="#pricing" class="btn-primary">Get Started</a>
+                        <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">30%</div>
+                            <div class="stat-label">More Leads</div>
                         </div>
-                        <div class="call-screen" id="callScreen">
-                            <div class="call-avatar">📞</div>
-                            <div class="caller-name" id="callerName">Emergency Plumbing Co.</div>
-                            <div class="caller-type" id="callerType">🏢 Plumbing Company</div>
-                            <div class="caller-number" id="callerNumber">(555) 123-4567</div>
-                            <div class="call-actions">
-                                <button class="call-btn accept-btn" onclick="acceptCall()">✓</button>
-                                <button class="call-btn decline-btn" onclick="declineCall()">✕</button>
+                        <div class="stat-item">
+                            <div class="stat-number">5 min</div>
+                            <div class="stat-label">Setup Time</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Call Coverage</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-wrapper">
+                    <div class="phone-glow"></div>
+                    <div class="phone">
+                        <div class="phone-notch">
+                            <div class="phone-speaker"></div>
+                        </div>
+                        <div class="phone-screen">
+                            <div class="phone-status-bar">
+                                <span>9:41</span>
+                                <div class="status-icons">
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="phone-app-header">
+                                <div class="app-avatar">A</div>
+                                <div class="app-info">
+                                    <h4>Alex's Plumbing</h4>
+                                    <p>Online</p>
+                                </div>
+                                <div class="app-call-badge">
+                                    <i class="fas fa-phone-slash"></i> Missed Call
+                                </div>
+                            </div>
+                            <div class="phone-chat">
+                                <div class="chat-date">Today 2:30 PM</div>
+                                <div class="chat-message system">
+                                    <i class="fas fa-robot"></i> Missed call from (555) 123-4567
+                                    <span class="time">2:31 PM</span>
+                                </div>
+                                <div class="chat-message sent">
+                                    Hi! Thanks for calling Alex's Plumbing. We missed your call but we're here to help! How can we assist you today?
+                                    <span class="time">2:31 PM</span>
+                                </div>
+                                <div class="chat-message received">
+                                    Hi! I have a leaking pipe in my kitchen. Can you send someone out?
+                                    <span class="time">2:32 PM</span>
+                                </div>
+                                <div class="chat-message sent">
+                                    Absolutely! We can have a technician out within the hour. Can I get your address and a good contact number?
+                                    <span class="time">2:32 PM</span>
+                                </div>
+                                <div class="chat-message system">
+                                    <i class="fas fa-bell"></i> Owner notified! Awaiting response...
+                                    <span class="time">2:33 PM</span>
+                                </div>
+                                <div class="chat-typing">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="phone-input-bar">
+                                <input type="text" class="input-field" placeholder="Type a message..." disabled>
+                                <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
                             </div>
                         </div>
-                        <div class="chat-area" id="chatArea"></div>
+                        <div class="phone-call-overlay">
+                            <div class="call-avatar">A</div>
+                            <div class="call-status">Incoming Call</div>
+                            <div class="call-timer">(555) 123-4567</div>
+                        </div>
                     </div>
-                    <div class="phone-buttons"></div>
-                    <div class="phone-left-buttons"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== ROI SECTION ===== -->
-    <section class="roi-section" id="roi">
+    <!-- PROBLEM SECTION -->
+    <section id="problem" class="problem-section">
         <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Calculate Your <span style="color: var(--primary);">ROI</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 40px;">See how much revenue you're losing to missed calls</p>
-            <div class="roi-tabs">
-                <button class="roi-tab active" onclick="showRoiTab('calculator')">📊 ROI Calculator</button>
-                <button class="roi-tab" onclick="showRoiTab('stats')">📈 Industry Stats</button>
-                <button class="roi-tab" onclick="showRoiTab('example')">💡 Real Example</button>
+            <div class="section-header">
+                <h2>Missed Calls Are Costing You Money</h2>
+                <p>Every unanswered call is a potential customer going to your competition.</p>
             </div>
-            <div class="roi-content" id="calculator-tab">
-                <div class="roi-calculator">
-                    <div class="calc-input">
-                        <label>Missed Calls Per Month</label>
-                        <input type="number" id="missedCalls" value="10" oninput="calculateROI()">
-                    </div>
-                    <div class="calc-input">
-                        <label>Average Job Value</label>
-                        <input type="number" id="jobValue" value="300" oninput="calculateROI()">
-                    </div>
-                    <div class="calc-input">
-                        <label>Close Rate (%)</label>
-                        <input type="number" id="closeRate" value="50" oninput="calculateROI()">
-                    </div>
-                    <div class="calc-input">
-                        <label>Monthly Cost</label>
-                        <input type="number" id="monthlyCost" value="197" oninput="calculateROI()">
-                    </div>
-                    <div class="calc-result">
-                        <h3>Recovered Revenue Per Month</h3>
-                        <div class="result-value" id="roiResult">$1,500</div>
-                        <p style="color: var(--text-gray); margin-top: 10px;">That's a <span style="color: #22c55e; font-weight: 700;" id="roiROI">661%</span> return on investment!</p>
-                    </div>
+            <div class="problem-grid">
+                <div class="problem-card fade-in">
+                    <div class="problem-icon"><i class="fas fa-phone-slash"></i></div>
+                    <h3>Missed Calls = Lost Revenue</h3>
+                    <p>When you're on a job, you can't answer every call. Each missed call is a potential job worth $150-$500 going to a competitor.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Speed Matters</h3>
+                    <p>78% of customers choose the first business that responds. If you don't answer, they call the next plumber on the list.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Growing Competition</h3>
+                    <p>With more plumbers competing for the same jobs, being quick to respond is no longer optional - it's essential.</p>
                 </div>
             </div>
-            <div class="roi-content" id="stats-tab" style="display: none;">
-                <div class="roi-stats">
-                    <div class="stat-card">
-                        <div class="stat-value">62%</div>
-                        <div class="stat-label">of calls go to voicemail</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">78%</div>
-                        <div class="stat-label">of customers choose the first to respond</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">5 min</div>
-                        <div class="stat-label">faster response = 21x more likely to convert</div>
-                    </div>
+            <div class="problem-stats fade-in">
+                <div class="stat-box">
+                    <div class="number">62%</div>
+                    <div class="label">Of calls go to voicemail</div>
                 </div>
-            </div>
-            <div class="roi-content" id="example-tab" style="display: none;">
-                <div class="roi-example">
-                    <h3>💧 Smith Plumbing Co. Example</h3>
-                    <p>Smith Plumbing receives 15 missed calls per month with an average job value of $350.</p>
-                    <p>With MyRingReply, they recover <strong style="color: var(--primary);">8 additional jobs</strong> per month.</p>
-                    <p>That's <strong style="color: #22c55e;">$2,800 in recovered revenue</strong> — a <strong style="color: #22c55e;">1,321% ROI</strong> on their $197/month plan!</p>
+                <div class="stat-box">
+                    <div class="number">78%</div>
+                    <div class="label">Choose first responder</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">$250</div>
+                    <div class="label">Average lost per call</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">30%</div>
+                    <div class="label">Call back within 5 min</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== HOW IT WORKS ===== -->
-    <section class="how-section" id="how-it-works">
+    <!-- SOLUTION SECTION -->
+    <section id="solution" class="solution-section">
         <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">How It <span style="color: var(--primary);">Works</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 50px;">Three simple steps to never miss another lead</p>
-            <div class="how-grid">
-                <div class="how-card">
-                    <div class="how-icon">📞</div>
-                    <h3>Missed Call Detected</h3>
-                    <p>When you miss a call, MyRingReply instantly detects it and triggers an automated response.</p>
+            <div class="solution-grid">
+                <div class="solution-content">
+                    <h2>CallCapture: Your 24/7 Front Desk</h2>
+                    <p>We turn every missed call into an opportunity. Our system instantly texts back your callers, alerts you, and logs every lead - so you never lose a job again.</p>
+                    <ul class="solution-features">
+                        <li class="fade-in">
+                            <div class="icon"><i class="fas fa-bolt"></i></div>
+                            <div class="text">
+                                <h4>Instant Response</h4>
+                                <p>Text back missed callers within seconds with a friendly, professional message.</p>
+                            </div>
+                        </li>
+                        <li class="fade-in">
+                            <div class="icon"><i class="fas fa-bell"></i></div>
+                            <div class="text">
+                                <h4>Owner Alerts</h4>
+                                <p>Get notified immediately when a call comes in, so you can follow up right away.</p>
+                            </div>
+                        </li>
+                        <li class="fade-in">
+                            <div class="icon"><i class="fas fa-database"></i></div>
+                            <div class="text">
+                                <h4>Lead Tracking</h4>
+                                <p>Every lead is logged with contact info, timestamps, and status - perfect for follow-up.</p>
+                            </div>
+                        </li>
+                        <li class="fade-in">
+                            <div class="icon"><i class="fas fa-chart-pie"></i></div>
+                            <div class="text">
+                                <h4>Analytics Dashboard</h4>
+                                <p>See how many calls you're missing, recovering, and converting into jobs.</p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="how-card">
-                    <div class="how-icon">💬</div>
-                    <h3>Instant SMS Reply</h3>
-                    <p>Within seconds, your customer receives a personalized text message acknowledging their call.</p>
-                </div>
-                <div class="how-card">
-                    <div class="how-icon">🔔</div>
-                    <h3>You Get Notified</h3>
-                    <p>You receive an immediate alert with the caller's info and conversation details.</p>
+                <div class="phone-wrapper">
+                    <div class="phone-glow"></div>
+                    <div class="phone">
+                        <div class="phone-notch">
+                            <div class="phone-speaker"></div>
+                        </div>
+                        <div class="phone-screen">
+                            <div class="phone-status-bar">
+                                <span>9:41</span>
+                                <div class="status-icons">
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="phone-app-header">
+                                <div class="app-avatar">A</div>
+                                <div class="app-info">
+                                    <h4>Alex's Plumbing</h4>
+                                    <p>Online</p>
+                                </div>
+                                <div class="app-call-badge">
+                                    <i class="fas fa-check-circle"></i> Lead Captured
+                                </div>
+                            </div>
+                            <div class="phone-chat">
+                                <div class="chat-date">Today 3:15 PM</div>
+                                <div class="chat-message system">
+                                    <i class="fas fa-robot"></i> Missed call from (555) 987-6543
+                                    <span class="time">3:16 PM</span>
+                                </div>
+                                <div class="chat-message sent">
+                                    Hi! Thanks for calling Alex's Plumbing. We're on another job right now but we'll get right back to you!
+                                    <span class="time">3:16 PM</span>
+                                </div>
+                                <div class="chat-message received">
+                                    I have a burst pipe emergency! Need help ASAP!
+                                    <span class="time">3:17 PM</span>
+                                </div>
+                                <div class="chat-message system">
+                                    <i class="fas fa-bell"></i> 🔥 URGENT: Emergency call received
+                                    <span class="time">3:17 PM</span>
+                                </div>
+                                <div class="chat-message sent">
+                                    We're on it! A technician will call you within 5 minutes. Stay safe!
+                                    <span class="time">3:17 PM</span>
+                                </div>
+                                <div class="chat-message received">
+                                    Thank you so much! You saved me!
+                                    <span class="time">3:18 PM</span>
+                                </div>
+                            </div>
+                            <div class="phone-input-bar">
+                                <input type="text" class="input-field" placeholder="Type a message..." disabled>
+                                <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== PRICING ===== -->
-    <section class="pricing-section" id="pricing">
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="how-it-works">
         <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Simple <span style="color: var(--primary);">Pricing</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 50px;">Choose the plan that fits your business</p>
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Get set up in minutes. Start recovering leads immediately.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="fas fa-phone"></i></div>
+                    <h3>Connect Your Number</h3>
+                    <p>Forward your business phone number to CallCapture or get a new dedicated number.</p>
+                </div>
+                <div class="step-card fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h3>Auto-Reply Setup</h3>
+                    <p>Customize your instant SMS reply and owner alert message templates.</p>
+                </div>
+                <div class="step-card fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="fas fa-bell"></i></div>
+                    <h3>Get Instant Alerts</h3>
+                    <p>Receive notifications the moment a call comes in - even while on another job.</p>
+                </div>
+                <div class="step-card fade-in">
+                    <div class="step-number">4</div>
+                    <div class="step-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Track & Convert</h3>
+                    <p>Follow up fast, log every lead, and watch your recovery rate climb.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>One recovered plumbing job can pay for your entire monthly service. Cancel anytime.</p>
+            </div>
             <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="plan-name">Starter</div>
-                    <div class="plan-price">$97<span>/mo</span></div>
-                    <div class="plan-desc">Perfect for solo plumbers</div>
-                    <ul class="plan-features">
-                        <li>50 missed call responses/mo</li>
-                        <li>Instant SMS auto-reply</li>
-                        <li>Owner notifications</li>
-                        <li>Lead tracking</li>
-                        <li>Email support</li>
+                <!-- Starter Plan -->
+                <div class="pricing-card fade-in">
+                    <h3>Starter</h3>
+                    <div class="price">$97<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Missed-call instant SMS</li>
+                        <li><i class="fas fa-check"></i> Owner SMS alerts</li>
+                        <li><i class="fas fa-check"></i> Lead logging</li>
+                        <li><i class="fas fa-check"></i> Monthly lead count</li>
+                        <li><i class="fas fa-check"></i> 1 phone number</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Reply forwarding</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Weekly summaries</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Lead status tracking</li>
                     </ul>
-                    <a href="https://buy.stripe.com/aFabIU0aK1V66cj52x00003" class="pricing-btn">Get Started</a>
+                    <a href="https://buy.stripe.com/aFabIU0aK1V66cj52x00003" class="btn-subscribe" target="_blank" rel="noopener">
+                        <i class="fas fa-rocket"></i> Get Started - $97
+                    </a>
                 </div>
-                <div class="pricing-card featured">
-                    <div class="plan-name">Growth</div>
-                    <div class="plan-price">$197<span>/mo</span></div>
-                    <div class="plan-desc">For growing plumbing teams</div>
-                    <ul class="plan-features">
-                        <li>200 missed call responses/mo</li>
-                        <li>Everything in Starter</li>
-                        <li>Custom SMS templates</li>
-                        <li>Monthly ROI reports</li>
-                        <li>Priority support</li>
+
+                <!-- Growth Plan (Popular) -->
+                <div class="pricing-card popular fade-in">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Growth</h3>
+                    <div class="price">$197<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Starter</li>
+                        <li><i class="fas fa-check"></i> Customer reply forwarding</li>
+                        <li><i class="fas fa-check"></i> Weekly lead summaries</li>
+                        <li><i class="fas fa-check"></i> Lead status tracking</li>
+                        <li><i class="fas fa-check"></i> Up to 3 phone numbers</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
                     </ul>
-                    <a href="https://buy.stripe.com/8x2cMY6z89ny58fgLf00004" class="pricing-btn">Get Started</a>
+                    <a href="https://buy.stripe.com/8x2cMY6z89ny58fgLf00004" class="btn-subscribe" target="_blank" rel="noopener">
+                        <i class="fas fa-crown"></i> Get Started - $197
+                    </a>
                 </div>
-                <div class="pricing-card">
-                    <div class="plan-name">Pro</div>
-                    <div class="plan-price">$397<span>/mo</span></div>
-                    <div class="plan-desc">For multi-location businesses</div>
-                    <ul class="plan-features">
-                        <li>Unlimited missed call responses</li>
-                        <li>Everything in Growth</li>
-                        <li>AI-powered replies</li>
-                        <li>Schedule integration</li>
-                        <li>Dedicated account manager</li>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card fade-in">
+                    <h3>Pro</h3>
+                    <div class="price">$397<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Growth</li>
+                        <li><i class="fas fa-check"></i> AI-powered SMS replies</li>
+                        <li><i class="fas fa-check"></i> Calendly scheduling</li>
+                        <li><i class="fas fa-check"></i> CRM-style pipeline</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check"></i> Unlimited phone numbers</li>
+                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
                     </ul>
-                    <a href="https://buy.stripe.com/4gMdR2e1AfLW44b3Yt00002" class="pricing-btn">Get Started</a>
+                    <a href="https://buy.stripe.com/4gMdR2e1AfLW44b3Yt00002" class="btn-subscribe" target="_blank" rel="noopener">
+                        <i class="fas fa-gem"></i> Get Started - $397
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== PILOT PROGRAM ===== -->
-    <section class="pilot-section">
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="testimonials-section">
         <div class="container">
-            <div class="pilot-content">
-                <div class="pilot-badge">🚀 BETA PILOT</div>
-                <h2>Join Our Pilot Program</h2>
-                <p>Be one of the first businesses to try MyRingReply at a <strong style="color: var(--primary-light);">50% discount</strong>!</p>
-                <p>Limited to only <strong style="color: #ef4444;">3 spots</strong> — get priority setup and personalized support.</p>
-                <div class="pilot-price">Only $49/mo for 6 months</div>
-                <div class="spots-left">🔥 Only 2 spots left!</div>
-                <br>
-                <a href="#contact" class="btn-primary">Apply Now</a>
+            <div class="section-header">
+                <h2>What Plumbers Say</h2>
+                <p>Real results from real businesses using CallCapture.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- ===== TESTIMONIALS ===== -->
-    <section class="testimonial-section">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">What Our <span style="color: var(--primary);">Clients Say</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 50px;">Real results from real businesses</p>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="quote">"I was losing $2,000+ every month to missed calls. MyRingReply recovered 12 jobs in the first month alone!"</div>
-                    <div class="author">
-                        <div class="author-avatar">👨‍🔧</div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"I was losing at least 2-3 jobs a week to missed calls. Since I started using CallCapture, I've recovered over $4,000 in the first month alone. Worth every penny!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">M</div>
                         <div>
-                            <div class="author-name">Mike Thompson</div>
-                            <div class="author-role">Thompson Plumbing Co.</div>
+                            <h4>Mike Johnson</h4>
+                            <p>Johnson Plumbing & Heating</p>
                         </div>
                     </div>
-                    <div class="result">📈 +$3,600 recovered/month</div>
                 </div>
-                <div class="testimonial-card">
-                    <div class="quote">"The instant SMS response makes us look so professional. Customers love how fast we respond!"</div>
-                    <div class="author">
-                        <div class="author-avatar">👩‍💼</div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"The instant text response is a game-changer. Customers love the quick reply, and I get notified so I can follow up immediately. My response time went from hours to minutes."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">S</div>
                         <div>
-                            <div class="author-name">Sarah Johnson</div>
-                            <div class="author-role">Johnson Plumbing Services</div>
+                            <h4>Sarah Chen</h4>
+                            <p>Chen's Plumbing Services</p>
                         </div>
                     </div>
-                    <div class="result">📈 85% response rate improvement</div>
                 </div>
-                <div class="testimonial-card">
-                    <div class="quote">"Setup took 10 minutes. Within a week, we booked 5 emergency jobs we would've missed."</div>
-                    <div class="author">
-                        <div class="author-avatar">👨‍💼</div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"I was skeptical at first, but the ROI calculator doesn't lie. I've recovered 8 jobs worth over $2,500 in just 3 weeks. This pays for itself 10x over."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">D</div>
                         <div>
-                            <div class="author-name">David Chen</div>
-                            <div class="author-role">Chen Plumbing & Heating</div>
+                            <h4>Dave Rodriguez</h4>
+                            <p>Rodriguez Plumbing Co.</p>
                         </div>
                     </div>
-                    <div class="result">📈 +$1,750 recovered/month</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== COMPARISON ===== -->
-    <section class="comparison-section">
+    <!-- ROI CALCULATOR -->
+    <section class="roi-section">
         <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Why Choose <span style="color: var(--primary);">MyRingReply</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 50px;">See how we compare to the competition</p>
-            <div class="comparison-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Features</th>
-                            <th>MyRingReply</th>
-                            <th>Competitor A</th>
-                            <th>Competitor B</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Instant SMS Auto-Reply</td>
-                            <td class="highlight">✓</td>
-                            <td>✓</td>
-                            <td>✗</td>
-                        </tr>
-                        <tr>
-                            <td>Setup Time</td>
-                            <td class="highlight">10 minutes</td>
-                            <td>2-3 days</td>
-                            <td>1 week</td>
-                        </tr>
-                        <tr>
-                            <td>Monthly Cost</td>
-                            <td class="highlight">$97/mo</td>
-                            <td>$199/mo</td>
-                            <td>$299/mo</td>
-                        </tr>
-                        <tr>
-                            <td>Custom SMS Templates</td>
-                            <td class="highlight">✓</td>
-                            <td>✗</td>
-                            <td>✓</td>
-                        </tr>
-                        <tr>
-                            <td>ROI Reports</td>
-                            <td class="highlight">✓</td>
-                            <td>✗</td>
-                            <td>✗</td>
-                        </tr>
-                        <tr>
-                            <td>AI-Powered Replies</td>
-                            <td class="highlight">✓</td>
-                            <td>✗</td>
-                            <td>✗</td>
-                        </tr>
-                        <tr>
-                            <td>Phone Support</td>
-                            <td class="highlight">✓</td>
-                            <td>✗</td>
-                            <td>✗</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== GUARANTEE ===== -->
-    <section class="guarantee-section">
-        <div class="container">
-            <div class="guarantee-content">
-                <div class="guarantee-icon">🛡️</div>
-                <h2>30-Day Money-Back Guarantee</h2>
-                <p>We're so confident MyRingReply will recover your missed calls that we offer a <strong style="color: var(--primary-light);">full 30-day money-back guarantee</strong>. If you're not satisfied for any reason, we'll refund 100% of your payment. No questions asked.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FAQ ===== -->
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Frequently Asked <span style="color: var(--primary);">Questions</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 50px;">Everything you need to know</p>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">How fast does the SMS response go out?</div>
-                    <div class="faq-answer">Our system sends the SMS within 2-3 seconds of the missed call. This instant response makes your business look professional and responsive.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">What if I don't have a phone number for the caller?</div>
-                    <div class="faq-answer">We capture the caller's phone number automatically from the missed call. If it's a blocked number, we'll still notify you about the missed call.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Can I customize the SMS templates?</div>
-                    <div class="faq-answer">Yes! Every client gets custom SMS templates tailored to their business. You can edit them anytime through your dashboard.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Is MyRingReply compliant with TCPA regulations?</div>
-                    <div class="faq-answer">Yes! We follow all TCPA guidelines. Every SMS includes an opt-out option, and we ensure all messages comply with current regulations.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">How long does setup take?</div>
-                    <div class="faq-answer">Most clients are up and running within 10-15 minutes. We handle all the technical setup for you — just provide your business info and we'll do the rest.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">What happens if I cancel?</div>
-                    <div class="faq-answer">You can cancel anytime. We'll export all your lead data and help you transition smoothly. No lock-in contracts.</div>
+            <div class="roi-content">
+                <h2>Calculate Your ROI</h2>
+                <p>See how much revenue you're losing to missed calls.</p>
+                <div class="roi-calculator">
+                    <div class="roi-input">
+                        <label>Average jobs per month</label>
+                        <input type="number" id="jobsPerMonth" placeholder="e.g., 40" value="40">
+                    </div>
+                    <div class="roi-input">
+                        <label>Average job value ($)</label>
+                        <input type="number" id="jobValue" placeholder="e.g., 250" value="250">
+                    </div>
+                    <div class="roi-input">
+                        <label>Missed calls per week</label>
+                        <input type="number" id="missedCalls" placeholder="e.g., 5" value="5">
+                    </div>
+                    <button class="btn-primary" onclick="calculateROI()" style="width: 100%; text-align: center; border: none; cursor: pointer;">Calculate My Savings</button>
+                    <div class="roi-result" id="roiResult" style="display: none;">
+                        <h3 id="roiAmount">$0</h3>
+                        <p>Estimated monthly revenue recovered with CallCapture!</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CONTACT ===== -->
-    <section class="contact-section" id="contact">
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-section">
         <div class="container">
-            <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Get Started <span style="color: var(--primary);">Today</span></h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 40px;">Fill out the form and we'll reach out within 24 hours!</p>
-            <form id="contact-form" class="contact-form">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" placeholder="John Smith" required>
+            <div class="contact-grid">
+                <div class="contact-content">
+                    <h2>Ready to Stop Missing Calls?</h2>
+                    <p>Get started today and see how many leads you can recover. Setup takes just 5 minutes.</p>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-phone"></i> 1-800-555-1234</li>
+                        <li><i class="fas fa-envelope"></i> hello@callcapture.io</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Available Nationwide</li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="business">Business Name</label>
-                    <input type="text" id="business" name="business" placeholder="Smith Plumbing Co." required>
+                <div class="contact-form">
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" placeholder="(555) 123-4567" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Business Name</label>
+                            <input type="text" placeholder="Your company name">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea placeholder="Tell us about your business..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; text-align: center; border: none; cursor: pointer;">
+                            <i class="fas fa-paper-plane"></i> Get Started Today
+                        </button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="john@smithplumbing.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Tell Us About Your Business</label>
-                    <textarea id="message" name="message" rows="4" placeholder="How many calls do you miss per month? What's your biggest challenge?" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">🚀 Get My Free Demo</button>
-            </form>
-            <p class="form-note">📧 Or email us directly at <strong>info@myringreply.com</strong></p>
-            <p class="form-note">📞 Or call us at <strong>(657) 505-5112</strong></p>
+            </div>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div>
-                    <h3>MyRingReply</h3>
-                    <p style="color: var(--text-gray); font-size: 14px;">Never miss another customer call. Recover leads, schedule jobs, and grow your business automatically.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">Call<span>Capture</span></a>
+                    <p>Never miss a customer again. Automated missed-call recovery for service businesses.</p>
                 </div>
                 <div>
-                    <h3>Quick Links</h3>
-                    <ul>
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-links">
                         <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3>Contact</h3>
-                    <ul>
-                        <li>📧 info@myringreply.com</li>
-                        <li>📞 (657) 505-5112</li>
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">GDPR</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 MyRingReply. All rights reserved.</p>
-                <p style="margin-top: 5px;">TCPA Compliant • Privacy Policy • Terms of Service</p>
+                <p>&copy; 2024 CallCapture. All rights reserved. | <a href="mailto:hello@callcapture.io">hello@callcapture.io</a> | 1-800-555-1234</p>
             </div>
         </div>
     </footer>
 
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- SCRIPTS -->
     <script>
-        // ===== PHONE MOCKUP ANIMATION =====
-        const callers = [
-            { name: "Emergency Plumbing Co.", type: "🏢 Plumbing Company", phone: "(555) 123-4567" },
-            { name: "Rapid Rooter Services", type: "🏢 Plumbing Company", phone: "(555) 234-5678" },
-            { name: "24/7 Pipe Masters", type: "🏢 Plumbing Company", phone: "(555) 345-6789" },
-            { name: "John Miller", type: "👤 Customer", phone: "(555) 987-6543" },
-            { name: "Sarah Johnson", type: "👤 Customer", phone: "(555) 876-5432" },
-            { name: "Mike Thompson", type: "👤 Customer", phone: "(555) 765-4321" },
-            { name: "Lisa Rodriguez", type: "👤 Customer", phone: "(555) 654-3210" },
-        ];
-
-        let currentCaller = null;
-        let animationTimeout = null;
-
-        function getRandomCaller() {
-            return callers[Math.floor(Math.random() * callers.length)];
-        }
-
-        function showIncomingCall() {
-            currentCaller = getRandomCaller();
-            const callScreen = document.getElementById('callScreen');
-            callScreen.style.display = 'flex';
-            callScreen.style.opacity = '1';
-            document.getElementById('callerName').textContent = currentCaller.name;
-            document.getElementById('callerType').textContent = currentCaller.type;
-            document.getElementById('callerNumber').textContent = currentCaller.phone;
-            document.getElementById('chatArea').innerHTML = '';
-        }
-
-        function acceptCall() {
-            const callScreen = document.getElementById('callScreen');
-            callScreen.style.opacity = '0';
-            setTimeout(() => {
-                callScreen.style.display = 'none';
-                playMessages();
-            }, 500);
-        }
-
-        function declineCall() {
-            // Auto-accept anyway for demo purposes
-            acceptCall();
-        }
-
-        function playMessages() {
-            const chatArea = document.getElementById('chatArea');
-            
-            // Message 1: Business
-            setTimeout(() => {
-                addMessage('business', 'Hi! I missed your call. How can we help?', '9:41 AM');
-            }, 1000);
-            
-            // Typing indicator
-            setTimeout(() => {
-                showTyping(true);
-            }, 2500);
-            
-            // Message 2: Customer
-            setTimeout(() => {
-                showTyping(false);
-                if (currentCaller.type.includes('Plumbing')) {
-                    addMessage('customer', 'We need an emergency plumber ASAP!', '9:42 AM');
-                } else {
-                    addMessage('customer', 'I need a plumber for an emergency!', '9:42 AM');
-                }
-            }, 3500);
-            
-            // Typing indicator
-            setTimeout(() => {
-                showTyping(true);
-            }, 5000);
-            
-            // Message 3: Business
-            setTimeout(() => {
-                showTyping(false);
-                addMessage('business', "We'll send someone right away! 🚀", '9:42 AM');
-            }, 6000);
-            
-            // Message 4: Customer
-            setTimeout(() => {
-                addMessage('customer', 'Thank you so much! 🙏', '9:43 AM');
-            }, 8000);
-        }
-
-        function addMessage(sender, text, time) {
-            const chatArea = document.getElementById('chatArea');
-            const message = document.createElement('div');
-            message.className = `message ${sender}`;
-            message.innerHTML = `${text}<div class="message-time">${time}</div>`;
-            chatArea.appendChild(message);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        function showTyping(show) {
-            const chatArea = document.getElementById('chatArea');
-            let typing = document.querySelector('.typing-indicator');
-            
-            if (show && !typing) {
-                typing = document.createElement('div');
-                typing.className = 'typing-indicator';
-                typing.innerHTML = '<span></span><span></span><span></span>';
-                chatArea.appendChild(typing);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            } else if (!show && typing) {
-                typing.remove();
-            }
-        }
-
-        function resetPhone() {
-            const callScreen = document.getElementById('callScreen');
-            const chatArea = document.getElementById('chatArea');
-            callScreen.style.display = 'none';
-            callScreen.style.opacity = '1';
-            chatArea.innerHTML = '';
-        }
-
-        function startPhoneAnimation() {
-            showIncomingCall();
-            
-            // Auto-accept after 1.5 seconds
-            setTimeout(() => {
-                acceptCall();
-            }, 1500);
-            
-            // Loop after 45 seconds
-            animationTimeout = setTimeout(() => {
-                resetPhone();
-                startPhoneAnimation();
-            }, 45000);
-        }
-
-        // Start the animation on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            startPhoneAnimation();
-        });
-
-        // ===== ROI CALCULATOR =====
+        // ROI Calculator
         function calculateROI() {
-            const missedCalls = parseFloat(document.getElementById('missedCalls').value) || 0;
+            const jobsPerMonth = parseFloat(document.getElementById('jobsPerMonth').value) || 0;
             const jobValue = parseFloat(document.getElementById('jobValue').value) || 0;
-            const closeRate = parseFloat(document.getElementById('closeRate').value) || 0;
-            const monthlyCost = parseFloat(document.getElementById('monthlyCost').value) || 0;
+            const missedCalls = parseFloat(document.getElementById('missedCalls').value) || 0;
             
-            const recoveredRevenue = (missedCalls * jobValue * closeRate) / 100;
-            const roi = monthlyCost > 0 ? ((recoveredRevenue - monthlyCost) / monthlyCost) * 100 : 0;
+            // Assuming 50% recovery rate with CallCapture
+            const recoveredCalls = missedCalls * 4 * 0.5; // 4 weeks per month, 50% recovery
+            const monthlyRevenue = recoveredCalls * jobValue;
             
-            document.getElementById('roiResult').textContent = `$${recoveredRevenue.toLocaleString()}`;
-            document.getElementById('roiROI').textContent = `${Math.round(roi)}%`;
+            const roiResult = document.getElementById('roiResult');
+            const roiAmount = document.getElementById('roiAmount');
+            
+            roiAmount.textContent = '$' + monthlyRevenue.toLocaleString('en-US', {maximumFractionDigits: 0});
+            roiResult.style.display = 'block';
+            
+            // Smooth scroll to result
+            roiResult.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
 
-        function showRoiTab(tab) {
-            // Hide all tabs
-            document.getElementById('calculator-tab').style.display = 'none';
-            document.getElementById('stats-tab').style.display = 'none';
-            document.getElementById('example-tab').style.display = 'none';
-            
-            // Show selected tab
-            document.getElementById(`${tab}-tab`).style.display = 'block';
-            
-            // Update active button
-            document.querySelectorAll('.roi-tab').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        // Contact Form
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Thanks for reaching out! We\'ll get back to you within 24 hours.');
+            e.target.reset();
         }
 
-        // ===== FAQ ACCORDION =====
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('active');
+        // Fade-in animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
         });
 
-        // ===== CONTACT FORM =====
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                business: document.getElementById('business').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                message: document.getElementById('message').value
-            };
-            
-            // Send to email via Formspree
-            fetch('https://formspree.io/f/info@myringreply.com', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(() => {
-                // Send SMS notification to your phone
-                fetch('https://textbelt.com/text', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        phone: '6575055112',
-                        message: `New lead: ${formData.name} from ${formData.business} - ${formData.email} - ${formData.phone}`
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                alert('✅ Thanks! We\'ll get back to you within 24 hours!');
-                this.reset();
-            }).catch(() => {
-                alert('✅ Thanks! We\'ll get back to you within 24 hours!');
-                this.reset();
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
     </script>
+
 </body>
 </html>
