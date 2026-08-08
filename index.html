@@ -263,6 +263,13 @@ color: var(--text-muted);
 margin-bottom: 30px;
 max-width: 500px;
 }
+/* HERO BUTTONS - FIXED SPACING */
+.hero-buttons {
+display: flex;
+flex-wrap: wrap;
+gap: 15px;
+margin-top: 10px;
+}
 .hero-stats {
 display: flex;
 gap: 40px;
@@ -290,7 +297,6 @@ font-weight: 600;
 font-size: 1.1rem;
 transition: all 0.3s;
 display: inline-block;
-margin-right: 15px;
 }
 .btn-primary:hover {
 background: var(--primary-light);
@@ -312,7 +318,7 @@ display: inline-block;
 background: rgba(107, 70, 193, 0.1);
 border-color: var(--primary-light);
 }
-/* IPHONE 17 MOCKUP - FIXED EDGES */
+/* IPHONE 17 MOCKUP */
 .phone-wrapper {
 display: flex;
 justify-content: center;
@@ -357,7 +363,7 @@ transition: transform 0.5s;
 .iphone-17:hover {
 transform: rotate(0deg) rotateY(0deg) translateY(-10px);
 }
-/* Side buttons - perfectly aligned */
+/* Side buttons */
 .iphone-17::before {
 content: '';
 position: absolute;
@@ -380,7 +386,7 @@ background: linear-gradient(180deg, #3a3a3a, #2a2a2a);
 border-radius: 0 2px 2px 0;
 box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
 }
-/* Dynamic Island - perfectly centered */
+/* Dynamic Island */
 .dynamic-island {
 position: absolute;
 top: 12px;
@@ -602,14 +608,14 @@ transition: all 0.3s;
 background: var(--primary-light);
 transform: scale(1.1);
 }
-/* CALL OVERLAY - SHOWS FIRST */
+/* CALL OVERLAY - FULLY OPAQUE */
 .phone-call-overlay {
 position: absolute;
 top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-background: rgba(0, 0, 0, 0.9);
+background: #000000; /* Solid black - no transparency */
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -619,7 +625,7 @@ z-index: 20;
 opacity: 0;
 pointer-events: none;
 border-radius: 45px;
-transition: opacity 0.5s ease;
+transition: opacity 0.3s ease;
 }
 .phone-call-overlay.active {
 opacity: 1;
@@ -677,7 +683,7 @@ transform: rotate(135deg);
 .call-btn:hover {
 transform: scale(1.1);
 }
-/* ===== NEW: LEAD CAPTURED DASHBOARD (Second Phone) ===== */
+/* LEAD DASHBOARD (Second Phone) */
 .lead-dashboard {
 flex: 1;
 padding: 15px;
@@ -1083,7 +1089,7 @@ margin-bottom: 10px;
 color: var(--text-muted);
 font-size: 0.9rem;
 }
-/* PRICING SECTION - WITH LEFT IMAGES */
+/* PRICING SECTION */
 .pricing-section {
 padding: 100px 0;
 background: var(--dark-bg);
@@ -1446,6 +1452,18 @@ grid-template-columns: 1fr;
 flex-direction: column;
 gap: 20px;
 }
+/* FIXED: Button overlap on iPhone */
+.hero-buttons {
+flex-direction: column;
+align-items: stretch;
+gap: 12px;
+}
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+width: 100%;
+text-align: center;
+margin-right: 0;
+}
 .roi-tabs {
 flex-direction: column;
 align-items: center;
@@ -1529,7 +1547,8 @@ transform: translateY(0);
 <div class="hero-content">
 <h1>Never Miss a <span>Customer</span> Again</h1>
 <p>MyRingReply automatically texts back your missed callers and alerts you instantly. Recover lost leads and grow your plumbing business while you're on the job.</p>
-<div>
+<!-- FIXED: Button container with gap -->
+<div class="hero-buttons">
 <a href="#pricing" class="btn-primary">Get Started</a>
 <a href="#roi" class="btn-secondary">Calculate Your ROI</a>
 </div>
@@ -1604,7 +1623,7 @@ Absolutely! We can have a technician out within the hour. Can I get your address
 <input type="text" class="input-field" placeholder="Type a message..." disabled>
 <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
 </div>
-<!-- CALL OVERLAY - SHOWS FIRST -->
+<!-- CALL OVERLAY - FULLY OPAQUE -->
 <div class="phone-call-overlay" id="callOverlay">
 <div class="call-avatar">A</div>
 <div class="call-status">Incoming Call</div>
@@ -1825,7 +1844,7 @@ ROI: <strong style="color: #FFD700;">1,523% return on investment!</strong>
 <i class="fas fa-check-circle"></i> Active
 </div>
 </div>
-<!-- NEW: LEAD CAPTURED DASHBOARD -->
+<!-- LEAD DASHBOARD -->
 <div class="lead-dashboard">
 <div class="lead-stats-row">
 <div class="lead-stat-card">
@@ -1925,7 +1944,7 @@ ROI: <strong style="color: #FFD700;">1,523% return on investment!</strong>
 </div>
 </section>
 
-<!-- PRICING SECTION - WITH LEFT IMAGES -->
+<!-- PRICING SECTION -->
 <section id="pricing" class="pricing-section">
 <div class="container">
 <div class="section-header">
@@ -2153,13 +2172,11 @@ ROI: <strong style="color: #FFD700;">1,523% return on investment!</strong>
 <!-- SCRIPTS -->
 <script>
 // ===== NAVIGATION =====
-// Toggle dropdown menu
 function toggleDropdown(event) {
 event.stopPropagation();
 const dropdown = document.getElementById('dropdownMenu');
 dropdown.classList.toggle('show');
 }
-// Close dropdown when clicking outside
 document.addEventListener('click', function(event) {
 const dropdown = document.getElementById('dropdownMenu');
 const wrapper = document.querySelector('.nav-cta-wrapper');
@@ -2167,14 +2184,12 @@ if (!wrapper.contains(event.target)) {
 dropdown.classList.remove('show');
 }
 });
-// Toggle mobile menu
 function toggleMobileMenu() {
 const mobileMenu = document.getElementById('mobileMenu');
 const hamburger = document.querySelector('.hamburger');
 mobileMenu.classList.toggle('show');
 hamburger.classList.toggle('active');
 }
-// Close mobile menu when clicking a link
 document.querySelectorAll('.mobile-menu a').forEach(link => {
 link.addEventListener('click', function() {
 const mobileMenu = document.getElementById('mobileMenu');
@@ -2183,7 +2198,6 @@ mobileMenu.classList.remove('show');
 hamburger.classList.remove('active');
 });
 });
-// Close mobile menu when clicking outside
 document.addEventListener('click', function(event) {
 const mobileMenu = document.getElementById('mobileMenu');
 const hamburger = document.querySelector('.hamburger');
@@ -2198,38 +2212,35 @@ function calculateROI() {
 const jobsPerMonth = parseFloat(document.getElementById('jobsPerMonth').value) || 0;
 const jobValue = parseFloat(document.getElementById('jobValue').value) || 0;
 const missedCalls = parseFloat(document.getElementById('missedCalls').value) || 0;
-// Assuming 50% recovery rate with MyRingReply
-const recoveredCalls = missedCalls * 4 * 0.5; // 4 weeks per month, 50% recovery
+const recoveredCalls = missedCalls * 4 * 0.5;
 const monthlyRevenue = recoveredCalls * jobValue;
 const roiResult = document.getElementById('roiResult');
 const roiAmount = document.getElementById('roiAmount');
 roiAmount.textContent = '$' + monthlyRevenue.toLocaleString('en-US', {maximumFractionDigits: 0});
 roiResult.style.display = 'block';
-// Smooth scroll to result
 roiResult.scrollIntoView({behavior: 'smooth', block: 'center'});
 }
+
 // ROI Tab Switching
 function switchTab(tabId) {
-// Hide all tabs
 document.querySelectorAll('.roi-tab-content').forEach(tab => {
 tab.classList.remove('active');
 });
-// Remove active from buttons
 document.querySelectorAll('.roi-tab-btn').forEach(btn => {
 btn.classList.remove('active');
 });
-// Show selected tab
 document.getElementById(tabId).classList.add('active');
-// Add active to clicked button
 event.target.closest('.roi-tab-btn').classList.add('active');
 }
+
 // Contact Form
 function handleSubmit(e) {
 e.preventDefault();
 alert('Thanks for reaching out! We\'ll get back to you within 24 hours.');
 e.target.reset();
 }
-// Fade-in animations on scroll
+
+// Fade-in animations
 const observerOptions = {
 threshold: 0.1,
 rootMargin: '0px 0px -50px 0px'
@@ -2241,11 +2252,11 @@ entry.target.classList.add('visible');
 }
 });
 }, observerOptions);
-// Observe all fade-in elements
 document.querySelectorAll('.fade-in').forEach(el => {
 observer.observe(el);
 });
-// Smooth scroll for anchor links
+
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 anchor.addEventListener('click', function (e) {
 e.preventDefault();
@@ -2258,16 +2269,19 @@ block: 'start'
 }
 });
 });
+
 // ===== PHONE CALL OVERLAY - SHOWS FIRST, THEN MESSAGES =====
 window.addEventListener('load', () => {
 const callOverlay = document.getElementById('callOverlay');
 const chatMessages = document.querySelectorAll('.phone-chat .chat-message');
 const chatTyping = document.querySelector('.phone-chat .chat-typing');
-// 1. Show incoming call overlay first
+
+// 1. Show incoming call overlay first (solid, opaque)
 setTimeout(() => {
 callOverlay.classList.add('active');
 }, 500);
-// 2. Auto-decline after 2.5 seconds (simulate missed call)
+
+// 2. Auto-decline after 2 SECONDS
 setTimeout(() => {
 callOverlay.classList.remove('active');
 // 3. Now show chat messages with staggered delays
@@ -2277,7 +2291,7 @@ msg.style.animationDelay = (0.3 + (index * 0.5)) + 's';
 if (chatTyping) {
 chatTyping.style.animationDelay = (0.3 + (chatMessages.length * 0.5)) + 's';
 }
-}, 3000);
+}, 2000); // Changed from 3000 to 2000
 });
 </script>
 </body>
