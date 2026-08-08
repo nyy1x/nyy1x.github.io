@@ -211,7 +211,7 @@
             border-color: var(--primary-light);
         }
 
-        /* IPHONE 17 MOCKUP */
+        /* IPHONE 17 MOCKUP - FIXED EDGES */
         .phone-wrapper {
             display: flex;
             justify-content: center;
@@ -222,8 +222,8 @@
 
         .phone-glow {
             position: absolute;
-            width: 400px;
-            height: 400px;
+            width: 380px;
+            height: 380px;
             background: radial-gradient(circle, rgba(107, 70, 193, 0.3) 0%, transparent 70%);
             border-radius: 50%;
             animation: pulse 3s infinite;
@@ -235,15 +235,15 @@
         }
 
         .iphone-17 {
-            width: 320px;
-            height: 660px;
-            background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
-            border-radius: 60px;
-            padding: 12px;
+            width: 310px;
+            height: 640px;
+            background: linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 20%, #1a1a1a 50%, #2a2a2a 80%, #3a3a3a 100%);
+            border-radius: 55px;
+            padding: 10px;
             position: relative;
             box-shadow: 
-                inset 0 0 3px rgba(255, 255, 255, 0.1),
-                0 0 0 2px #3a3a3a,
+                inset 0 0 2px rgba(255, 255, 255, 0.1),
+                0 0 0 2px #333,
                 0 0 0 4px #1a1a1a,
                 0 0 0 6px #2a2a2a,
                 0 30px 60px rgba(0, 0, 0, 0.5),
@@ -262,46 +262,48 @@
             transform: rotate(0deg) rotateY(0deg) translateY(-10px);
         }
 
-        /* Side buttons */
+        /* Side buttons - perfectly aligned */
         .iphone-17::before {
             content: '';
             position: absolute;
             left: -3px;
-            top: 150px;
+            top: 140px;
             width: 4px;
             height: 30px;
             background: linear-gradient(180deg, #3a3a3a, #2a2a2a);
             border-radius: 2px 0 0 2px;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
         }
 
         .iphone-17::after {
             content: '';
             position: absolute;
             right: -3px;
-            top: 120px;
+            top: 110px;
             width: 4px;
             height: 60px;
             background: linear-gradient(180deg, #3a3a3a, #2a2a2a);
             border-radius: 0 2px 2px 0;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
         }
 
-        /* Dynamic Island */
+        /* Dynamic Island - perfectly centered */
         .dynamic-island {
             position: absolute;
-            top: 14px;
+            top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 110px;
-            height: 34px;
+            width: 105px;
+            height: 32px;
             background: #000;
-            border-radius: 20px;
+            border-radius: 18px;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding: 0 12px;
-            gap: 6px;
-            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
+            padding: 0 10px;
+            gap: 5px;
+            box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.1);
         }
 
         .island-camera {
@@ -321,7 +323,7 @@
 
         .phone-screen {
             background: #0a0a0a;
-            border-radius: 48px;
+            border-radius: 45px;
             height: 100%;
             overflow: hidden;
             position: relative;
@@ -333,7 +335,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px 8px;
+            padding: 14px 20px 8px;
             font-size: 12px;
             color: white;
             background: rgba(10, 10, 10, 0.95);
@@ -421,8 +423,8 @@
             font-size: 0.8rem;
             line-height: 1.4;
             position: relative;
-            animation: messageIn 0.5s ease-out forwards;
             opacity: 0;
+            animation: messageIn 0.5s ease-out forwards;
         }
 
         @keyframes messageIn {
@@ -474,8 +476,8 @@
             gap: 4px;
             padding: 8px;
             align-self: flex-start;
-            animation: messageIn 0.5s ease-out 2s forwards;
             opacity: 0;
+            animation: messageIn 0.5s ease-out 2s forwards;
         }
 
         .chat-typing span {
@@ -537,13 +539,14 @@
             transform: scale(1.1);
         }
 
+        /* CALL OVERLAY - FIXED TO FIT PHONE SCREEN */
         .phone-call-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -551,13 +554,15 @@
             gap: 20px;
             z-index: 20;
             opacity: 0;
-            animation: callOverlay 3s ease-in-out forwards;
             pointer-events: none;
+            border-radius: 45px;
+            animation: callOverlay 4s ease-in-out infinite;
         }
 
         @keyframes callOverlay {
-            0%, 30% { opacity: 1; }
-            70%, 100% { opacity: 0; }
+            0%, 5% { opacity: 0; }
+            10%, 25% { opacity: 1; }
+            35%, 100% { opacity: 0; }
         }
 
         .call-avatar {
@@ -584,6 +589,35 @@
             color: var(--primary-light);
             font-size: 0.8rem;
             font-family: monospace;
+        }
+
+        .call-buttons {
+            display: flex;
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        .call-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .call-btn.decline {
+            background: #ff3b30;
+            color: white;
+            transform: rotate(135deg);
+        }
+
+        .call-btn:hover {
+            transform: scale(1.1);
         }
 
         /* ROI TAB SECTION */
@@ -1408,6 +1442,9 @@
                             <div class="call-avatar">A</div>
                             <div class="call-status">Incoming Call</div>
                             <div class="call-timer">(555) 123-4567</div>
+                            <div class="call-buttons">
+                                <button class="call-btn decline"><i class="fas fa-phone"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1836,7 +1873,7 @@
                     <h2>Ready to Stop Missing Calls?</h2>
                     <p>Get started today and see how many leads you can recover. Setup takes just 5 minutes.</p>
                     <ul class="contact-info">
-                        <li><i class="fas fa-phone"></i> 1-800-555-1234</li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:6575055112" style="color: var(--text-muted); text-decoration: none;">657-505-5112</a></li>
                         <li><i class="fas fa-envelope"></i> hello@myringreply.com</li>
                         <li><i class="fas fa-map-marker-alt"></i> Available Nationwide</li>
                     </ul>
@@ -1909,7 +1946,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 MyRingReply. All rights reserved. | <a href="mailto:hello@myringreply.com">hello@myringreply.com</a> | 1-800-555-1234</p>
+                <p>&copy; 2024 MyRingReply. All rights reserved. | <a href="mailto:hello@myringreply.com">hello@myringreply.com</a> | <a href="tel:6575055112">657-505-5112</a></p>
             </div>
         </div>
     </footer>
@@ -1993,6 +2030,41 @@
                     });
                 }
             });
+        });
+
+        // Phone animation replay every 45 seconds
+        function replayPhoneAnimation() {
+            // Reset chat messages to hidden
+            document.querySelectorAll('.chat-message').forEach(msg => {
+                msg.style.animation = 'none';
+                msg.style.opacity = '0';
+                // Force reflow
+                void msg.offsetWidth;
+                msg.style.animation = '';
+            });
+            
+            // Reset typing indicator
+            document.querySelectorAll('.chat-typing').forEach(typing => {
+                typing.style.animation = 'none';
+                typing.style.opacity = '0';
+                void typing.offsetWidth;
+                typing.style.animation = '';
+            });
+            
+            // Reset call overlay
+            document.querySelectorAll('.phone-call-overlay').forEach(overlay => {
+                overlay.style.animation = 'none';
+                void overlay.offsetWidth;
+                overlay.style.animation = '';
+            });
+        }
+
+        // Run replay every 45 seconds (between 30-60 seconds)
+        setInterval(replayPhoneAnimation, 45000);
+
+        // Initial animation on load
+        window.addEventListener('load', () => {
+            setTimeout(replayPhoneAnimation, 100);
         });
     </script>
 
