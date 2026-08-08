@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlumbFlow AI - Smart Plumbing Automation | San Diego, CA</title>
-    <meta name="description" content="AI-powered plumbing automation system. Serving San Diego and all of the United States. Streamline your plumbing business with smart scheduling, invoicing, and customer management.">
+    <title>MyRingReply - Smart Plumbing Automation | San Diego, CA</title>
+    <meta name="description" content="AI-powered plumbing automation system. Based in San Diego, serving plumbers across the United States.">
     
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Google Fonts -->
@@ -20,21 +20,20 @@
         }
 
         :root {
-            --primary: #0077B6;
-            --primary-dark: #005B8C;
-            --secondary: #00B4D8;
-            --accent: #FF6B35;
-            --dark: #0A2540;
-            --light: #F8F9FA;
+            --purple: #7C3AED;
+            --purple-dark: #5B21B6;
+            --purple-light: #EDE9FE;
             --white: #FFFFFF;
-            --success: #2ECC71;
-            --warning: #F1C40F;
+            --dark: #1E1B4B;
+            --accent: #F59E0B;
+            --gray: #6B7280;
+            --light-gray: #F9FAFB;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             color: var(--dark);
-            background: var(--light);
+            background: var(--white);
             line-height: 1.6;
         }
 
@@ -44,15 +43,14 @@
             padding: 0 20px;
         }
 
-        /* Header/Navigation */
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
+            background: var(--white);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .nav-container {
@@ -66,11 +64,13 @@
             align-items: center;
             gap: 10px;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 800;
+            color: var(--purple);
         }
 
         .logo i {
             font-size: 2rem;
+            color: var(--purple);
         }
 
         .nav-links {
@@ -80,49 +80,58 @@
         }
 
         .nav-links a {
-            color: var(--white);
+            color: var(--dark);
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.3s;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            opacity: 0.8;
+            color: var(--purple);
         }
 
         .nav-cta {
-            background: var(--accent);
+            background: var(--purple);
+            color: var(--white);
             padding: 10px 20px;
             border-radius: 30px;
             font-weight: 600;
-            transition: transform 0.3s;
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
         .nav-cta:hover {
+            background: var(--purple-dark);
             transform: scale(1.05);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
             color: var(--white);
             padding: 80px 0;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
             font-weight: 800;
             margin-bottom: 20px;
             line-height: 1.2;
         }
 
-        .hero p {
-            font-size: 1.3rem;
+        .hero-content p {
+            font-size: 1.1rem;
             margin-bottom: 30px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            opacity: 0.9;
         }
 
         .hero-badge {
@@ -138,7 +147,6 @@
         .cta-buttons {
             display: flex;
             gap: 20px;
-            justify-content: center;
             flex-wrap: wrap;
         }
 
@@ -155,15 +163,14 @@
         }
 
         .btn-primary {
-            background: var(--accent);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+            background: var(--white);
+            color: var(--purple);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .btn-primary:hover {
-            background: #FF5A1F;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
 
         .btn-outline {
@@ -174,15 +181,170 @@
 
         .btn-outline:hover {
             background: var(--white);
-            color: var(--primary);
+            color: var(--purple);
             transform: translateY(-2px);
+        }
+
+        /* Phone Mockup */
+        .phone-mockup {
+            background: var(--white);
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 350px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .phone-screen {
+            background: var(--light-gray);
+            border-radius: 30px;
+            overflow: hidden;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-header {
+            background: var(--purple);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .phone-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .phone-header p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .message-incoming {
+            background: var(--white);
+            border: 1px solid var(--purple-light);
+            border-top-left-radius: 5px;
+            align-self: flex-start;
+        }
+
+        .message-outgoing {
+            background: var(--purple);
+            color: var(--white);
+            border-top-right-radius: 5px;
+            align-self: flex-end;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            background: var(--white);
+            border-radius: 15px;
+            border: 1px solid var(--purple-light);
+            align-self: flex-start;
+            max-width: 60px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--purple);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .phone-input {
+            background: var(--white);
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-top: 1px solid var(--purple-light);
+        }
+
+        .phone-input i {
+            color: var(--purple);
+            font-size: 1.2rem;
+        }
+
+        .phone-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px;
+            border-radius: 20px;
+            background: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .phone-input button {
+            background: var(--purple);
+            border: none;
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .phone-input button:hover {
+            background: var(--purple-dark);
+            transform: scale(1.1);
         }
 
         /* Stats Section */
         .stats {
-            background: var(--white);
+            background: var(--light-gray);
             padding: 60px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
         .stats-grid {
@@ -195,13 +357,12 @@
         .stat-item h3 {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--purple);
             margin-bottom: 10px;
         }
 
         .stat-item p {
-            color: var(--dark);
-            opacity: 0.7;
+            color: var(--gray);
         }
 
         /* Features Section */
@@ -218,12 +379,12 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 15px;
+            color: var(--dark);
         }
 
         .section-header p {
             font-size: 1.1rem;
-            color: var(--dark);
-            opacity: 0.7;
+            color: var(--gray);
             max-width: 600px;
             margin: 0 auto;
         }
@@ -239,20 +400,20 @@
             padding: 40px 30px;
             border-radius: 15px;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,119,182,0.1);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.1);
+            border: 1px solid var(--purple-light);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,119,182,0.15);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.2);
         }
 
         .feature-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -272,13 +433,12 @@
         }
 
         .feature-card p {
-            color: var(--dark);
-            opacity: 0.7;
+            color: var(--gray);
         }
 
         /* How It Works */
         .how-it-works {
-            background: var(--white);
+            background: var(--light-gray);
             padding: 80px 0;
         }
 
@@ -297,7 +457,7 @@
         .step-number {
             width: 60px;
             height: 60px;
-            background: var(--accent);
+            background: var(--purple);
             color: var(--white);
             border-radius: 50%;
             display: flex;
@@ -315,14 +475,12 @@
         }
 
         .step p {
-            color: var(--dark);
-            opacity: 0.7;
+            color: var(--gray);
         }
 
         /* Pricing Section */
         .pricing {
             padding: 80px 0;
-            background: linear-gradient(135deg, #F8F9FA 0%, #E8F4FD 100%);
         }
 
         .pricing-grid {
@@ -337,19 +495,19 @@
             border-radius: 15px;
             padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(0,119,182,0.1);
+            box-shadow: 0 4px 20px rgba(124,58,237,0.1);
+            transition: all 0.3s;
+            border: 1px solid var(--purple-light);
             position: relative;
         }
 
         .pricing-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,119,182,0.15);
+            box-shadow: 0 8px 30px rgba(124,58,237,0.2);
         }
 
         .pricing-card.popular {
-            border: 2px solid var(--accent);
+            border: 2px solid var(--purple);
             transform: scale(1.02);
         }
 
@@ -358,7 +516,7 @@
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--accent);
+            background: var(--purple);
             color: var(--white);
             padding: 5px 20px;
             border-radius: 20px;
@@ -376,15 +534,14 @@
         .price {
             font-size: 3rem;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--purple);
             margin-bottom: 20px;
         }
 
         .price span {
             font-size: 1rem;
             font-weight: 400;
-            color: var(--dark);
-            opacity: 0.6;
+            color: var(--gray);
         }
 
         .pricing-features {
@@ -394,18 +551,18 @@
 
         .pricing-features li {
             padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--purple-light);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .pricing-features li i {
-            color: var(--success);
+            color: var(--purple);
         }
 
         .btn-subscribe {
-            background: var(--primary);
+            background: var(--purple);
             color: var(--white);
             width: 100%;
             padding: 15px;
@@ -417,21 +574,14 @@
         }
 
         .btn-subscribe:hover {
-            background: var(--primary-dark);
+            background: var(--purple-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,119,182,0.3);
-        }
-
-        .btn-subscribe.popular-btn {
-            background: var(--accent);
-        }
-
-        .btn-subscribe.popular-btn:hover {
-            background: #FF5A1F;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
         }
 
         /* Testimonials */
         .testimonials {
+            background: var(--light-gray);
             padding: 80px 0;
         }
 
@@ -446,17 +596,18 @@
             background: var(--white);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(124,58,237,0.1);
         }
 
         .testimonial-stars {
-            color: var(--warning);
+            color: var(--accent);
             margin-bottom: 15px;
         }
 
         .testimonial-text {
             font-style: italic;
             margin-bottom: 20px;
+            color: var(--gray);
         }
 
         .testimonial-author {
@@ -468,7 +619,7 @@
         .testimonial-avatar {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -483,13 +634,12 @@
 
         .testimonial-role {
             font-size: 0.9rem;
-            color: var(--dark);
-            opacity: 0.7;
+            color: var(--gray);
         }
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             color: var(--white);
             padding: 80px 0;
             text-align: center;
@@ -507,6 +657,7 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            opacity: 0.9;
         }
 
         /* Footer */
@@ -544,7 +695,7 @@
         }
 
         .footer-column a:hover {
-            color: var(--secondary);
+            color: var(--purple-light);
         }
 
         .footer-bottom {
@@ -560,12 +711,17 @@
                 display: none;
             }
             
-            .hero h1 {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
                 font-size: 2.5rem;
             }
             
-            .hero p {
-                font-size: 1.1rem;
+            .phone-mockup {
+                margin-top: 40px;
             }
             
             .section-header h2 {
@@ -586,7 +742,7 @@
         }
 
         @media (max-width: 480px) {
-            .hero h1 {
+            .hero-content h1 {
                 font-size: 2rem;
             }
             
@@ -611,7 +767,7 @@
         <div class="container nav-container">
             <div class="logo">
                 <i class="fas fa-wrench"></i>
-                <span>PlumbFlow AI</span>
+                <span>MyRingReply</span>
             </div>
             <nav>
                 <ul class="nav-links">
@@ -621,21 +777,66 @@
                     <li><a href="#testimonials">Testimonials</a></li>
                 </ul>
             </nav>
-            <a href="#pricing" class="btn btn-outline nav-cta">Get Started</a>
+            <a href="#pricing" class="nav-cta">Get Started</a>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Phone Mockup -->
     <section class="hero">
-        <div class="container">
-            <div class="hero-badge">
-                <i class="fas fa-map-marker-alt"></i> Based in San Diego, CA • Serving All 50 States
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-map-marker-alt"></i> Based in San Diego, CA • Serving All 50 States
+                </div>
+                <h1>Automate Your Plumbing Business with AI</h1>
+                <p>Smart scheduling, SMS automation, and customer management — all in one platform designed for modern plumbers.</p>
+                <div class="cta-buttons">
+                    <a href="#pricing" class="btn btn-primary">Start Free Trial</a>
+                    <a href="#features" class="btn btn-outline">Learn More</a>
+                </div>
             </div>
-            <h1>Revolutionize Your Plumbing Business with AI Automation</h1>
-            <p>Streamline scheduling, invoicing, customer management, and dispatch — all in one powerful platform designed for plumbers across America.</p>
-            <div class="cta-buttons">
-                <a href="#pricing" class="btn btn-primary">Start Free Trial</a>
-                <a href="#features" class="btn btn-outline">Learn More</a>
+
+            <!-- Phone SMS Automation Mockup -->
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="phone-header">
+                        <i class="fas fa-comment-dots"></i>
+                        <h3>MyRingReply AI Assistant</h3>
+                        <p>Online • Automated</p>
+                    </div>
+                    <div class="chat-area">
+                        <div class="message message-incoming">
+                            Hi! I need a plumber for a leaking pipe.
+                            <span class="message-time">10:32 AM</span>
+                        </div>
+                        <div class="message message-outgoing">
+                            👋 Hi there! We can help with that. Can you share your address?
+                            <span class="message-time">10:32 AM</span>
+                        </div>
+                        <div class="message message-incoming">
+                            123 Main St, San Diego, CA
+                            <span class="message-time">10:33 AM</span>
+                        </div>
+                        <div class="message message-outgoing">
+                            ✅ Great! A plumber will arrive between 2-4 PM today. You'll get a text when they're on the way.
+                            <span class="message-time">10:33 AM</span>
+                        </div>
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                        <div class="message message-incoming">
+                            Perfect, thank you!
+                            <span class="message-time">10:34 AM</span>
+                        </div>
+                    </div>
+                    <div class="phone-input">
+                        <i class="fas fa-paperclip"></i>
+                        <input type="text" placeholder="Type a message...">
+                        <button><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -645,7 +846,7 @@
         <div class="container stats-grid">
             <div class="stat-item">
                 <h3>5,000+</h3>
-                <p>Plumbers Using PlumbFlow</p>
+                <p>Plumbers Using MyRingReply</p>
             </div>
             <div class="stat-item">
                 <h3>2M+</h3>
@@ -686,10 +887,10 @@
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
+                        <i class="fas fa-comment-sms"></i>
                     </div>
-                    <h3>AI Customer Support</h3>
-                    <p>24/7 automated responses to customer inquiries, booking requests, and FAQs. Never miss a lead again.</p>
+                    <h3>SMS Automation</h3>
+                    <p>Automated text messages for booking confirmations, job reminders, and follow-ups. Customers love the instant communication.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -720,7 +921,7 @@
     <section id="how-it-works" class="how-it-works">
         <div class="container">
             <div class="section-header">
-                <h2>How PlumbFlow AI Works</h2>
+                <h2>How MyRingReply Works</h2>
                 <p>Get up and running in less than 5 minutes</p>
             </div>
             <div class="steps-grid">
@@ -771,7 +972,7 @@
                        class="btn-subscribe" 
                        target="_blank" 
                        rel="noopener">
-                        <i class="fas fa-rocket"></i> Buy Starter
+                        <i class="fas fa-rocket"></i> Buy Starter - $49
                     </a>
                 </div>
 
@@ -789,10 +990,10 @@
                         <li><i class="fas fa-check"></i> Priority support</li>
                     </ul>
                     <a href="https://buy.stripe.com/eVq7sEcXwdDOgQXbqV00000" 
-                       class="btn-subscribe popular-btn" 
+                       class="btn-subscribe" 
                        target="_blank" 
                        rel="noopener">
-                        <i class="fas fa-crown"></i> Buy Growth
+                        <i class="fas fa-crown"></i> Buy Growth - $99
                     </a>
                 </div>
             </div>
@@ -804,7 +1005,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Trusted by Plumbers Across America</h2>
-                <p>See how PlumbFlow AI is transforming plumbing businesses</p>
+                <p>See how MyRingReply is transforming plumbing businesses</p>
             </div>
             <div class="testimonial-grid">
                 <div class="testimonial-card">
@@ -815,7 +1016,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"PlumbFlow AI has completely transformed my business. I was spending 10+ hours a week on scheduling and invoicing. Now it's all automated. Best investment I've made!"</p>
+                    <p class="testimonial-text">"MyRingReply has completely transformed my business. I was spending 10+ hours a week on scheduling and invoicing. Now it's all automated. Best investment I've made!"</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">MJ</div>
                         <div>
@@ -832,7 +1033,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"The AI customer support alone is worth it. I never miss a lead now, even when I'm on a job. My revenue has increased 40% since switching to PlumbFlow."</p>
+                    <p class="testimonial-text">"The SMS automation is a game-changer. My customers love getting text updates, and I never miss a booking. My revenue has increased 40% since switching to MyRingReply."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">SR</div>
                         <div>
@@ -849,7 +1050,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"As a growing plumbing company, we needed a solution that could scale with us. PlumbFlow AI did exactly that. The route optimization alone saves us hundreds in fuel each month."</p>
+                    <p class="testimonial-text">"As a growing plumbing company, we needed a solution that could scale with us. MyRingReply did exactly that. The route optimization alone saves us hundreds in fuel each month."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">DC</div>
                         <div>
@@ -866,7 +1067,7 @@
     <section class="cta-section">
         <div class="container">
             <h2>Ready to Transform Your Plumbing Business?</h2>
-            <p>Join thousands of plumbers across the US who are saving time and making more money with PlumbFlow AI.</p>
+            <p>Join thousands of plumbers across the US who are saving time and making more money with MyRingReply.</p>
             <div class="cta-buttons">
                 <a href="#pricing" class="btn btn-primary">Get Started Today</a>
                 <a href="#" class="btn btn-outline">Book a Demo</a>
@@ -879,7 +1080,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-column">
-                    <h4><i class="fas fa-wrench"></i> PlumbFlow AI</h4>
+                    <h4><i class="fas fa-wrench"></i> MyRingReply</h4>
                     <p>Smart plumbing automation for the modern plumber. Based in San Diego, serving all 50 states.</p>
                 </div>
                 <div class="footer-column">
@@ -894,7 +1095,7 @@
                 <div class="footer-column">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="mailto:support@plumbflow.ai"><i class="fas fa-envelope"></i> support@plumbflow.ai</a></li>
+                        <li><a href="mailto:support@myringreply.ai"><i class="fas fa-envelope"></i> support@myringreply.ai</a></li>
                         <li><a href="tel:18005551234"><i class="fas fa-phone"></i> 1-800-555-1234</a></li>
                         <li><i class="fas fa-map-marker-alt"></i> San Diego, CA</li>
                     </ul>
@@ -910,7 +1111,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 PlumbFlow AI. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent);"></i> in San Diego, CA</p>
+                <p>&copy; 2024 MyRingReply. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent);"></i> in San Diego, CA</p>
             </div>
         </div>
     </footer>
