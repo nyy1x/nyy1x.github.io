@@ -4,13 +4,55 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>My Ring Reply - 24/7 AI Call Answering for Plumbers</title>
+<script src="https://js.stripe.com/v3/"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   color: #1a1a2e;
   background: #fff;
+  overflow-x: hidden;
 }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); }
+  50%       { box-shadow: 0 0 0 12px rgba(249,115,22,0); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up   { animation: fadeInUp 0.7s ease both; }
+.animate-fade      { animation: fadeIn 0.8s ease both; }
+.animate-left      { animation: slideInLeft 0.7s ease both; }
+.animate-right     { animation: slideInRight 0.7s ease both; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
 
 /* ─── NAV ─── */
 nav {
@@ -22,6 +64,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 999;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
 }
 nav .logo { color: #fff; font-size: 1.3rem; font-weight: 700; }
 nav .logo span { color: #f97316; }
@@ -39,6 +82,7 @@ nav .nav-cta {
   padding: 8px 18px;
   border-radius: 6px;
   font-weight: 600;
+  animation: pulse 2s infinite;
 }
 nav .nav-cta:hover { background: #ea6c0a; }
 
@@ -46,10 +90,10 @@ nav .nav-cta:hover { background: #ea6c0a; }
 .hero {
   position: relative;
   color: #fff;
-  padding: 100px 40px 70px;
+  padding: 110px 40px 80px;
   text-align: center;
   overflow: hidden;
-  min-height: 520px;
+  min-height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,59 +101,75 @@ nav .nav-cta:hover { background: #ea6c0a; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1400&auto=format&fit=crop');
+  background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1600&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
   z-index: 0;
+  transform: scale(1.05);
+  animation: heroZoom 8s ease-out forwards;
+}
+@keyframes heroZoom {
+  from { transform: scale(1.1); }
+  to   { transform: scale(1.0); }
 }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(10,10,35,0.88) 0%, rgba(26,26,78,0.82) 100%);
+  background: linear-gradient(135deg, rgba(10,10,35,0.90) 0%, rgba(26,26,78,0.85) 100%);
   z-index: 1;
 }
 .hero-content { position: relative; z-index: 2; width: 100%; }
 .hero h1 {
-  font-size: 2.8rem;
+  font-size: 2.9rem;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 20px;
-  max-width: 750px;
+  max-width: 780px;
   margin-left: auto;
   margin-right: auto;
+  animation: fadeInUp 0.8s ease both;
 }
 .hero h1 span { color: #f97316; }
 .hero p {
   font-size: 1.15rem;
   color: #b0b8d4;
   max-width: 600px;
-  margin: 0 auto 32px;
+  margin: 0 auto 36px;
   line-height: 1.7;
+  animation: fadeInUp 0.8s 0.2s ease both;
 }
-.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s 0.4s ease both;
+}
 .btn-primary {
   background: #f97316;
   color: #fff;
-  padding: 14px 28px;
+  padding: 15px 30px;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-block;
 }
-.btn-primary:hover { background: #ea6c0a; }
+.btn-primary:hover { background: #ea6c0a; transform: translateY(-2px); }
 .btn-secondary {
   background: transparent;
   color: #fff;
-  padding: 14px 28px;
+  padding: 15px 30px;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   border: 2px solid #fff;
   transition: all 0.2s;
+  display: inline-block;
 }
-.btn-secondary:hover { background: #fff; color: #0a0a23; }
+.btn-secondary:hover { background: #fff; color: #0a0a23; transform: translateY(-2px); }
 
 /* ─── STATS BAR ─── */
 .stats {
@@ -117,49 +177,61 @@ nav .nav-cta:hover { background: #ea6c0a; }
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0;
 }
 .stat-item {
   text-align: center;
-  padding: 24px 40px;
+  padding: 26px 44px;
   color: #fff;
   border-right: 1px solid rgba(255,255,255,0.3);
+  animation: countUp 0.6s ease both;
+  transition: background 0.2s;
 }
+.stat-item:hover { background: rgba(0,0,0,0.1); }
 .stat-item:last-child { border-right: none; }
-.stat-item .num { font-size: 2rem; font-weight: 800; display: block; }
+.stat-item .num {
+  font-size: 2.1rem;
+  font-weight: 800;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
 .stat-item .label { font-size: 0.85rem; opacity: 0.9; }
 
 /* ─── SECTIONS ─── */
-section { padding: 70px 40px; }
+section { padding: 80px 40px; }
 .section-inner { max-width: 1100px; margin: 0 auto; }
 .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 12px; color: #0a0a23; }
-.section-sub { color: #555; font-size: 1.05rem; margin-bottom: 40px; line-height: 1.7; }
+.section-sub { color: #555; font-size: 1.05rem; margin-bottom: 44px; line-height: 1.7; max-width: 680px; }
 
-/* ─── PROBLEM SECTION ─── */
+/* ─── PROBLEM ─── */
 .problem { background: #fafafa; }
 .problem-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 56px;
   align-items: center;
 }
 .problem-img {
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  transform: perspective(800px) rotateY(-3deg);
+  transition: transform 0.4s;
 }
+.problem-img:hover { transform: perspective(800px) rotateY(0deg); }
 .problem-img img {
   width: 100%;
-  height: 340px;
+  height: 360px;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s;
 }
+.problem-img:hover img { transform: scale(1.04); }
 .problem-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 .problem-list li {
   background: #fff;
@@ -169,34 +241,36 @@ section { padding: 70px 40px; }
   border-radius: 8px;
   font-size: 0.95rem;
   color: #333;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
+.problem-list li:hover { transform: translateX(4px); box-shadow: 0 4px 12px rgba(0,0,0,0.07); }
 .problem-list li i { color: #ef4444; font-style: normal; font-weight: 700; margin-right: 8px; }
 
 /* ─── BUILT BY PLUMBERS ─── */
 .built { background: #fff; }
 .built-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 24px;
 }
 .built-card {
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
   background: #f8faff;
-  transition: transform 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: default;
 }
-.built-card:hover { transform: translateY(-4px); }
+.built-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.13); }
 .built-card img {
   width: 100%;
-  height: 180px;
+  height: 190px;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s;
 }
-.built-card-body {
-  padding: 18px 20px;
-  text-align: center;
-}
+.built-card:hover img { transform: scale(1.06); }
+.built-card-body { padding: 18px 20px; text-align: center; }
 .built-card-body .icon { font-size: 2rem; margin-bottom: 8px; }
 .built-card-body p { font-weight: 600; color: #0a0a23; font-size: 0.95rem; }
 
@@ -204,23 +278,25 @@ section { padding: 70px 40px; }
 .features { background: #f8faff; }
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 26px;
 }
 .feature-card {
   background: #fff;
   border: 1px solid #e0e7ff;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.feature-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
 .feature-card img {
   width: 100%;
-  height: 160px;
+  height: 170px;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s;
 }
+.feature-card:hover img { transform: scale(1.05); }
 .feature-card-body { padding: 22px 20px; }
 .feature-icon { font-size: 2rem; margin-bottom: 10px; }
 .feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: #0a0a23; }
@@ -232,13 +308,21 @@ section { padding: 70px 40px; }
 .how .section-sub { color: #b0b8d4; }
 .steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 24px;
 }
-.step { text-align: center; padding: 24px; }
+.step {
+  text-align: center;
+  padding: 28px 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.3s, transform 0.3s;
+}
+.step:hover { background: rgba(249,115,22,0.1); transform: translateY(-4px); }
 .step-num {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   background: #f97316;
   border-radius: 50%;
   display: flex;
@@ -248,57 +332,62 @@ section { padding: 70px 40px; }
   font-weight: 800;
   color: #fff;
   margin: 0 auto 16px;
+  animation: float 3s ease-in-out infinite;
 }
 .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
 .step p { color: #b0b8d4; font-size: 0.9rem; line-height: 1.6; }
-
-/* ─── HOW IT WORKS IMAGE STRIP ─── */
 .how-images {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
-  margin-top: 40px;
+  margin-top: 44px;
 }
 .how-img-card {
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   position: relative;
+  transition: transform 0.3s;
 }
+.how-img-card:hover { transform: scale(1.03); }
 .how-img-card img {
   width: 100%;
-  height: 160px;
+  height: 170px;
   object-fit: cover;
   display: block;
-  opacity: 0.75;
+  opacity: 0.72;
+  transition: opacity 0.3s;
 }
+.how-img-card:hover img { opacity: 0.9; }
 .how-img-label {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(249,115,22,0.85);
+  background: rgba(249,115,22,0.88);
   color: #fff;
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   font-weight: 700;
-  padding: 8px 12px;
+  padding: 9px 14px;
   text-align: center;
 }
 
 /* ─── PRICING ─── */
 .pricing { background: #f8faff; }
 .pricing-banner {
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
   position: relative;
-  height: 180px;
+  height: 190px;
 }
 .pricing-banner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 8s ease;
 }
+.pricing-banner:hover img { transform: scale(1.05); }
 .pricing-banner-overlay {
   position: absolute;
   inset: 0;
@@ -309,30 +398,30 @@ section { padding: 70px 40px; }
 }
 .pricing-banner-overlay p {
   color: #fff;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 800;
   text-align: center;
   padding: 0 20px;
 }
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 26px;
   align-items: start;
 }
 .pricing-card {
   background: #fff;
   border: 2px solid #e0e7ff;
-  border-radius: 16px;
-  padding: 36px 28px;
+  border-radius: 18px;
+  padding: 38px 30px;
   text-align: center;
   position: relative;
-  transition: transform 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(0,0,0,0.1); }
 .pricing-card.popular {
   border-color: #f97316;
-  box-shadow: 0 8px 32px rgba(249,115,22,0.15);
+  box-shadow: 0 8px 32px rgba(249,115,22,0.18);
 }
 .popular-badge {
   position: absolute;
@@ -343,17 +432,17 @@ section { padding: 70px 40px; }
   color: #fff;
   font-size: 0.78rem;
   font-weight: 700;
-  padding: 4px 16px;
+  padding: 5px 18px;
   border-radius: 20px;
   white-space: nowrap;
 }
 .pricing-card h3 { font-size: 1.2rem; font-weight: 700; color: #0a0a23; margin-bottom: 6px; }
-.pricing-card .price { font-size: 2.4rem; font-weight: 800; color: #f97316; margin: 12px 0 4px; }
+.pricing-card .price { font-size: 2.5rem; font-weight: 800; color: #f97316; margin: 14px 0 4px; }
 .pricing-card .price span { font-size: 1rem; color: #888; font-weight: 400; }
-.pricing-card .tagline { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
-.pricing-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
+.pricing-card .tagline { color: #888; font-size: 0.9rem; margin-bottom: 22px; }
+.pricing-card ul { list-style: none; text-align: left; margin-bottom: 30px; }
 .pricing-card ul li {
-  padding: 7px 0;
+  padding: 8px 0;
   font-size: 0.93rem;
   color: #333;
   border-bottom: 1px solid #f0f0f0;
@@ -363,14 +452,14 @@ section { padding: 70px 40px; }
   display: block;
   background: #0a0a23;
   color: #fff;
-  padding: 13px 20px;
+  padding: 14px 20px;
   border-radius: 8px;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
   font-size: 0.97rem;
 }
-.btn-plan:hover { background: #1a1a4e; }
+.btn-plan:hover { background: #1a1a4e; transform: translateY(-2px); }
 .pricing-card.popular .btn-plan { background: #f97316; }
 .pricing-card.popular .btn-plan:hover { background: #ea6c0a; }
 
@@ -378,28 +467,32 @@ section { padding: 70px 40px; }
 .testimonials { background: #fff; }
 .testi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 26px;
 }
 .testi-card {
   background: #f8faff;
   border: 1px solid #e0e7ff;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
+.testi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,0,0,0.09); }
 .testi-img img {
   width: 100%;
-  height: 160px;
+  height: 170px;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s;
 }
+.testi-card:hover .testi-img img { transform: scale(1.04); }
 .testi-body { padding: 24px; }
 .stars { color: #f97316; font-size: 1.1rem; margin-bottom: 12px; }
 .testi-body p { color: #444; font-size: 0.93rem; line-height: 1.7; margin-bottom: 20px; }
 .testi-author { display: flex; align-items: center; gap: 12px; }
 .avatar {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #0a0a23;
   color: #fff;
@@ -413,128 +506,260 @@ section { padding: 70px 40px; }
 .author-info .name { font-weight: 700; font-size: 0.95rem; color: #0a0a23; }
 .author-info .role { color: #888; font-size: 0.83rem; }
 
-/* ─── CTA SECTION ─── */
+/* ─── CTA ─── */
 .cta-section {
-  background: linear-gradient(135deg, #0a0a23, #1a1a4e);
+  position: relative;
   color: #fff;
   text-align: center;
-  padding: 80px 40px;
-  position: relative;
+  padding: 90px 40px;
   overflow: hidden;
 }
-.cta-section::before {
-  content: '';
+.cta-bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1400&auto=format&fit=crop');
+  background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
-  opacity: 0.12;
+  z-index: 0;
+}
+.cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10,10,35,0.92), rgba(26,26,78,0.88));
+  z-index: 1;
 }
 .cta-content { position: relative; z-index: 2; }
-.cta-section h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; }
+.cta-section h2 { font-size: 2.3rem; font-weight: 800; margin-bottom: 16px; }
 .cta-section p {
   color: #b0b8d4;
   font-size: 1.05rem;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   max-width: 560px;
   margin-left: auto;
   margin-right: auto;
 }
 .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-/* ─── PAYMENT SECTION ─── */
+/* ═══════════════════════════════════════
+   CHECKOUT PAGE (Stripe-style)
+═══════════════════════════════════════ */
 #payment {
-  background: #f8faff;
-  padding: 70px 40px;
+  background: #1a1a2e;
+  padding: 70px 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
-.payment-inner {
-  max-width: 480px;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 16px;
-  border: 1px solid #e0e7ff;
-  padding: 40px 36px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+.checkout-wrap {
+  max-width: 900px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: fadeInUp 0.6s ease both;
 }
-.payment-header { text-align: center; margin-bottom: 28px; }
-.payment-header h2 { font-size: 1.5rem; font-weight: 800; color: #0a0a23; margin-bottom: 6px; }
-.payment-header .plan-name { color: #888; font-size: 0.95rem; }
-.payment-summary {
-  background: #f8faff;
-  border-radius: 10px;
-  padding: 16px 20px;
-  margin-bottom: 24px;
+
+/* LEFT PANEL — Order Summary */
+.checkout-left {
+  background: #111827;
+  padding: 44px 36px;
+  color: #fff;
 }
-.summary-row {
+.checkout-logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checkout-logo span { color: #f97316; }
+.checkout-amount {
+  margin-bottom: 32px;
+}
+.checkout-amount .pay-to {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.checkout-amount .big-price {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #fff;
+}
+.order-item {
+  background: #1f2937;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
-  font-size: 0.93rem;
-  color: #555;
-  padding: 5px 0;
+  align-items: center;
+  border: 1px solid #374151;
 }
-.summary-row.total {
-  border-top: 1px solid #e0e7ff;
-  margin-top: 8px;
-  padding-top: 10px;
-  font-weight: 700;
-  color: #0a0a23;
+.order-item-left { display: flex; align-items: center; gap: 14px; }
+.order-item-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #f97316, #ea6c0a);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+.order-item-name { font-weight: 700; font-size: 0.95rem; color: #fff; }
+.order-item-desc { font-size: 0.8rem; color: #9ca3af; margin-top: 2px; }
+.order-item-price { font-weight: 700; color: #f97316; font-size: 1.05rem; }
+
+.order-lines { margin-top: 24px; }
+.order-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  padding: 8px 0;
+  border-bottom: 1px solid #1f2937;
+}
+.order-line.total {
+  border-bottom: none;
+  border-top: 1px solid #374151;
+  margin-top: 4px;
+  padding-top: 14px;
+  font-weight: 800;
+  color: #fff;
   font-size: 1rem;
 }
-.form-group { margin-bottom: 18px; }
-.form-group label {
-  display: block;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
+
+.secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 0.8rem;
+  color: #6b7280;
 }
-.form-group input,
-.form-group select {
+.secure-badge svg { flex-shrink: 0; }
+
+/* RIGHT PANEL — Payment Form */
+.checkout-right {
+  background: #fff;
+  padding: 44px 36px;
+}
+.checkout-right h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 24px;
+}
+.co-form-group { margin-bottom: 16px; }
+.co-form-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.co-form-group input,
+.co-form-group select {
   width: 100%;
-  padding: 11px 14px;
-  border: 1px solid #d1d5db;
+  padding: 12px 14px;
+  border: 1.5px solid #d1d5db;
   border-radius: 8px;
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   background: #fff;
+  color: #111;
 }
-.form-group input:focus,
-.form-group select:focus { border-color: #f97316; }
-.card-row { display: flex; gap: 12px; }
-.card-row .form-group { flex: 1; }
+.co-form-group input:focus,
+.co-form-group select:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+}
+.co-row { display: flex; gap: 12px; }
+.co-row .co-form-group { flex: 1; }
 
-/* ─── PAYMENT METHOD TABS ─── */
-.payment-methods {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-.pay-method {
-  flex: 1;
-  min-width: 90px;
-  text-align: center;
-  padding: 10px 8px;
-  border: 2px solid #e0e7ff;
-  border-radius: 8px;
+/* Payment Method Selector */
+.pm-label {
   font-size: 0.82rem;
   font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.pm-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.pm-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
   background: #fff;
-  user-select: none;
+  position: relative;
 }
-.pay-method:hover { border-color: #f97316; }
-.pay-method.active {
-  border-color: #f97316;
-  color: #f97316;
-  background: #fff8f3;
+.pm-option:hover { border-color: #f97316; background: #fff8f3; }
+.pm-option.active { border-color: #f97316; background: #fff8f3; }
+.pm-option .pm-icon {
+  width: 44px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
+.pm-option .pm-name {
+  font-weight: 600;
+  font-size: 0.93rem;
+  color: #111827;
+  flex: 1;
+}
+.pm-option .pm-cards { display: flex; gap: 4px; align-items: center; }
+.card-badge {
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  padding: 2px 5px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-badge.visa { background: #1a1f71; color: #fff; }
+.card-badge.mc { background: linear-gradient(90deg,#eb001b,#f79e1b); color: #fff; }
+.card-badge.amex { background: #2e77bc; color: #fff; }
+.card-badge.disc { background: #e65c00; color: #fff; }
 
-/* Google Pay button style */
-.gpay-btn {
+/* Stripe Element container */
+#stripe-card-element {
+  padding: 12px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+}
+#stripe-card-element.StripeElement--focus { border-color: #f97316; }
+
+/* Google Pay / Apple Pay buttons */
+#gpay-btn-container, #apay-btn-container {
+  margin-bottom: 16px;
+}
+.wallet-pay-btn {
   width: 100%;
   background: #000;
   color: #fff;
@@ -548,64 +773,55 @@ section { padding: 70px 40px; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 12px;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
-.gpay-btn:hover { background: #222; }
+.wallet-pay-btn:hover { background: #1f2937; transform: translateY(-1px); }
 
-/* Apple Pay button style */
-.apay-btn {
-  width: 100%;
-  background: #000;
-  color: #fff;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  transition: background 0.2s;
-}
-.apay-btn:hover { background: #222; }
-
-.pay-terms {
-  font-size: 0.78rem;
-  color: #888;
+.co-terms {
+  font-size: 0.76rem;
+  color: #6b7280;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   text-align: center;
 }
-.pay-terms a { color: #f97316; text-decoration: none; }
-.btn-pay {
+.co-terms a { color: #f97316; text-decoration: none; }
+
+.btn-pay-now {
   width: 100%;
   background: #f97316;
   color: #fff;
-  padding: 15px;
+  padding: 16px;
   border: none;
-  border-radius: 8px;
-  font-size: 1.05rem;
-  font-weight: 700;
+  border-radius: 10px;
+  font-size: 1.08rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(249,115,22,0.35);
 }
-.btn-pay:hover { background: #ea6c0a; }
+.btn-pay-now:hover { background: #ea6c0a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.4); }
+.btn-pay-now:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
 
-/* ─── CARD FIELDS (shown/hidden) ─── */
-#card-fields { display: block; }
-#gpay-section { display: none; }
-#apay-section { display: none; }
+#payment-message {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 20px;
+}
+#payment-message.success { color: #16a34a; }
+#payment-message.error   { color: #dc2626; }
 
 /* ─── FOOTER ─── */
 footer {
   background: #0a0a23;
   color: #b0b8d4;
   text-align: center;
-  padding: 32px 40px;
+  padding: 34px 40px;
   font-size: 0.88rem;
 }
 footer a { color: #f97316; text-decoration: none; }
@@ -619,31 +835,33 @@ footer a { color: #f97316; text-decoration: none; }
   color: #fff;
   border: none;
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: background 0.2s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  transition: background 0.2s, transform 0.2s;
   z-index: 999;
+  animation: pulse 2.5s infinite;
 }
-.scroll-top:hover { background: #ea6c0a; }
+.scroll-top:hover { background: #ea6c0a; transform: scale(1.1); }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   .problem-layout { grid-template-columns: 1fr; }
   .problem-img { order: -1; }
+  .checkout-wrap { grid-template-columns: 1fr; }
+  .checkout-left { padding: 32px 24px; }
+  .checkout-right { padding: 32px 24px; }
 }
 @media (max-width: 640px) {
   .hero h1 { font-size: 1.9rem; }
   nav .nav-links { display: none; }
-  section { padding: 50px 20px; }
-  .hero { padding: 60px 20px 40px; min-height: 420px; }
+  section { padding: 52px 20px; }
+  .hero { padding: 70px 20px 50px; min-height: 460px; }
   .stat-item { padding: 18px 20px; }
-  .payment-inner { padding: 28px 20px; }
-  #payment { padding: 50px 16px; }
-  .pricing-banner { height: 130px; }
-  .pricing-banner-overlay p { font-size: 1.1rem; }
+  #payment { padding: 40px 12px; }
+  .checkout-left, .checkout-right { padding: 28px 18px; }
 }
 </style>
 </head>
@@ -656,7 +874,7 @@ footer a { color: #f97316; text-decoration: none; }
     <a href="#features">Features</a>
     <a href="#how">How It Works</a>
     <a href="#pricing">Pricing</a>
-    <a href="#payment" class="nav-cta">📞 Get Started</a>
+    <a href="tel:6575055112" class="nav-cta">📞 Get Started</a>
   </div>
 </nav>
 
@@ -668,7 +886,7 @@ footer a { color: #f97316; text-decoration: none; }
     <h1>Every Missed Call Is a Job That Went to <span>Your Competitor</span></h1>
     <p>You're under a sink or elbow-deep in a job, and the phone rings. You can't answer. It goes to voicemail. Most callers just hang up and call the next plumber on the list.</p>
     <div class="hero-btns">
-      <a href="#payment" class="btn-primary">📞 Book a Demo</a>
+      <a href="tel:6575055112" class="btn-primary">📞 Book a Demo</a>
       <a href="#features" class="btn-secondary">How We're Different</a>
     </div>
   </div>
@@ -676,17 +894,17 @@ footer a { color: #f97316; text-decoration: none; }
 
 <!-- ─── STATS ─── -->
 <div class="stats">
-  <div class="stat-item"><span class="num">15+</span><span class="label">Plumbing Companies Using Us</span></div>
-  <div class="stat-item"><span class="num">5,000+</span><span class="label">Calls Answered</span></div>
-  <div class="stat-item"><span class="num">4.9★</span><span class="label">Average Rating</span></div>
-  <div class="stat-item"><span class="num">24/7</span><span class="label">Always On</span></div>
+  <div class="stat-item animate-fade-up delay-1"><span class="num">15+</span><span class="label">Plumbing Companies Using Us</span></div>
+  <div class="stat-item animate-fade-up delay-2"><span class="num">5,000+</span><span class="label">Calls Answered</span></div>
+  <div class="stat-item animate-fade-up delay-3"><span class="num">4.9★</span><span class="label">Average Rating</span></div>
+  <div class="stat-item animate-fade-up delay-4"><span class="num">24/7</span><span class="label">Always On</span></div>
 </div>
 
 <!-- ─── PROBLEM ─── -->
 <section class="problem">
   <div class="section-inner">
     <div class="problem-layout">
-      <div class="problem-text">
+      <div class="problem-text animate-left">
         <h2 class="section-title">Sound Familiar?</h2>
         <p class="section-sub">These are the problems every plumbing business faces — and why jobs keep slipping away.</p>
         <ul class="problem-list">
@@ -696,12 +914,15 @@ footer a { color: #f97316; text-decoration: none; }
           <li><i>✗</i> No system for after-hours emergencies</li>
         </ul>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <a href="#payment" class="btn-primary">📞 Book a Demo</a>
+          <a href="tel:6575055112" class="btn-primary">📞 Book a Demo</a>
           <a href="#features" class="btn-secondary" style="color:#0a0a23;border-color:#0a0a23;">How We're Different</a>
         </div>
       </div>
-      <div class="problem-img">
-        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=700&auto=format&fit=crop" alt="Plumber working on pipes" />
+      <div class="problem-img animate-right">
+        <img
+          src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&auto=format&fit=crop"
+          alt="Plumber working under sink"
+        />
       </div>
     </div>
   </div>
@@ -710,32 +931,32 @@ footer a { color: #f97316; text-decoration: none; }
 <!-- ─── BUILT BY PLUMBERS ─── -->
 <section class="built">
   <div class="section-inner">
-    <h2 class="section-title">Built By People Who Know Plumbing</h2>
-    <p class="section-sub">My Ring Reply is made for the crews out in the field every day.</p>
+    <h2 class="section-title animate-fade-up">Built By People Who Know Plumbing</h2>
+    <p class="section-sub animate-fade-up delay-1">My Ring Reply is made for the crews out in the field every day.</p>
     <div class="built-grid">
-      <div class="built-card">
+      <div class="built-card animate-fade-up delay-1">
         <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop" alt="Plumber on job" />
         <div class="built-card-body">
           <div class="icon">🔧</div>
           <p>On every job, on time</p>
         </div>
       </div>
-      <div class="built-card">
+      <div class="built-card animate-fade-up delay-2">
         <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&auto=format&fit=crop" alt="Plumber fixing pipes" />
         <div class="built-card-body">
           <div class="icon">🚿</div>
           <p>Kitchen &amp; bath repairs</p>
         </div>
       </div>
-      <div class="built-card">
-        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&auto=format&fit=crop" alt="Tradesperson at work" />
+      <div class="built-card animate-fade-up delay-3">
+        <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&auto=format&fit=crop" alt="Plumber at work" />
         <div class="built-card-body">
           <div class="icon">💪</div>
           <p>Hands-on, every time</p>
         </div>
       </div>
-      <div class="built-card">
-        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop" alt="Plumber inspecting" />
+      <div class="built-card animate-fade-up delay-4">
+        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop" alt="Plumber inspecting pipes" />
         <div class="built-card-body">
           <div class="icon">📋</div>
           <p>Detailed &amp; professional</p>
@@ -748,64 +969,57 @@ footer a { color: #f97316; text-decoration: none; }
 <!-- ─── FEATURES ─── -->
 <section class="features" id="features">
   <div class="section-inner">
-    <h2 class="section-title">What My Ring Reply Does For Your Business</h2>
-    <p class="section-sub">Everything you need to stop losing jobs to a ringing phone.</p>
+    <h2 class="section-title animate-fade-up">What My Ring Reply Does For Your Business</h2>
+    <p class="section-sub animate-fade-up delay-1">Everything you need to stop losing jobs to a ringing phone.</p>
     <div class="features-grid">
-
-      <div class="feature-card">
-        <img src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=600&auto=format&fit=crop" alt="Phone answering" />
+      <div class="feature-card animate-fade-up delay-1">
+        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=700&auto=format&fit=crop" alt="Plumber answering call" />
         <div class="feature-card-body">
           <div class="feature-icon">📞</div>
           <h3>24/7 AI Call Answering</h3>
           <p>Every call gets picked up in seconds, day or night, whether your team is on a job or off the clock.</p>
         </div>
       </div>
-
-      <div class="feature-card">
-        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=600&auto=format&fit=crop" alt="Calendar booking" />
+      <div class="feature-card animate-fade-up delay-2">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&auto=format&fit=crop" alt="Plumber scheduling job" />
         <div class="feature-card-body">
           <div class="feature-icon">📅</div>
           <h3>Automatic Job Booking</h3>
           <p>The AI collects the details and books the job straight into your calendar — no back-and-forth required.</p>
         </div>
       </div>
-
-      <div class="feature-card">
-        <img src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=600&auto=format&fit=crop" alt="Text message" />
+      <div class="feature-card animate-fade-up delay-3">
+        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=700&auto=format&fit=crop" alt="Plumber with pipe" />
         <div class="feature-card-body">
           <div class="feature-icon">💬</div>
           <h3>Missed-Call Text-Back</h3>
           <p>If a call ever slips through, we instantly text the customer so they don't call a competitor instead.</p>
         </div>
       </div>
-
-      <div class="feature-card">
-        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop" alt="Emergency plumbing" />
+      <div class="feature-card animate-fade-up delay-1">
+        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=700&auto=format&fit=crop" alt="Emergency plumbing" />
         <div class="feature-card-body">
           <div class="feature-icon">🚨</div>
           <h3>Emergency Call Triage</h3>
           <p>The AI knows the difference between a slow drain and a burst pipe, and routes urgent jobs to you first.</p>
         </div>
       </div>
-
-      <div class="feature-card">
-        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&auto=format&fit=crop" alt="5 star review" />
+      <div class="feature-card animate-fade-up delay-2">
+        <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=700&auto=format&fit=crop" alt="Happy plumber customer" />
         <div class="feature-card-body">
           <div class="feature-icon">⭐</div>
           <h3>Automated Review Requests</h3>
           <p>After every completed job, happy customers get a friendly nudge to leave you a 5-star review.</p>
         </div>
       </div>
-
-      <div class="feature-card">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop" alt="Dashboard analytics" />
+      <div class="feature-card animate-fade-up delay-3">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&auto=format&fit=crop" alt="Plumbing business dashboard" />
         <div class="feature-card-body">
           <div class="feature-icon">📊</div>
           <h3>Call Dashboard &amp; Insights</h3>
           <p>See every call, booked job, and missed lead in one simple dashboard — know exactly what's driving revenue.</p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -813,45 +1027,45 @@ footer a { color: #f97316; text-decoration: none; }
 <!-- ─── HOW IT WORKS ─── -->
 <section class="how" id="how">
   <div class="section-inner">
-    <h2 class="section-title">How It Works</h2>
-    <p class="section-sub">Getting set up takes minutes. Here's what happens after you sign up.</p>
+    <h2 class="section-title animate-fade-up">How It Works</h2>
+    <p class="section-sub animate-fade-up delay-1">Getting set up takes minutes. Here's what happens after you sign up.</p>
     <div class="steps">
-      <div class="step">
+      <div class="step animate-fade-up delay-1">
         <div class="step-num">1</div>
         <h3>We Set Up Your Line</h3>
         <p>We connect My Ring Reply to your existing business number — no new number needed.</p>
       </div>
-      <div class="step">
+      <div class="step animate-fade-up delay-2">
         <div class="step-num">2</div>
         <h3>AI Answers Every Call</h3>
         <p>Customers get a friendly, knowledgeable voice that sounds just like a real dispatcher.</p>
       </div>
-      <div class="step">
+      <div class="step animate-fade-up delay-3">
         <div class="step-num">3</div>
         <h3>Job Gets Booked</h3>
         <p>Details are captured and the job is scheduled straight into your calendar automatically.</p>
       </div>
-      <div class="step">
+      <div class="step animate-fade-up delay-4">
         <div class="step-num">4</div>
         <h3>You Show Up &amp; Get Paid</h3>
         <p>You just show up to a booked job — no missed leads, no phone tag, no hassle.</p>
       </div>
     </div>
     <div class="how-images">
-      <div class="how-img-card">
-        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop" alt="Step 1" />
+      <div class="how-img-card animate-fade-up delay-1">
+        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop" alt="Plumber setup" />
         <div class="how-img-label">Step 1 — Setup</div>
       </div>
-      <div class="how-img-card">
-        <img src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=600&auto=format&fit=crop" alt="Step 2" />
+      <div class="how-img-card animate-fade-up delay-2">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop" alt="AI answers" />
         <div class="how-img-label">Step 2 — AI Answers</div>
       </div>
-      <div class="how-img-card">
-        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=600&auto=format&fit=crop" alt="Step 3" />
+      <div class="how-img-card animate-fade-up delay-3">
+        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&auto=format&fit=crop" alt="Job booked" />
         <div class="how-img-label">Step 3 — Job Booked</div>
       </div>
-      <div class="how-img-card">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop" alt="Step 4" />
+      <div class="how-img-card animate-fade-up delay-4">
+        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop" alt="Plumber gets paid" />
         <div class="how-img-label">Step 4 — You Get Paid</div>
       </div>
     </div>
@@ -861,16 +1075,16 @@ footer a { color: #f97316; text-decoration: none; }
 <!-- ─── PRICING ─── -->
 <section class="pricing" id="pricing">
   <div class="section-inner">
-    <h2 class="section-title">Simple, Honest Pricing</h2>
-    <p class="section-sub">No hidden fees. No long-term contracts. Just plans built for plumbing businesses.</p>
-    <div class="pricing-banner">
-      <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&auto=format&fit=crop" alt="Plumber pricing" />
+    <h2 class="section-title animate-fade-up">Simple, Honest Pricing</h2>
+    <p class="section-sub animate-fade-up delay-1">No hidden fees. No long-term contracts. Just plans built for plumbing businesses.</p>
+    <div class="pricing-banner animate-fade animate-fade-up">
+      <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1200&auto=format&fit=crop" alt="Plumber pricing" />
       <div class="pricing-banner-overlay">
         <p>💰 Plans That Pay For Themselves In The First Week</p>
       </div>
     </div>
     <div class="pricing-grid">
-      <div class="pricing-card">
+      <div class="pricing-card animate-fade-up delay-1">
         <h3>Starter</h3>
         <div class="price">$149<span>/mo</span></div>
         <p class="tagline">For solo operators</p>
@@ -882,7 +1096,7 @@ footer a { color: #f97316; text-decoration: none; }
         </ul>
         <a href="#payment" class="btn-plan">Subscribe Now</a>
       </div>
-      <div class="pricing-card popular">
+      <div class="pricing-card popular animate-fade-up delay-2">
         <div class="popular-badge">⭐ Most Popular</div>
         <h3>Growth</h3>
         <div class="price">$299<span>/mo</span></div>
@@ -896,7 +1110,7 @@ footer a { color: #f97316; text-decoration: none; }
         </ul>
         <a href="#payment" class="btn-plan">Subscribe Now</a>
       </div>
-      <div class="pricing-card">
+      <div class="pricing-card animate-fade-up delay-3">
         <h3>Enterprise</h3>
         <div class="price" style="font-size:1.8rem;">Custom</div>
         <p class="tagline">For multi-location shops</p>
@@ -906,7 +1120,7 @@ footer a { color: #f97316; text-decoration: none; }
           <li><i>✓</i> Dedicated account manager</li>
           <li><i>✓</i> Multi-location support</li>
         </ul>
-        <a href="#payment" class="btn-plan">Talk to Sales</a>
+        <a href="tel:6575055112" class="btn-plan">Talk to Sales</a>
       </div>
     </div>
   </div>
@@ -915,13 +1129,12 @@ footer a { color: #f97316; text-decoration: none; }
 <!-- ─── TESTIMONIALS ─── -->
 <section class="testimonials">
   <div class="section-inner">
-    <h2 class="section-title">What Plumbing Business Owners Say</h2>
-    <p class="section-sub">Don't just take our word for it — hear from shops using My Ring Reply.</p>
+    <h2 class="section-title animate-fade-up">What Plumbing Business Owners Say</h2>
+    <p class="section-sub animate-fade-up delay-1">Don't just take our word for it — hear from shops using My Ring Reply.</p>
     <div class="testi-grid">
-
-      <div class="testi-card">
+      <div class="testi-card animate-fade-up delay-1">
         <div class="testi-img">
-          <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&auto=format&fit=crop" alt="Plumber testimonial" />
+          <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=700&auto=format&fit=crop" alt="Plumber testimonial" />
         </div>
         <div class="testi-body">
           <div class="stars">★★★★★</div>
@@ -935,10 +1148,9 @@ footer a { color: #f97316; text-decoration: none; }
           </div>
         </div>
       </div>
-
-      <div class="testi-card">
+      <div class="testi-card animate-fade-up delay-2">
         <div class="testi-img">
-          <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop" alt="Plumber testimonial" />
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&auto=format&fit=crop" alt="Plumber testimonial" />
         </div>
         <div class="testi-body">
           <div class="stars">★★★★★</div>
@@ -952,10 +1164,9 @@ footer a { color: #f97316; text-decoration: none; }
           </div>
         </div>
       </div>
-
-      <div class="testi-card">
+      <div class="testi-card animate-fade-up delay-3">
         <div class="testi-img">
-          <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&auto=format&fit=crop" alt="Plumber testimonial" />
+          <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=700&auto=format&fit=crop" alt="Plumber testimonial" />
         </div>
         <div class="testi-body">
           <div class="stars">★★★★★</div>
@@ -969,16 +1180,17 @@ footer a { color: #f97316; text-decoration: none; }
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- ─── CTA ─── -->
 <section class="cta-section">
-  <div class="cta-content">
+  <div class="cta-bg"></div>
+  <div class="cta-overlay"></div>
+  <div class="cta-content animate-fade-up">
     <h2>Stop Losing Jobs to a Ringing Phone</h2>
-    <p>See how My Ring Reply can answer, book, and grow your plumbing business — book a free demo today.</p>
+    <p>See how My Ring Reply can answer, book, and grow your plumbing business — call us today.</p>
     <div class="cta-btns">
       <a href="tel:6575055112" class="btn-primary">📞 (657) 505-5112</a>
       <a href="#features" class="btn-secondary">See Features</a>
@@ -986,116 +1198,153 @@ footer a { color: #f97316; text-decoration: none; }
   </div>
 </section>
 
-<!-- ─── PAYMENT ─── -->
+<!-- ═══════════════════════════════════════
+     CHECKOUT (Stripe-style split layout)
+═══════════════════════════════════════ -->
 <div id="payment">
-  <div class="payment-inner">
-    <div class="payment-header">
-      <h2>💳 Pay My Ring Reply</h2>
-      <p class="plan-name">Starter Plan — Monthly Subscription</p>
-    </div>
+  <div class="checkout-wrap">
 
-    <div class="payment-summary">
-      <div class="summary-row"><span>Starter Plan</span><span>$149.00</span></div>
-      <div class="summary-row"><span>Subtotal</span><span>$149.00</span></div>
-      <div class="summary-row"><span>Tax</span><span>Calculated at billing</span></div>
-      <div class="summary-row total"><span>Total due</span><span>$149.00</span></div>
-    </div>
-
-    <form id="payment-form">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="you@example.com" />
+    <!-- LEFT: Order Summary -->
+    <div class="checkout-left">
+      <div class="checkout-logo">
+        🔧 My Ring <span>Reply</span>
+      </div>
+      <div class="checkout-amount">
+        <div class="pay-to">Pay My Ring Reply</div>
+        <div class="big-price">$149.00</div>
       </div>
 
-      <!-- Payment Method Tabs -->
-      <div class="payment-methods">
-        <div class="pay-method active" onclick="switchMethod('card', this)">💳 Card</div>
-        <div class="pay-method" onclick="switchMethod('gpay', this)">
-          <svg width="38" height="16" viewBox="0 0 38 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
-            <text x="0" y="13" font-family="Arial" font-size="13" font-weight="bold" fill="#4285F4">G</text>
-            <text x="10" y="13" font-family="Arial" font-size="13" font-weight="bold" fill="#EA4335">o</text>
-            <text x="19" y="13" font-family="Arial" font-size="13" font-weight="bold" fill="#FBBC05">o</text>
-            <text x="28" y="13" font-family="Arial" font-size="13" font-weight="bold" fill="#34A853">g</text>
-          </svg>
-          Pay
+      <div class="order-item">
+        <div class="order-item-left">
+          <div class="order-item-icon">🔧</div>
+          <div>
+            <div class="order-item-name">Starter Plan</div>
+            <div class="order-item-desc">Monthly subscription · 24/7 AI Answering</div>
+          </div>
         </div>
-        <div class="pay-method" onclick="switchMethod('apay', this)"> Apple Pay</div>
+        <div class="order-item-price">$149.00</div>
       </div>
 
-      <!-- Card Fields -->
-      <div id="card-fields">
-        <div class="form-group">
-          <label>Card Number</label>
-          <input type="text" placeholder="1234 5678 9012 3456" />
-        </div>
-        <div class="card-row">
-          <div class="form-group">
-            <label>Expiry</label>
-            <input type="text" placeholder="MM / YY" />
+      <div class="order-lines">
+        <div class="order-line"><span>Subtotal</span><span>$149.00</span></div>
+        <div class="order-line"><span>Tax</span><span>Calculated at billing</span></div>
+        <div class="order-line total"><span>Total due today</span><span>$149.00</span></div>
+      </div>
+
+      <div class="secure-badge">
+        <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+          <path d="M7 0L0 3v5c0 4.4 2.99 8.5 7 9.5C11.01 16.5 14 12.4 14 8V3L7 0z" fill="#6b7280"/>
+        </svg>
+        Secured by Stripe · 256-bit SSL encryption
+      </div>
+    </div>
+
+    <!-- RIGHT: Payment Form -->
+    <div class="checkout-right">
+      <h2>🔒 Secure Checkout</h2>
+
+      <div class="co-form-group">
+        <label>Email address</label>
+        <input type="email" id="co-email" placeholder="you@example.com" />
+      </div>
+
+      <div class="pm-label">Payment method</div>
+      <div class="pm-options">
+        <div class="pm-option active" onclick="selectPM('card', this)">
+          <div class="pm-icon">💳</div>
+          <div class="pm-name">Credit / Debit Card</div>
+          <div class="pm-cards">
+            <span class="card-badge visa">VISA</span>
+            <span class="card-badge mc">MC</span>
+            <span class="card-badge amex">AMEX</span>
+            <span class="card-badge disc">DISC</span>
           </div>
-          <div class="form-group">
-            <label>CVC</label>
-            <input type="text" placeholder="123" />
+        </div>
+        <div class="pm-option" onclick="selectPM('gpay', this)">
+          <div class="pm-icon">
+            <svg width="36" height="16" viewBox="0 0 48 20">
+              <text x="0" y="16" font-family="Arial" font-size="16" font-weight="bold" fill="#4285F4">G</text>
+              <text x="11" y="16" font-family="Arial" font-size="16" font-weight="bold" fill="#EA4335">o</text>
+              <text x="21" y="16" font-family="Arial" font-size="16" font-weight="bold" fill="#FBBC05">o</text>
+              <text x="31" y="16" font-family="Arial" font-size="16" font-weight="bold" fill="#34A853">g</text>
+            </svg>
+          </div>
+          <div class="pm-name">Google Pay</div>
+        </div>
+        <div class="pm-option" onclick="selectPM('apay', this)">
+          <div class="pm-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 814 1000" fill="#111">
+              <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.7 0 248.1 0 124.8 0 56.4 25.6 0 76.5 0c51 0 91.9 36.9 122.2 36.9 28.4 0 73.5-37.6 130.4-37.6 28.4 0 109.5 2.6 162.2 99.7zm-234.5-181.5c-2.6-17.3-2.6-34.6 0-51.9 34.6 2.6 78.8 22.7 106.5 52.4 27.7 29.7 42.8 67.6 42.8 102.2 0 3.2-.6 6.5-1.3 9.7-34.6-2.6-79.5-23.4-107.2-52.4-27.7-29.7-38.2-60.1-40.8-60z"/>
+            </svg>
+          </div>
+          <div class="pm-name">Apple Pay</div>
+        </div>
+      </div>
+
+      <form id="payment-form">
+        <!-- Card Fields -->
+        <div id="card-section">
+          <div class="co-form-group">
+            <label>Card information</label>
+            <div id="stripe-card-element"></div>
+          </div>
+          <div class="co-form-group">
+            <label>Cardholder name</label>
+            <input type="text" id="co-name" placeholder="Full name on card" />
+          </div>
+          <div class="co-form-group">
+            <label>Billing address</label>
+            <select id="co-country">
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="GB">United Kingdom</option>
+              <option value="AU">Australia</option>
+            </select>
+          </div>
+          <div class="co-form-group">
+            <label>ZIP / Postal code</label>
+            <input type="text" id="co-zip" placeholder="90210" />
           </div>
         </div>
-        <div class="form-group">
-          <label>Cardholder Name</label>
-          <input type="text" placeholder="Full name on card" />
+
+        <!-- Google Pay -->
+        <div id="gpay-section" style="display:none;">
+          <div id="gpay-btn-container">
+            <button type="button" class="wallet-pay-btn" onclick="handleGPay()">
+              <svg width="22" height="22" viewBox="0 0 48 48">
+                <circle cx="24" cy="24" r="24" fill="white"/>
+                <text x="8" y="32" font-family="Arial" font-size="22" font-weight="bold" fill="#4285F4">G</text>
+              </svg>
+              Pay $149.00 with Google Pay
+            </button>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Country</label>
-          <select>
-            <option>United States</option>
-            <option>Canada</option>
-            <option>United Kingdom</option>
-            <option>Australia</option>
-          </select>
+
+        <!-- Apple Pay -->
+        <div id="apay-section" style="display:none;">
+          <div id="apay-btn-container">
+            <button type="button" class="wallet-pay-btn" onclick="handleAPay()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 814 1000" fill="white">
+                <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.7 0 248.1 0 124.8 0 56.4 25.6 0 76.5 0c51 0 91.9 36.9 122.2 36.9 28.4 0 73.5-37.6 130.4-37.6 28.4 0 109.5 2.6 162.2 99.7zm-234.5-181.5c-2.6-17.3-2.6-34.6 0-51.9 34.6 2.6 78.8 22.7 106.5 52.4 27.7 29.7 42.8 67.6 42.8 102.2 0 3.2-.6 6.5-1.3 9.7-34.6-2.6-79.5-23.4-107.2-52.4-27.7-29.7-38.2-60.1-40.8-60z"/>
+              </svg>
+              Pay $149.00 with Apple Pay
+            </button>
+          </div>
         </div>
-        <div class="form-group">
-          <label>ZIP / Postal Code</label>
-          <input type="text" placeholder="90210" />
-        </div>
-        <p class="pay-terms">
-          By submitting payment you agree to My Ring Reply's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+
+        <p class="co-terms">
+          By submitting payment you agree to My Ring Reply's
+          <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
           Payment is processed securely by Stripe — we never store your card details.
         </p>
-        <button type="submit" class="btn-pay">🔒 Pay $149.00</button>
-      </div>
 
-      <!-- Google Pay Section -->
-      <div id="gpay-section">
-        <p style="text-align:center;color:#555;font-size:0.9rem;margin-bottom:16px;">
-          Click below to pay securely with Google Pay.
-        </p>
-        <button type="button" class="gpay-btn">
-          <svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="24" fill="white"/>
-            <text x="8" y="32" font-family="Arial" font-size="22" font-weight="bold" fill="#4285F4">G</text>
-          </svg>
-          Pay with Google Pay — $149.00
+        <button type="submit" class="btn-pay-now" id="pay-btn">
+          🔒 Pay $149.00
         </button>
-        <p class="pay-terms">
-          By paying you agree to My Ring Reply's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-        </p>
-      </div>
+        <div id="payment-message"></div>
+      </form>
+    </div>
 
-      <!-- Apple Pay Section -->
-      <div id="apay-section">
-        <p style="text-align:center;color:#555;font-size:0.9rem;margin-bottom:16px;">
-          Click below to pay securely with Apple Pay.
-        </p>
-        <button type="button" class="apay-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 814 1000" fill="white">
-            <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.7 0 248.1 0 124.8 0 56.4 25.6 0 76.5 0c51 0 91.9 36.9 122.2 36.9 28.4 0 73.5-37.6 130.4-37.6 28.4 0 109.5 2.6 162.2 99.7zm-234.5-181.5c-2.6-17.3-2.6-34.6 0-51.9 34.6 2.6 78.8 22.7 106.5 52.4 27.7 29.7 42.8 67.6 42.8 102.2 0 3.2-.6 6.5-1.3 9.7-34.6-2.6-79.5-23.4-107.2-52.4-27.7-29.7-38.2-60.1-40.8-60z"/>
-          </svg>
-           Pay with Apple Pay — $149.00
-        </button>
-        <p class="pay-terms">
-          By paying you agree to My Ring Reply's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-        </p>
-      </div>
-
-    </form>
   </div>
 </div>
 
@@ -1108,27 +1357,148 @@ footer a { color: #f97316; text-decoration: none; }
 <button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-function switchMethod(method, el) {
-  // Remove active from all tabs
-  document.querySelectorAll('.pay-method').forEach(function(m) {
-    m.classList.remove('active');
-  });
-  el.classList.add('active');
+/* ═══════════════════════════════════════
+   STRIPE INTEGRATION
+═══════════════════════════════════════ */
+const stripe = Stripe('pk_live_51U1Mt82K1gCJDsC4eFn6pzjjoZE0LBjF5a1e607FkZW8BwHRTWSAQBwwkc0kMtgrq8wt3fJhGHoNM3DQZSQIERJ600K4rcnIRy');
+const elements = stripe.elements();
 
-  // Hide all sections
-  document.getElementById('card-fields').style.display = 'none';
-  document.getElementById('gpay-section').style.display = 'none';
-  document.getElementById('apay-section').style.display = 'none';
-
-  // Show selected
-  if (method === 'card') {
-    document.getElementById('card-fields').style.display = 'block';
-  } else if (method === 'gpay') {
-    document.getElementById('gpay-section').style.display = 'block';
-  } else if (method === 'apay') {
-    document.getElementById('apay-section').style.display = 'block';
+// Mount the Stripe Card Element
+const cardElement = elements.create('card', {
+  style: {
+    base: {
+      fontSize: '15px',
+      color: '#111827',
+      fontFamily: 'Segoe UI, Arial, sans-serif',
+      '::placeholder': { color: '#9ca3af' },
+    },
+    invalid: { color: '#dc2626' },
   }
+});
+cardElement.mount('#stripe-card-element');
+
+// Payment method tab switching
+function selectPM(method, el) {
+  document.querySelectorAll('.pm-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('card-section').style.display  = 'none';
+  document.getElementById('gpay-section').style.display  = 'none';
+  document.getElementById('apay-section').style.display  = 'none';
+  if (method === 'card') document.getElementById('card-section').style.display = 'block';
+  if (method === 'gpay') document.getElementById('gpay-section').style.display = 'block';
+  if (method === 'apay') document.getElementById('apay-section').style.display = 'block';
 }
+
+// Form submit — card payment
+const form    = document.getElementById('payment-form');
+const payBtn  = document.getElementById('pay-btn');
+const msgDiv  = document.getElementById('payment-message');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  payBtn.disabled = true;
+  payBtn.textContent = '⏳ Processing...';
+  msgDiv.textContent = '';
+  msgDiv.className = '';
+
+  const email = document.getElementById('co-email').value;
+  const name  = document.getElementById('co-name').value;
+  const zip   = document.getElementById('co-zip').value;
+  const country = document.getElementById('co-country').value;
+
+  // NOTE: To fully process payments you need a backend to create
+  // a PaymentIntent and return a client_secret.
+  // The code below calls your backend at /create-payment-intent
+  try {
+    const resp = await fetch('/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: 14900, currency: 'usd', email })
+    });
+    const data = await resp.json();
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name,
+          email,
+          address: { postal_code: zip, country }
+        }
+      }
+    });
+
+    if (error) {
+      msgDiv.textContent = '❌ ' + error.message;
+      msgDiv.className = 'error';
+      payBtn.disabled = false;
+      payBtn.innerHTML = '🔒 Pay $149.00';
+    } else if (paymentIntent.status === 'succeeded') {
+      msgDiv.textContent = '✅ Payment successful! Welcome to My Ring Reply.';
+      msgDiv.className = 'success';
+      payBtn.textContent = '✅ Paid!';
+    }
+  } catch (err) {
+    msgDiv.textContent = '❌ Something went wrong. Please try again or call (657) 505-5112.';
+    msgDiv.className = 'error';
+    payBtn.disabled = false;
+    payBtn.innerHTML = '🔒 Pay $149.00';
+  }
+});
+
+// Google Pay placeholder
+function handleGPay() {
+  const pr = stripe.paymentRequest({
+    country: 'US',
+    currency: 'usd',
+    total: { label: 'My Ring Reply Starter Plan', amount: 14900 },
+    requestPayerName: true,
+    requestPayerEmail: true,
+  });
+  pr.canMakePayment().then(result => {
+    if (result && result.googlePay) {
+      pr.show();
+    } else {
+      alert('Google Pay is not available on this device/browser. Please use card payment or call (657) 505-5112.');
+    }
+  });
+}
+
+// Apple Pay placeholder
+function handleAPay() {
+  const pr = stripe.paymentRequest({
+    country: 'US',
+    currency: 'usd',
+    total: { label: 'My Ring Reply Starter Plan', amount: 14900 },
+    requestPayerName: true,
+    requestPayerEmail: true,
+  });
+  pr.canMakePayment().then(result => {
+    if (result && result.applePay) {
+      pr.show();
+    } else {
+      alert('Apple Pay is not available on this device/browser. Please use card payment or call (657) 505-5112.');
+    }
+  });
+}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL — fade in sections
+═══════════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.animate-fade-up, .animate-left, .animate-right').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  observer.observe(el);
+});
 </script>
 
 </body>
