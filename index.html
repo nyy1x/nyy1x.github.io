@@ -88,6 +88,7 @@
             padding: 10px 20px;
             border-radius: 50px;
             font-weight: 600;
+            text-decoration: none;
         }
 
         /* Hero Section */
@@ -153,6 +154,7 @@
             transition: all 0.3s;
             border: none;
             cursor: pointer;
+            display: inline-block;
         }
 
         .btn-primary:hover {
@@ -795,6 +797,9 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: 16px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
         }
 
         .pricing-btn.primary {
@@ -839,117 +844,6 @@
         .guarantee-badge small {
             color: var(--text-gray);
             font-size: 12px;
-        }
-
-        /* Report Preview Section */
-        .report-section {
-            padding: 80px 0;
-            background: var(--bg-darker);
-        }
-
-        .report-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
-            color: #1a1a2e;
-        }
-
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .report-header h3 {
-            color: #1a1a2e;
-            margin: 0;
-            font-size: 20px;
-        }
-
-        .report-header p {
-            color: #666;
-            margin: 5px 0 0;
-            font-size: 14px;
-        }
-
-        .report-revenue {
-            text-align: right;
-        }
-
-        .report-revenue h4 {
-            color: var(--primary);
-            font-weight: bold;
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .report-revenue p {
-            color: #666;
-            font-size: 12px;
-            margin: 5px 0 0;
-        }
-
-        .report-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px 0;
-            border-bottom: 2px solid #f0f0f0;
-            margin-bottom: 20px;
-        }
-
-        .report-stat {
-            text-align: center;
-        }
-
-        .report-stat h4 {
-            color: var(--primary);
-            font-size: 32px;
-            margin: 0;
-        }
-
-        .report-stat p {
-            color: #666;
-            margin: 5px 0 0;
-            font-size: 14px;
-        }
-
-        .report-breakdown {
-            background: #f9f9f9;
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .report-breakdown h5 {
-            color: #1a1a2e;
-            margin: 0 0 10px;
-            font-size: 16px;
-        }
-
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .breakdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .breakdown-item span {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .breakdown-item strong {
-            color: #1a1a2e;
-            font-weight: bold;
         }
 
         /* FAQ Section */
@@ -1045,6 +939,7 @@
 
         .founder-section .btn-primary {
             display: inline-block;
+            text-decoration: none;
         }
 
         /* Footer */
@@ -1132,20 +1027,6 @@
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-
-            .report-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .report-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .report-revenue {
-                text-align: center;
-                margin-top: 15px;
-            }
         }
     </style>
 </head>
@@ -1197,7 +1078,7 @@
                     </div>
                 </div>
 
-                <!-- Phone Mockup -->
+                <!-- Phone Mockup - Always Showing Messages -->
                 <div class="phone-mockup">
                     <div class="phone-frame">
                         <div class="phone-screen">
@@ -1215,44 +1096,32 @@
                                 </div>
                             </div>
 
-                            <!-- Call Overlay -->
-                            <div class="call-overlay" id="callOverlay">
-                                <div class="call-avatar">🚗</div>
-                                <div class="call-name">Mike's Plumbing</div>
-                                <div class="call-status">Incoming Call...</div>
-                                <div class="call-timer" id="callTimer">00:00</div>
-                                <div class="call-actions">
-                                    <div class="call-action">🔕</div>
-                                    <div class="call-action decline">📵</div>
-                                </div>
-                            </div>
-
-                            <!-- Chat Area -->
+                            <!-- Chat Area - Always Visible -->
                             <div class="chat-area" id="chatArea">
                                 <div class="chat-date">Today</div>
 
-                                <div class="chat-bubble incoming" id="msg1">
+                                <div class="chat-bubble incoming visible" id="msg1">
                                     Hi! I missed your call. How can we help?
                                     <div class="chat-time">9:41 AM</div>
                                 </div>
 
-                                <div class="typing-indicator" id="typingIndicator">
+                                <div class="typing-indicator visible" id="typingIndicator">
                                     <div class="typing-dot"></div>
                                     <div class="typing-dot"></div>
                                     <div class="typing-dot"></div>
                                 </div>
 
-                                <div class="chat-bubble outgoing" id="msg2">
+                                <div class="chat-bubble outgoing visible" id="msg2">
                                     I need a plumber for an emergency leak!
                                     <div class="chat-time">9:42 AM</div>
                                 </div>
 
-                                <div class="chat-bubble incoming" id="msg3">
+                                <div class="chat-bubble incoming visible" id="msg3">
                                     We'll send someone right away! 🚀
                                     <div class="chat-time">9:42 AM</div>
                                 </div>
 
-                                <div class="chat-bubble outgoing" id="msg4">
+                                <div class="chat-bubble outgoing visible" id="msg4">
                                     Thank you! You saved me! 🙏
                                     <div class="chat-time">9:43 AM</div>
                                 </div>
@@ -1427,70 +1296,6 @@
                     <div class="icon">🚀</div>
                     <h3>6</h3>
                     <p>Watch your recovery rate grow</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Report Preview Section -->
-    <section class="report-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Your Monthly Report</h2>
-                <p>See exactly how many leads you recovered and the revenue you saved.</p>
-            </div>
-
-            <div class="report-card">
-                <div class="report-header">
-                    <div>
-                        <h3>Mike's Plumbing</h3>
-                        <p>Monthly Report — January 2025</p>
-                    </div>
-                    <div class="report-revenue">
-                        <h4>$4,200</h4>
-                        <p>Revenue Recovered</p>
-                    </div>
-                </div>
-
-                <div class="report-stats">
-                    <div class="report-stat">
-                        <h4>24</h4>
-                        <p>Missed Calls</p>
-                    </div>
-                    <div class="report-stat">
-                        <h4>18</h4>
-                        <p>Leads Captured</p>
-                    </div>
-                    <div class="report-stat">
-                        <h4>12</h4>
-                        <p>Jobs Booked</p>
-                    </div>
-                </div>
-
-                <div class="report-breakdown">
-                    <h5>📋 Lead Breakdown</h5>
-                    <div class="breakdown-item">
-                        <span>New Leads</span>
-                        <strong>6</strong>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Contacted</span>
-                        <strong>8</strong>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Booked</span>
-                        <strong>12</strong>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Recovery Rate</span>
-                        <strong>75%</strong>
-                    </div>
-                </div>
-
-                <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center;">
-                    <p style="color: var(--primary); font-weight: bold; margin: 0; font-size: 14px;">
-                        📊 Average job value: $350 | Total recovered: $4,200
-                    </p>
                 </div>
             </div>
         </div>
@@ -1760,100 +1565,6 @@
                 item.classList.toggle('open');
             });
         });
-
-        // Phone Mockup Animation
-        const chatMessages = document.querySelectorAll('.chat-bubble');
-        const typingIndicator = document.getElementById('typingIndicator');
-        const callOverlay = document.getElementById('callOverlay');
-        const callTimer = document.getElementById('callTimer');
-        let animationPlaying = false;
-
-        function startAnimation() {
-            if (animationPlaying) return;
-            animationPlaying = true;
-
-            // Reset all chat messages
-            chatMessages.forEach(msg => {
-                msg.classList.remove('visible');
-                msg.style.opacity = '0';
-            });
-            typingIndicator.classList.remove('visible');
-            typingIndicator.style.opacity = '0';
-
-            // Show call overlay
-            callOverlay.classList.add('active');
-            let seconds = 0;
-            callTimer.textContent = '00:00';
-
-            const timerInterval = setInterval(() => {
-                seconds++;
-                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
-                const secs = (seconds % 60).toString().padStart(2, '0');
-                callTimer.textContent = `${mins}:${secs}`;
-            }, 1000);
-
-            // Hide call overlay after 3 seconds
-            setTimeout(() => {
-                callOverlay.classList.remove('active');
-                clearInterval(timerInterval);
-
-                // Show first message
-                setTimeout(() => {
-                    document.getElementById('msg1').classList.add('visible');
-                    document.getElementById('msg1').style.opacity = '1';
-
-                    // Show typing indicator
-                    setTimeout(() => {
-                        typingIndicator.classList.add('visible');
-                        typingIndicator.style.opacity = '1';
-
-                        // Show second message
-                        setTimeout(() => {
-                            typingIndicator.classList.remove('visible');
-                            typingIndicator.style.opacity = '0';
-                            document.getElementById('msg2').classList.add('visible');
-                            document.getElementById('msg2').style.opacity = '1';
-
-                            // Show third message
-                            setTimeout(() => {
-                                document.getElementById('msg3').classList.add('visible');
-                                document.getElementById('msg3').style.opacity = '1';
-
-                                // Show fourth message
-                                setTimeout(() => {
-                                    document.getElementById('msg4').classList.add('visible');
-                                    document.getElementById('msg4').style.opacity = '1';
-
-                                    // Wait, then reset and wait 45 seconds
-                                    setTimeout(() => {
-                                        resetAnimation();
-                                    }, 3000);
-                                }, 1000);
-                            }, 1000);
-                        }, 2000);
-                    }, 1000);
-                }, 500);
-            }, 3000);
-        }
-
-        function resetAnimation() {
-            // Reset all elements
-            chatMessages.forEach(msg => {
-                msg.classList.remove('visible');
-                msg.style.opacity = '0';
-            });
-            typingIndicator.classList.remove('visible');
-            typingIndicator.style.opacity = '0';
-            callOverlay.classList.remove('active');
-
-            animationPlaying = false;
-
-            // Wait 45 seconds then restart
-            setTimeout(startAnimation, 45000);
-        }
-
-        // Start animation on page load
-        setTimeout(startAnimation, 1000);
     </script>
 </body>
 </html>
