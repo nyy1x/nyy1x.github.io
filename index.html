@@ -1952,7 +1952,7 @@
     </footer>
 
     <!-- SCRIPTS -->
-    <script>
+   <script>
         // ROI Calculator
         function calculateROI() {
             const jobsPerMonth = parseFloat(document.getElementById('jobsPerMonth').value) || 0;
@@ -1975,20 +1975,15 @@
 
         // ROI Tab Switching
         function switchTab(tabId) {
-            // Hide all tabs
             document.querySelectorAll('.roi-tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Remove active from buttons
             document.querySelectorAll('.roi-tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Show selected tab
             document.getElementById(tabId).classList.add('active');
-            
-            // Add active to clicked button
             event.target.closest('.roi-tab-btn').classList.add('active');
         }
 
@@ -2013,7 +2008,6 @@
             });
         }, observerOptions);
 
-        // Observe all fade-in elements
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
@@ -2032,41 +2026,96 @@
             });
         });
 
-        // Phone animation replay every 45 seconds
+        // ============================================
+        // FIXED: Phone Animation Replay - 45 Seconds
+        // ============================================
+
+        let phoneAnimationTimeout;
+        let phoneAnimationRunning = false;
+
+        // Function to reset and replay the phone animation
         function replayPhoneAnimation() {
-            // Reset chat messages to hidden
-            document.querySelectorAll('.chat-message').forEach(msg => {
-                msg.style.animation = 'none';
-                msg.style.opacity = '0';
-                // Force reflow
-                void msg.offsetWidth;
-                msg.style.animation = '';
+            // Prevent overlapping replays
+            if (phoneAnimationRunning) return;
+            phoneAnimationRunning = true;
+
+            const phoneElements = document.querySelectorAll('.iphone-17');
+
+            phoneElements.forEach(phone => {
+                // Reset all chat messages
+                const messages = phone.querySelectorAll('.chat-message');
+                messages.forEach(msg => {
+                    msg.style.animation = 'none';
+                    msg.style.opacity = '0';
+                });
+
+                // Reset typing indicators
+                const typingIndicators = phone.querySelectorAll('.chat-typing');
+                typingIndicators.forEach(typing => {
+                    typing.style.animation = 'none';
+                    typing.style.opacity = '0';
+                });
+
+                // Reset call overlays
+                const callOverlays = phone.querySelectorAll('.phone-call-overlay');
+                callOverlays.forEach(overlay => {
+                    overlay.style.animation = 'none';
+                    overlay.style.opacity = '0';
+                });
             });
-            
-            // Reset typing indicator
-            document.querySelectorAll('.chat-typing').forEach(typing => {
-                typing.style.animation = 'none';
-                typing.style.opacity = '0';
-                void typing.offsetWidth;
-                typing.style.animation = '';
+
+            // Force reflow to restart animations
+            void document.body.offsetWidth;
+
+            // Re-enable animations
+            phoneElements.forEach(phone => {
+                const messages = phone.querySelectorAll('.chat-message');
+                messages.forEach(msg => {
+                    msg.style.animation = '';
+                    msg.style.opacity = '';
+                });
+
+                const typingIndicators = phone.querySelectorAll('.chat-typing');
+                typingIndicators.forEach(typing => {
+                    typing.style.animation = '';
+                    typing.style.opacity = '';
+                });
+
+                const callOverlays = phone.querySelectorAll('.phone-call-overlay');
+                callOverlays.forEach(overlay => {
+                    overlay.style.animation = '';
+                    overlay.style.opacity = '';
+                });
             });
-            
-            // Reset call overlay
-            document.querySelectorAll('.phone-call-overlay').forEach(overlay => {
-                overlay.style.animation = 'none';
-                void overlay.offsetWidth;
-                overlay.style.animation = '';
-            });
+
+            // Mark as done after animation completes (about 4 seconds)
+            setTimeout(() => {
+                phoneAnimationRunning = false;
+            }, 4000);
         }
 
-        // Run replay every 45 seconds (between 30-60 seconds)
-        setInterval(replayPhoneAnimation, 45000);
+        // Run the replay every 45 seconds
+        setInterval(() => {
+            replayPhoneAnimation();
+        }, 45000);
 
-        // Initial animation on load
+        // Initial animation on page load
         window.addEventListener('load', () => {
             setTimeout(replayPhoneAnimation, 100);
         });
-    </script>
 
-</body>
-</html>
+        // Also handle when phone becomes visible in viewport
+        const phoneObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !phoneAnimationRunning) {
+                    // Replay when phone scrolls into view
+                    replayPhoneAnimation();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.iphone-17').forEach(phone => {
+            phoneObserver.observe(phone);
+        });
+
+    </script>
