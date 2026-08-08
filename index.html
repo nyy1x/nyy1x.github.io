@@ -1,279 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Ring Reply - 24/7 Emergency Plumbing</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Ring Reply - 24/7 AI Call Answering for Plumbers</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1a1a2e;
+      background: #fff;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      background: #0a0a23;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    nav .logo {
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    nav .logo span { color: #f97316; }
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #f97316; }
+    nav .nav-cta {
+      background: #f97316;
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    nav .nav-cta:hover { background: #ea6c0a; }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, #0a0a23 0%, #1a1a4e 100%);
+      color: #fff;
+      padding: 80px 40px 60px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      max-width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 span { color: #f97316; }
+    .hero p {
+      font-size: 1.15rem;
+      color: #b0b8d4;
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #f97316;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #ea6c0a; }
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid #fff;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: #fff; color: #0a0a23; }
+
+    /* ─── STATS BAR ─── */
+    .stats {
+      background: #f97316;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 24px 40px;
+      color: #fff;
+      border-right: 1px solid rgba(255,255,255,0.3);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item .num {
+      font-size: 2rem;
+      font-weight: 800;
+      display: block;
+    }
+    .stat-item .label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 70px 40px; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #0a0a23;
+    }
+    .section-sub {
+      color: #555;
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    /* ─── PROBLEM SECTION ─── */
+    .problem { background: #fafafa; }
+    .problem-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .problem-list li {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid #ef4444;
+      padding: 16px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .problem-list li i { color: #ef4444; font-style: normal; font-weight: 700; margin-right: 8px; }
+
+    /* ─── FEATURES ─── */
+    .features { background: #fff; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: #f8faff;
+      border: 1px solid #e0e7ff;
+      border-radius: 12px;
+      padding: 28px 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .feature-icon { font-size: 2rem; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #0a0a23; }
+    .feature-card p { color: #555; font-size: 0.93rem; line-height: 1.6; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how { background: #0a0a23; color: #fff; }
+    .how .section-title { color: #fff; }
+    .how .section-sub { color: #b0b8d4; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .step {
+      text-align: center;
+      padding: 24px;
+    }
+    .step-num {
+      width: 52px;
+      height: 52px;
+      background: #f97316;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 auto 16px;
+    }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    .step p { color: #b0b8d4; font-size: 0.9rem; line-height: 1.6; }
+
+    /* ─── PRICING ─── */
+    .pricing { background: #f8faff; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+    .pricing-card {
+      background: #fff;
+      border: 2px solid #e0e7ff;
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+    .pricing-card.popular {
+      border-color: #f97316;
+      box-shadow: 0 8px 32px rgba(249,115,22,0.15);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f97316;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .pricing-card h3 { font-size: 1.2rem; font-weight: 700; color: #0a0a23; margin-bottom: 6px; }
+    .pricing-card .price {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #f97316;
+      margin: 12px 0 4px;
+    }
+    .pricing-card .price span { font-size: 1rem; color: #888; font-weight: 400; }
+    .pricing-card .tagline { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+    .pricing-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
+    .pricing-card ul li {
+      padding: 7px 0;
+      font-size: 0.93rem;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .pricing-card ul li i { color: #22c55e; font-style: normal; font-weight: 700; margin-right: 8px; }
+    .btn-plan {
+      display: block;
+      background: #0a0a23;
+      color: #fff;
+      padding: 13px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+      font-size: 0.97rem;
+    }
+    .btn-plan:hover { background: #1a1a4e; }
+    .pricing-card.popular .btn-plan { background: #f97316; }
+    .pricing-card.popular .btn-plan:hover { background: #ea6c0a; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: #fff; }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .testi-card {
+      background: #f8faff;
+      border: 1px solid #e0e7ff;
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+    .stars { color: #f97316; font-size: 1.1rem; margin-bottom: 12px; }
+    .testi-card p { color: #444; font-size: 0.93rem; line-height: 1.7; margin-bottom: 20px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #0a0a23;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .author-info .name { font-weight: 700; font-size: 0.95rem; color: #0a0a23; }
+    .author-info .role { color: #888; font-size: 0.83rem; }
+
+    /* ─── CTA SECTION ─── */
+    .cta-section {
+      background: linear-gradient(135deg, #0a0a23, #1a1a4e);
+      color: #fff;
+      text-align: center;
+      padding: 80px 40px;
+    }
+    .cta-section h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; }
+    .cta-section p { color: #b0b8d4; font-size: 1.05rem; margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── PAYMENT SECTION ─── */
+    #payment {
+      background: #f8faff;
+      padding: 70px 40px;
+    }
+    .payment-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #e0e7ff;
+      padding: 40px 36px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    .payment-header { text-align: center; margin-bottom: 28px; }
+    .payment-header h2 { font-size: 1.5rem; font-weight: 800; color: #0a0a23; margin-bottom: 6px; }
+    .payment-header .plan-name { color: #888; font-size: 0.95rem; }
+    .payment-summary {
+      background: #f8faff;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.93rem;
+      color: #555;
+      padding: 5px 0;
+    }
+    .summary-row.total {
+      border-top: 1px solid #e0e7ff;
+      margin-top: 8px;
+      padding-top: 10px;
+      font-weight: 700;
+      color: #0a0a23;
+      font-size: 1rem;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #fff;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: #f97316; }
+    .card-row { display: flex; gap: 12px; }
+    .card-row .form-group { flex: 1; }
+    .payment-methods {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .pay-method {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border: 2px solid #e0e7ff;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      background: #fff;
+    }
+    .pay-method.active { border-color: #f97316; color: #f97316; }
+    .pay-terms {
+      font-size: 0.78rem;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .pay-terms a { color: #f97316; text-decoration: none; }
+    .btn-pay {
+      width: 100%;
+      background: #f97316;
+      color: #fff;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-pay:hover { background: #ea6c0a; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #0a0a23;
+      color: #b0b8d4;
+      text-align: center;
+      padding: 32px 40px;
+      font-size: 0.88rem;
+    }
+    footer a { color: #f97316; text-decoration: none; }
+
+    /* ─── SCROLL TO TOP ─── */
+    .scroll-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #f97316;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+      z-index: 999;
+    }
+    .scroll-top:hover { background: #ea6c0a; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.9rem; }
+      nav .nav-links { display: none; }
+      section { padding: 50px 20px; }
+      .hero { padding: 60px 20px 40px; }
+      .stat-item { padding: 18px 20px; }
+      .payment-inner { padding: 28px 20px; }
+      #payment { padding: 50px 16px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ✅ Stats Section -->
-  <section>
-    <p>15+ Plumbing Companies Using Us</p>
-    <p>5,000+ Calls Answered</p>
-    <p>4.9★ Average Rating</p>
-    <p>24/7 Always On</p>
-  </section>
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="logo">🔧 My Ring <span>Reply</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#payment" class="nav-cta">📞 Get Started</a>
+  </div>
+</nav>
 
-  <!-- ✅ Hero Section -->
-  <img src="your-image.jpg" alt="Plumbing Hero Image">
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <h1>Every Missed Call Is a Job That Went to <span>Your Competitor</span></h1>
+  <p>You're under a sink or elbow-deep in a job, and the phone rings. You can't answer. It goes to voicemail. Most callers just hang up and call the next plumber on the list.</p>
+  <div class="hero-btns">
+    <a href="#payment" class="btn-primary">📞 Book a Demo</a>
+    <a href="#features" class="btn-secondary">How We're Different</a>
+  </div>
+</section>
 
-  <section>
-    <h2>Every Missed Call Is a Job That Went to Your Competitor</h2>
-    <p>You're under a sink or elbow-deep in a job, and the phone rings. You can't answer. It goes to voicemail. Most callers just hang up and call the next plumber on the list. Sound familiar?</p>
+<!-- ─── STATS ─── -->
+<div class="stats">
+  <div class="stat-item"><span class="num">15+</span><span class="label">Plumbing Companies Using Us</span></div>
+  <div class="stat-item"><span class="num">5,000+</span><span class="label">Calls Answered</span></div>
+  <div class="stat-item"><span class="num">4.9★</span><span class="label">Average Rating</span></div>
+  <div class="stat-item"><span class="num">24/7</span><span class="label">Always On</span></div>
+</div>
 
-    <ul>
+<!-- ─── PROBLEM ─── -->
+<section class="problem">
+  <div class="section-inner">
+    <h2 class="section-title">Sound Familiar?</h2>
+    <p class="section-sub">These are the problems every plumbing business faces — and why jobs keep slipping away.</p>
+    <ul class="problem-list">
       <li><i>✗</i> Calls going to voicemail during jobs</li>
       <li><i>✗</i> Answering services that don't know plumbing</li>
       <li><i>✗</i> Leads lost to whoever answers first</li>
       <li><i>✗</i> No system for after-hours emergencies</li>
     </ul>
-
-    <a href="#payment">📞 Book a Demo</a>
-    <a href="#features">How We're Different</a>
-  </section>
-
-  <!-- ✅ Built By Section -->
-  <section>
-    <h2>Built By People Who Know Plumbing</h2>
-    <p>My Ring Reply is made for the crews out in the field every day.</p>
-
-    <img src="image1.jpg" alt="On every job, on time">
-    <p>On every job, on time</p>
-
-    <img src="image2.jpg" alt="Kitchen and bath repairs">
-    <p>Kitchen &amp; bath repairs</p>
-
-    <img src="image3.jpg" alt="Hands-on, every time">
-    <p>Hands-on, every time</p>
-  </section>
-
-  <!-- ✅ Features Section -->
-  <section id="features">
-    <h2>What My Ring Reply Does For Your Business</h2>
-    <p>Everything you need to stop losing jobs to a ringing phone.</p>
-
-    <div>
-      <p>📞</p>
-      <h3>24/7 AI Call Answering</h3>
-      <p>Every call gets picked up in seconds, day or night, whether your team is on a job or off the clock.</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="#payment" class="btn-primary">📞 Book a Demo</a>
+      <a href="#features" class="btn-secondary" style="color:#0a0a23;border-color:#0a0a23;">How We're Different</a>
     </div>
-
-    <div>
-      <p>📅</p>
-      <h3>Automatic Job Booking</h3>
-      <p>The AI collects the details and books the job straight into your calendar — no back-and-forth required.</p>
-    </div>
-
-    <div>
-      <p>💬</p>
-      <h3>Missed-Call Text-Back</h3>
-      <p>If a call ever slips through, we instantly text the customer so they don't call a competitor instead.</p>
-    </div>
-
-    <div>
-      <p>🚨</p>
-      <h3>Emergency Call Triage</h3>
-      <p>The AI knows the difference between a slow drain and a burst pipe, and routes urgent jobs to you first.</p>
-    </div>
-
-    <div>
-      <p>⭐</p>
-      <h3>Automated Review Requests</h3>
-      <p>After every completed job, happy customers get a friendly nudge to leave you a 5-star review.</p>
-    </div>
-
-    <div>
-      <p>📊</p>
-      <h3>Call Dashboard &amp; Insights</h3>
-      <p>See every call, booked job, and missed lead in one simple dashboard — know exactly what's driving revenue.</p>
-    </div>
-  </section>
-
-  <!-- ✅ How It Works Section -->
-  <section>
-    <h2>How It Works</h2>
-    <p>Getting set up takes minutes. Here's what happens after you sign up.</p>
-
-    <div>
-      <p>1</p>
-      <h3>We Set Up Your Line</h3>
-      <p>We connect My Ring Reply to your existing business number — no new number needed.</p>
-    </div>
-
-    <div>
-      <p>2</p>
-      <h3>AI Answers Every Call</h3>
-      <p>Customers get a friendly, knowledgeable voice that sounds just like a real dispatcher.</p>
-    </div>
-
-    <div>
-      <p>3</p>
-      <h3>Job Gets Booked</h3>
-      <p>Details are captured and the job is scheduled straight into your calendar automatically.</p>
-    </div>
-
-    <div>
-      <p>4</p>
-      <h3>You Show Up &amp; Get Paid</h3>
-      <p>You just show up to a booked job — no missed leads, no phone tag, no hassle.</p>
-    </div>
-  </section>
-
-  <!-- ✅ Pricing Section -->
-  <section>
-    <h2>Simple, Honest Pricing</h2>
-    <p>No hidden fees. No long-term contracts. Just plans built for plumbing businesses.</p>
-
-    <!-- Starter Plan -->
-    <div>
-      <h3>Starter</h3>
-      <p>$149/mo</p>
-      <p>For solo operators</p>
-      <ul>
-        <li><i>✓</i> 24/7 AI call answering</li>
-        <li><i>✓</i> Automatic job booking</li>
-        <li><i>✓</i> Missed-call text-back</li>
-        <li><i>✓</i> Basic call dashboard</li>
-      </ul>
-      <a href="#payment">Subscribe Now</a>
-    </div>
-
-    <!-- Growth Plan -->
-    <div>
-      <p>Most Popular</p>
-      <h3>Growth</h3>
-      <p>$299/mo</p>
-      <p>For growing teams</p>
-      <ul>
-        <li><i>✓</i> Everything in Starter</li>
-        <li><i>✓</i> Emergency call triage</li>
-        <li><i>✓</i> Automated review requests</li>
-        <li><i>✓</i> Priority support</li>
-        <li><i>✓</i> Multi-crew scheduling</li>
-      </ul>
-      <a href="#payment">Subscribe Now</a>
-    </div>
-
-    <!-- Enterprise Plan -->
-    <div>
-      <h3>Enterprise</h3>
-      <p>Custom</p>
-      <p>For multi-location shops</p>
-      <ul>
-        <li><i>✓</i> Everything in Growth</li>
-        <li><i>✓</i> Custom integrations</li>
-        <li><i>✓</i> Dedicated account manager</li>
-        <li><i>✓</i> Multi-location support</li>
-      </ul>
-      <a href="#contact">Talk to Sales</a>
-    </div>
-  </section>
-
-  <!-- ✅ Testimonials Section -->
-  <section>
-    <h2>What Plumbing Business Owners Say</h2>
-    <p>Don't just take our word for it — hear from shops using My Ring Reply.</p>
-
-    <div>
-      <p>★★★★★</p>
-      <p>We were losing three or four calls a day while out on jobs. Since switching to My Ring Reply, every single one gets answered and booked automatically. It paid for itself in the first week.</p>
-      <p>MS</p>
-      <p>Mike S. — Owner, Anaheim, CA</p>
-    </div>
-
-    <div>
-      <p>★★★★★</p>
-      <p>My old answering service didn't know a wax ring from a P-trap. This AI actually understands plumbing terms and books jobs correctly the first time. Total game changer for my two-man crew.</p>
-      <p>SR</p>
-      <p>Sarah R. — Owner, Fullerton, CA</p>
-    </div>
-
-    <div>
-      <p>★★★★★</p>
-      <p>Setup took maybe 20 minutes and it was already picking up calls that night. Our after-hours emergency bookings have basically doubled since we turned it on.</p>
-      <p>JL</p>
-      <p>James L. — Owner, Irvine, CA</p>
-    </div>
-  </section>
-
-  <!-- ✅ CTA Section -->
-  <section id="contact">
-    <h2>Stop Losing Jobs to a Ringing Phone</h2>
-    <p>See how My Ring Reply can answer, book, and grow your plumbing business — book a free demo today.</p>
-    <a href="tel:6575055112">📞 (657) 505-5112</a>
-    <a href="#features">See Features</a>
-  </section>
-
-  <!-- ✅ Payment Section (top button REMOVED) -->
-  <section id="payment">
-    <h2>Pay My Ring Reply</h2>
-
-    <div>
-      <p>$149.00</p>
-      <p>Starter Plan</p>
-      <p>Monthly subscription</p>
-    </div>
-
-    <div>
-      <p>Subtotal: $149.00</p>
-      <p>Tax: Calculated at billing</p>
-      <p>Total due: $149.00</p>
-    </div>
-
-    <h2>Pay with Card</h2>
-
-    <form action="#" method="post">
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required>
-
-      <fieldset>
-        <legend>Payment Method</legend>
-        <p>💳 Card</p>
-
-        <label for="card-info">Card Information</label>
-        <input type="text" id="card-info" name="card-info" placeholder="1234 1234 1234 1234" required>
-
-        <label for="cardholder-name">Cardholder Name</label>
-        <input type="text" id="cardholder-name" name="cardholder-name" placeholder="Full name on card" required>
-
-        <label for="country">Billing Address</label>
-        <select id="country" name="country">
-          <option value="us">United States</option>
-          <option value="ca">Canada</option>
-          <option value="uk">United Kingdom</option>
-          <option value="au">Australia</option>
-        </select>
-
-        <input type="text" name="address" placeholder="Street address" required>
-
-        <label>
-          <input type="checkbox" name="save-info">
-          Save my payment information for future purchases
-        </label>
-      </fieldset>
-
-      <p>
-        By submitting payment information you agree to My Ring Reply's
-        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-        Your payment information is stored securely by Stripe, Inc. —
-        My Ring Reply never sees or stores your full card number.
-      </p>
-
-      <button type="submit">Pay $149.00</button>
-
-    </form>
-  </section>
-
-  <!-- ✅ Scroll to Top Button -->
-  <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Top</button>
-
-  <!-- ✅ Chat Widget -->
-  <div>
-    <i>✓</i>
-    <p>Hello!</p>
   </div>
+</section>
+
+<!-- ─── BUILT BY PLUMBERS ─── -->
+<section style="background:#fff;">
+  <div class="section-inner">
+    <h2 class="section-title">Built By People Who Know Plumbing</h2>
+    <p class="section-sub">My Ring Reply is made for the crews out in the field every day.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;text-align:center;">
+      <div style="padding:24px;background:#f8faff;border-radius:12px;">
+        <div style="font-size:3rem;margin-bottom:12px;">🔧</div>
+        <p style="font-weight:600;color:#0a0a23;">On every job, on time</p>
+      </div>
+      <div style="padding:24px;background:#f8faff;border-radius:12px;">
+        <div style="font-size:3rem;margin-bottom:12px;">🚿</div>
+        <p style="font-weight:600;color:#0a0a23;">Kitchen & bath repairs</p>
+      </div>
+      <div style="padding:24px;background:#f8faff;border-radius:12px;">
+        <div style="font-size:3rem;margin-bottom:12px;">💪</div>
+        <p style="font-weight:600;color:#0a0a23;">Hands-on, every time</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ─── -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <h2 class="section-title">What My Ring Reply Does For Your Business</h2>
+    <p class="section-sub">Everything you need to stop losing jobs to a ringing phone.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📞</div>
+        <h3>24/7 AI Call Answering</h3>
+        <p>Every call gets picked up in seconds, day or night, whether your team is on a job or off the clock.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Automatic Job Booking</h3>
+        <p>The AI collects the details and books the job straight into your calendar — no back-and-forth required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Missed-Call Text-Back</h3>
+        <p>If a call ever slips through, we instantly text the customer so they don't call a competitor instead.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚨</div>
+        <h3>Emergency Call Triage</h3>
+        <p>The AI knows the difference between a slow drain and a burst pipe, and routes urgent jobs to you first.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>Automated Review Requests</h3>
+        <p>After every completed job, happy customers get a friendly nudge to leave you a 5-star review.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Call Dashboard & Insights</h3>
+        <p>See every call, booked job, and missed lead in one simple dashboard — know exactly what's driving revenue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Getting set up takes minutes. Here's what happens after you sign up.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>We Set Up Your Line</h3>
+        <p>We connect My Ring Reply to your existing business number — no new number needed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>AI Answers Every Call</h3>
+        <p>Customers get a friendly, knowledgeable voice that sounds just like a real dispatcher.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Job Gets Booked</h3>
+        <p>Details are captured and the job is scheduled straight into your calendar automatically.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>You Show Up & Get Paid</h3>
+        <p>You just show up to a booked job — no missed leads, no phone tag, no hassle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <h2 class="section-title">Simple, Honest Pricing</h2>
+    <p class="section-sub">No hidden fees. No long-term contracts. Just plans built for plumbing businesses.</p>
+    <div class="pricing-grid">
+
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <div class="price">$149<span>/mo</span></div>
+        <p class="tagline">For solo operators</p>
+        <ul>
+          <li><i>✓</i> 24/7 AI call answering</li>
+          <li><i>✓</i> Automatic job booking</li>
+          <li><i>✓</i> Missed-call text-back</li>
+          <li><i>✓</i> Basic call dashboard</li>
+        </ul>
+        <a href="#payment" class="btn-plan">Subscribe Now</a>
+      </div>
+
+      <div class="pricing-card popular">
+        <div class="popular-badge">⭐ Most Popular</div>
+        <h3>Growth</h3>
+        <div class="price">$299<span>/mo</span></div>
+        <p class="tagline">For growing teams</p>
+        <ul>
+          <li><i>✓</i> Everything in Starter</li>
+          <li><i>✓</i> Emergency call triage</li>
+          <li><i>✓</i> Automated review requests</li>
+          <li><i>✓</i> Priority support</li>
+          <li><i>✓</i> Multi-crew scheduling</li>
+        </ul>
+        <a href="#payment" class="btn-plan">Subscribe Now</a>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Enterprise</h3>
+        <div class="price" style="font-size:1.8rem;">Custom</div>
+        <p class="tagline">For multi-location shops</p>
+        <ul>
+          <li><i>✓</i> Everything in Growth</li>
+          <li><i>✓</i> Custom integrations</li>
+          <li><i>✓</i> Dedicated account manager</li>
+          <li><i>✓</i> Multi-location support</li>
+        </ul>
+        <a href="#payment" class="btn-plan">Talk to Sales</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="testimonials">
+  <div class="section-inner">
+    <h2 class="section-title">What Plumbing Business Owners Say</h2>
+    <p class="section-sub">Don't just take our word for it — hear from shops using My Ring Reply.</p>
+    <div class="testi-grid">
+
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"We were losing three or four calls a day while out on jobs. Since switching to My Ring Reply, every single one gets answered and booked automatically. It paid for itself in the first week."</p>
+        <div class="testi-author">
+          <div class="avatar">MS</div>
+          <div class="author-info">
+            <div class="name">Mike S.</div>
+            <div class="role">Owner, Anaheim, CA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"My old answering service didn't know a wax ring from a P-trap. This AI actually understands plumbing terms and books jobs correctly the first time. Total game changer for my two-man crew."</p>
+        <div class="testi-author">
+          <div class="avatar">SR</div>
+          <div class="author-info">
+            <div class="name">Sarah R.</div>
+            <div class="role">Owner, Fullerton, CA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Setup took maybe 20 minutes and it was already picking up calls that night. Our after-hours emergency bookings have basically doubled since we turned it on."</p>
+        <div class="testi-author">
+          <div class="avatar">JL</div>
+          <div class="author-info">
+            <div class="name">James L.</div>
+            <div class="role">Owner, Irvine, CA</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <h2>Stop Losing Jobs to a Ringing Phone</h2>
+  <p>See how My Ring Reply can answer, book, and grow your plumbing business — book a free demo today.</p>
+  <div class="cta-btns">
+    <a href="tel:6575055112" class="btn-primary">📞 (657) 505-5112</a>
+    <a href="#features" class="btn-secondary">See Features</a>
+  </div>
+</section>
+
+<!-- ─── PAYMENT ─── -->
+<div id="payment">
+  <div class="payment-inner">
+    <div class="payment-header">
+      <h2>Pay My Ring Reply</h2>
+      <p class="plan-name">Starter Plan — Monthly Subscription</p>
+    </div>
+    <div class="payment-summary">
+      <div class="summary-row"><span>Starter Plan</span><span>$149.00</span></div>
+      <div class="summary-row"><span>Subtotal</span><span>$149.00</span></div>
+      <div class="summary-row"><span>Tax</span><span>Calculated at billing</span></div>
+      <div class="summary-row total"><span>Total due</span><span>$149.00</span></div>
+    </div>
+    <form>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" />
+      </div>
+      <div class="payment-methods">
+        <div class="pay-method active">💳 Card</div>
+        <div class="pay-method">🏦 Bank</div>
+        <div class="pay-method">📱 Apple Pay</div>
+      </div>
+      <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="1234 5678 9012 3456" />
+      </div>
+      <div class="card-row">
+        <div class="form-group">
+          <label>Expiry</label>
+          <input type="text" placeholder="MM / YY" />
+        </div>
+        <div class="form-group">
+          <label>CVC</label>
+          <input type="text" placeholder="123" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Cardholder Name</label>
+        <input type="text" placeholder="Full name on card" />
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <select>
+          <option>United States</option>
+          <option>Canada</option>
+          <option>United Kingdom</option>
+          <option>Australia</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>ZIP / Postal Code</label>
+        <input type="text" placeholder="90210" />
+      </div>
+      <p class="pay-terms">
+        By submitting payment you agree to My Ring Reply's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. 
+        Payment is processed securely by Stripe — we never store your card details.
+      </p>
+      <button type="submit" class="btn-pay">Pay $149.00</button>
+    </form>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>© 2025 My Ring Reply. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+</footer>
+
+<!-- ─── SCROLL TO TOP ─── -->
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 </body>
 </html>
