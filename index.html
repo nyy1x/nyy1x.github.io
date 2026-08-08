@@ -21,7 +21,8 @@
 
         :root {
             --purple: #7C3AED;
-            --purple-dark: #5B21B6;
+            --purple-dark: #4C1D95;
+            --purple-darker: #2E1065;
             --purple-light: #EDE9FE;
             --white: #FFFFFF;
             --dark: #1E1B4B;
@@ -33,8 +34,9 @@
         body {
             font-family: 'Inter', sans-serif;
             color: var(--dark);
-            background: var(--white);
+            background: linear-gradient(180deg, var(--purple-darker) 0%, var(--purple-dark) 20%, var(--purple) 40%, var(--white) 70%, var(--white) 100%);
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .container {
@@ -45,12 +47,14 @@
 
         /* Header */
         header {
-            background: var(--white);
-            padding: 1rem 0;
+            background: transparent;
+            padding: 1.5rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            background: rgba(46, 16, 101, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .nav-container {
@@ -65,12 +69,12 @@
             gap: 10px;
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--purple);
+            color: var(--white);
         }
 
         .logo i {
             font-size: 2rem;
-            color: var(--purple);
+            color: var(--white);
         }
 
         .nav-links {
@@ -80,19 +84,21 @@
         }
 
         .nav-links a {
-            color: var(--dark);
+            color: var(--white);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            opacity: 0.9;
         }
 
         .nav-links a:hover {
-            color: var(--purple);
+            color: var(--accent);
+            opacity: 1;
         }
 
         .nav-cta {
-            background: var(--purple);
-            color: var(--white);
+            background: var(--white);
+            color: var(--purple-dark);
             padding: 10px 20px;
             border-radius: 30px;
             font-weight: 600;
@@ -101,31 +107,46 @@
         }
 
         .nav-cta:hover {
-            background: var(--purple-dark);
+            background: var(--accent);
             transform: scale(1.05);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
-            color: var(--white);
-            padding: 80px 0;
+            padding: 100px 0 120px;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .hero-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 60px;
             align-items: center;
         }
 
+        .hero-content {
+            color: var(--white);
+        }
+
         .hero-content h1 {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 800;
             margin-bottom: 20px;
             line-height: 1.2;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
         }
 
         .hero-content p {
@@ -137,11 +158,12 @@
         .hero-badge {
             display: inline-block;
             background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
             padding: 8px 20px;
             border-radius: 30px;
             font-size: 0.9rem;
             margin-bottom: 20px;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .cta-buttons {
@@ -164,13 +186,13 @@
 
         .btn-primary {
             background: var(--white);
-            color: var(--purple);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: var(--purple-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
         .btn-outline {
@@ -181,99 +203,260 @@
 
         .btn-outline:hover {
             background: var(--white);
-            color: var(--purple);
+            color: var(--purple-dark);
             transform: translateY(-2px);
         }
 
-        /* Phone Mockup */
-        .phone-mockup {
-            background: var(--white);
-            border-radius: 40px;
-            padding: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 350px;
-            margin: 0 auto;
+        /* iPhone 17 Pro Mockup */
+        .iphone-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
         }
 
-        .phone-screen {
-            background: var(--light-gray);
-            border-radius: 30px;
-            overflow: hidden;
-            height: 600px;
-            display: flex;
-            flex-direction: column;
+        .iphone-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
         }
 
+        .iphone-17 {
+            width: 340px;
+            height: 700px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.4),
+                inset 0 2px 4px rgba(255,255,255,0.1),
+                inset 0 -2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Titanium frame */
+        .iphone-17::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border-radius: 42px;
+            background: linear-gradient(145deg, #d4d4d8, #71717a);
+            z-index: -1;
+            padding: 2px;
+        }
+
+        /* Side buttons */
+        .iphone-17::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: 150px;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(180deg, #d4d4d8, #71717a);
+            border-radius: 4px;
+        }
+
+        .phone-button {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(180deg, #d4d4d8, #71717a);
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .phone-button.volume-up {
+            left: -3px;
+            top: 120px;
+            height: 50px;
+        }
+
+        .phone-button.volume-down {
+            left: -3px;
+            top: 180px;
+            height: 50px;
+        }
+
+        .phone-button.action {
+            left: -3px;
+            top: 90px;
+            height: 25px;
+            background: linear-gradient(180deg, #f59e0b, #d97706);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 36px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .dynamic-island .camera {
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #1e293b, #0f172a);
+            border-radius: 50%;
+            border: 1px solid #334155;
+        }
+
+        .dynamic-island .speaker {
+            width: 40px;
+            height: 4px;
+            background: #1e293b;
+            border-radius: 2px;
+        }
+
+        /* Status bar */
+        .status-bar {
+            padding: 50px 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #1e293b;
+            font-size: 12px;
+            font-weight: 600;
+            background: linear-gradient(180deg, #f8fafc, transparent);
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 5px;
+            font-size: 10px;
+        }
+
+        /* Phone header */
         .phone-header {
-            background: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             color: var(--white);
-            padding: 20px;
-            text-align: center;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .phone-header .avatar {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         .phone-header h3 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
+            flex: 1;
         }
 
         .phone-header p {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             opacity: 0.8;
+        }
+
+        .phone-header .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .chat-area {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             overflow-y: auto;
+            background: linear-gradient(180deg, #f8fafc, #eef2f7);
         }
 
         .message {
             max-width: 80%;
-            padding: 12px 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 0.85rem;
             line-height: 1.4;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            position: relative;
         }
 
         .message-incoming {
             background: var(--white);
-            border: 1px solid var(--purple-light);
-            border-top-left-radius: 5px;
+            border: 1px solid #e2e8f0;
+            border-top-left-radius: 4px;
             align-self: flex-start;
         }
 
         .message-outgoing {
-            background: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             color: var(--white);
-            border-top-right-radius: 5px;
+            border-top-right-radius: 4px;
             align-self: flex-end;
         }
 
         .message-time {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             opacity: 0.6;
-            margin-top: 5px;
+            margin-top: 4px;
             display: block;
+        }
+
+        .message-outgoing .message-time {
+            opacity: 0.8;
         }
 
         .typing-indicator {
             display: flex;
-            gap: 5px;
-            padding: 10px;
+            gap: 4px;
+            padding: 10px 14px;
             background: var(--white);
-            border-radius: 15px;
-            border: 1px solid var(--purple-light);
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
             align-self: flex-start;
             max-width: 60px;
+            border-top-left-radius: 4px;
         }
 
         .typing-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             background: var(--purple);
             border-radius: 50%;
             animation: typing 1.4s infinite;
@@ -293,58 +476,60 @@
                 opacity: 0.4;
             }
             30% {
-                transform: translateY(-10px);
+                transform: translateY(-6px);
                 opacity: 1;
             }
         }
 
         .phone-input {
             background: var(--white);
-            padding: 15px;
+            padding: 12px 15px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
-            border-top: 1px solid var(--purple-light);
+            border-top: 1px solid #e2e8f0;
+            padding-bottom: 20px;
         }
 
         .phone-input i {
             color: var(--purple);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .phone-input input {
             flex: 1;
             border: none;
             outline: none;
-            padding: 10px;
+            padding: 8px 12px;
             border-radius: 20px;
-            background: var(--light-gray);
-            font-size: 0.9rem;
+            background: #f1f5f9;
+            font-size: 0.8rem;
         }
 
         .phone-input button {
-            background: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border: none;
             color: var(--white);
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
+            font-size: 0.8rem;
         }
 
         .phone-input button:hover {
-            background: var(--purple-dark);
             transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(124,58,237,0.4);
         }
 
         /* Stats Section */
         .stats {
-            background: var(--light-gray);
             padding: 60px 0;
+            background: transparent;
         }
 
         .stats-grid {
@@ -352,22 +537,31 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
             text-align: center;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
 
         .stat-item h3 {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
 
         .stat-item p {
             color: var(--gray);
+            font-weight: 500;
         }
 
         /* Features Section */
         .features {
             padding: 80px 0;
+            background: var(--white);
         }
 
         .section-header {
@@ -419,6 +613,7 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
         }
 
         .feature-icon i {
@@ -457,7 +652,7 @@
         .step-number {
             width: 60px;
             height: 60px;
-            background: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             color: var(--white);
             border-radius: 50%;
             display: flex;
@@ -466,6 +661,7 @@
             font-size: 1.5rem;
             font-weight: 800;
             margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
         }
 
         .step h3 {
@@ -481,6 +677,7 @@
         /* Pricing Section */
         .pricing {
             padding: 80px 0;
+            background: var(--white);
         }
 
         .pricing-grid {
@@ -488,6 +685,9 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .pricing-card {
@@ -509,6 +709,7 @@
         .pricing-card.popular {
             border: 2px solid var(--purple);
             transform: scale(1.02);
+            background: linear-gradient(180deg, var(--purple-light), var(--white));
         }
 
         .popular-badge {
@@ -516,13 +717,14 @@
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             color: var(--white);
             padding: 5px 20px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(124,58,237,0.3);
         }
 
         .pricing-card h3 {
@@ -534,7 +736,9 @@
         .price {
             font-size: 3rem;
             font-weight: 800;
-            color: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
         }
 
@@ -542,6 +746,7 @@
             font-size: 1rem;
             font-weight: 400;
             color: var(--gray);
+            -webkit-text-fill-color: var(--gray);
         }
 
         .pricing-features {
@@ -555,6 +760,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-align: left;
         }
 
         .pricing-features li i {
@@ -562,7 +768,7 @@
         }
 
         .btn-subscribe {
-            background: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             color: var(--white);
             width: 100%;
             padding: 15px;
@@ -571,12 +777,12 @@
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
         }
 
         .btn-subscribe:hover {
-            background: var(--purple-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.4);
         }
 
         /* Testimonials */
@@ -597,6 +803,12 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(124,58,237,0.1);
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.2);
         }
 
         .testimonial-stars {
@@ -639,10 +851,23 @@
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            background: linear-gradient(135deg, var(--purple-darker), var(--purple-dark));
             color: var(--white);
             padding: 80px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
         }
 
         .cta-section h2 {
@@ -662,7 +887,7 @@
 
         /* Footer */
         footer {
-            background: var(--dark);
+            background: var(--purple-darker);
             color: var(--white);
             padding: 40px 0 20px;
         }
@@ -695,7 +920,7 @@
         }
 
         .footer-column a:hover {
-            color: var(--purple-light);
+            color: var(--accent);
         }
 
         .footer-bottom {
@@ -720,8 +945,13 @@
                 font-size: 2.5rem;
             }
             
-            .phone-mockup {
-                margin-top: 40px;
+            .iphone-wrapper {
+                margin-top: 50px;
+            }
+            
+            .iphone-17 {
+                width: 300px;
+                height: 620px;
             }
             
             .section-header h2 {
@@ -757,6 +987,11 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .iphone-17 {
+                width: 260px;
+                height: 540px;
+            }
         }
     </style>
 </head>
@@ -781,7 +1016,7 @@
         </div>
     </header>
 
-    <!-- Hero Section with Phone Mockup -->
+    <!-- Hero Section with iPhone 17 Mockup -->
     <section class="hero">
         <div class="container hero-grid">
             <div class="hero-content">
@@ -796,45 +1031,78 @@
                 </div>
             </div>
 
-            <!-- Phone SMS Automation Mockup -->
-            <div class="phone-mockup">
-                <div class="phone-screen">
-                    <div class="phone-header">
-                        <i class="fas fa-comment-dots"></i>
-                        <h3>MyRingReply AI Assistant</h3>
-                        <p>Online • Automated</p>
-                    </div>
-                    <div class="chat-area">
-                        <div class="message message-incoming">
-                            Hi! I need a plumber for a leaking pipe.
-                            <span class="message-time">10:32 AM</span>
+            <!-- iPhone 17 Pro Mockup -->
+            <div class="iphone-wrapper">
+                <div class="iphone-17">
+                    <!-- Side buttons -->
+                    <div class="phone-button action"></div>
+                    <div class="phone-button volume-up"></div>
+                    <div class="phone-button volume-down"></div>
+                    
+                    <div class="phone-screen">
+                        <!-- Dynamic Island -->
+                        <div class="dynamic-island">
+                            <div class="camera"></div>
+                            <div class="speaker"></div>
                         </div>
-                        <div class="message message-outgoing">
-                            👋 Hi there! We can help with that. Can you share your address?
-                            <span class="message-time">10:32 AM</span>
+
+                        <!-- Status Bar -->
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <div class="status-icons">
+                                <i class="fas fa-signal"></i>
+                                <i class="fas fa-wifi"></i>
+                                <i class="fas fa-battery-full"></i>
+                            </div>
                         </div>
-                        <div class="message message-incoming">
-                            123 Main St, San Diego, CA
-                            <span class="message-time">10:33 AM</span>
+
+                        <!-- App Header -->
+                        <div class="phone-header">
+                            <div class="avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div>
+                                <h3>MyRingReply AI</h3>
+                                <p>Online • Automated</p>
+                            </div>
+                            <div class="status-dot"></div>
                         </div>
-                        <div class="message message-outgoing">
-                            ✅ Great! A plumber will arrive between 2-4 PM today. You'll get a text when they're on the way.
-                            <span class="message-time">10:33 AM</span>
+
+                        <!-- Chat Area -->
+                        <div class="chat-area">
+                            <div class="message message-incoming">
+                                Hi! I need a plumber for a leaking pipe.
+                                <span class="message-time">10:32 AM</span>
+                            </div>
+                            <div class="message message-outgoing">
+                                👋 Hi there! We can help with that. Can you share your address?
+                                <span class="message-time">10:32 AM</span>
+                            </div>
+                            <div class="message message-incoming">
+                                123 Main St, San Diego, CA
+                                <span class="message-time">10:33 AM</span>
+                            </div>
+                            <div class="message message-outgoing">
+                                ✅ Great! A plumber will arrive between 2-4 PM today. You'll get a text when they're on the way.
+                                <span class="message-time">10:33 AM</span>
+                            </div>
+                            <div class="typing-indicator">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                            <div class="message message-incoming">
+                                Perfect, thank you!
+                                <span class="message-time">10:34 AM</span>
+                            </div>
                         </div>
-                        <div class="typing-indicator">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
+
+                        <!-- Input Bar -->
+                        <div class="phone-input">
+                            <i class="fas fa-paperclip"></i>
+                            <input type="text" placeholder="iMessage">
+                            <button><i class="fas fa-arrow-up"></i></button>
                         </div>
-                        <div class="message message-incoming">
-                            Perfect, thank you!
-                            <span class="message-time">10:34 AM</span>
-                        </div>
-                    </div>
-                    <div class="phone-input">
-                        <i class="fas fa-paperclip"></i>
-                        <input type="text" placeholder="Type a message...">
-                        <button><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -843,22 +1111,24 @@
 
     <!-- Stats Section -->
     <section class="stats">
-        <div class="container stats-grid">
-            <div class="stat-item">
-                <h3>5,000+</h3>
-                <p>Plumbers Using MyRingReply</p>
-            </div>
-            <div class="stat-item">
-                <h3>2M+</h3>
-                <p>Jobs Automated Monthly</p>
-            </div>
-            <div class="stat-item">
-                <h3>40%</h3>
-                <p>Increase in Efficiency</p>
-            </div>
-            <div class="stat-item">
-                <h3>24/7</h3>
-                <p>AI Customer Support</p>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>5,000+</h3>
+                    <p>Plumbers Using MyRingReply</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2M+</h3>
+                    <p>Jobs Automated Monthly</p>
+                </div>
+                <div class="stat-item">
+                    <h3>40%</h3>
+                    <p>Increase in Efficiency</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>AI Customer Support</p>
+                </div>
             </div>
         </div>
     </section>
