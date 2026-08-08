@@ -602,14 +602,14 @@ transition: all 0.3s;
 background: var(--primary-light);
 transform: scale(1.1);
 }
-/* CALL OVERLAY - SHOWS ONCE THEN STAYS ON CHAT */
+/* CALL OVERLAY - SHOWS FIRST */
 .phone-call-overlay {
 position: absolute;
 top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-background: rgba(0, 0, 0, 0.85);
+background: rgba(0, 0, 0, 0.9);
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -636,15 +636,20 @@ font-size: 2rem;
 font-weight: 700;
 color: white;
 box-shadow: 0 0 30px rgba(107, 70, 193, 0.5);
+animation: callPulse 2s infinite;
+}
+@keyframes callPulse {
+0%, 100% { box-shadow: 0 0 30px rgba(107, 70, 193, 0.5); }
+50% { box-shadow: 0 0 50px rgba(107, 70, 193, 0.8); }
 }
 .call-status {
 color: white;
-font-size: 1rem;
+font-size: 1.2rem;
 font-weight: 600;
 }
 .call-timer {
 color: var(--primary-light);
-font-size: 0.8rem;
+font-size: 0.9rem;
 font-family: monospace;
 }
 .call-buttons {
@@ -671,6 +676,140 @@ transform: rotate(135deg);
 }
 .call-btn:hover {
 transform: scale(1.1);
+}
+/* ===== NEW: LEAD CAPTURED DASHBOARD (Second Phone) ===== */
+.lead-dashboard {
+flex: 1;
+padding: 15px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+overflow: hidden;
+background: #0d0d0d;
+}
+.lead-stats-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+.lead-stat-card {
+background: var(--card-bg);
+border: 1px solid rgba(107, 70, 193, 0.2);
+border-radius: 12px;
+padding: 12px;
+text-align: center;
+}
+.lead-stat-number {
+font-size: 1.4rem;
+font-weight: 800;
+color: var(--primary-light);
+}
+.lead-stat-label {
+font-size: 0.6rem;
+color: var(--text-muted);
+margin-top: 4px;
+}
+.lead-notification {
+background: rgba(107, 70, 193, 0.1);
+border: 1px solid rgba(107, 70, 193, 0.3);
+border-radius: 12px;
+padding: 12px;
+animation: messageIn 0.5s ease-out 0.3s forwards;
+opacity: 0;
+}
+.lead-notification-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 8px;
+}
+.lead-notification-icon {
+width: 32px;
+height: 32px;
+background: var(--primary);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.8rem;
+color: white;
+}
+.lead-notification-title {
+font-size: 0.75rem;
+font-weight: 600;
+color: var(--text-light);
+}
+.lead-notification-time {
+font-size: 0.6rem;
+color: var(--text-muted);
+margin-left: auto;
+}
+.lead-notification-body {
+font-size: 0.7rem;
+color: var(--text-muted);
+line-height: 1.4;
+}
+.lead-status-badge {
+display: inline-block;
+background: rgba(72, 187, 120, 0.2);
+color: #48BB78;
+padding: 3px 10px;
+border-radius: 12px;
+font-size: 0.65rem;
+font-weight: 600;
+margin-top: 8px;
+}
+.lead-recent-list {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.lead-recent-item {
+background: var(--card-bg);
+border: 1px solid rgba(107, 70, 193, 0.1);
+border-radius: 10px;
+padding: 10px;
+display: flex;
+align-items: center;
+gap: 10px;
+animation: messageIn 0.5s ease-out 0.6s forwards;
+opacity: 0;
+}
+.lead-recent-item:nth-child(2) {
+animation-delay: 0.9s;
+}
+.lead-recent-item:nth-child(3) {
+animation-delay: 1.2s;
+}
+.lead-recent-avatar {
+width: 30px;
+height: 30px;
+background: rgba(107, 70, 193, 0.2);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.7rem;
+color: var(--primary-light);
+flex-shrink: 0;
+}
+.lead-recent-info {
+flex: 1;
+}
+.lead-recent-name {
+font-size: 0.7rem;
+font-weight: 600;
+color: var(--text-light);
+}
+.lead-recent-detail {
+font-size: 0.6rem;
+color: var(--text-muted);
+}
+.lead-recent-status {
+font-size: 0.6rem;
+color: #48BB78;
+font-weight: 600;
+white-space: nowrap;
 }
 /* ROI TAB SECTION */
 .roi-tab-section {
@@ -1101,6 +1240,8 @@ border-color: var(--primary);
 .testimonial-stars {
 color: #FFD700;
 margin-bottom: 15px;
+font-size: 1.1rem;
+letter-spacing: 2px;
 }
 .testimonial-text {
 color: var(--text-muted);
@@ -1463,7 +1604,7 @@ Absolutely! We can have a technician out within the hour. Can I get your address
 <input type="text" class="input-field" placeholder="Type a message..." disabled>
 <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
 </div>
-<!-- CALL OVERLAY - SHOWS ONCE -->
+<!-- CALL OVERLAY - SHOWS FIRST -->
 <div class="phone-call-overlay" id="callOverlay">
 <div class="call-avatar">A</div>
 <div class="call-status">Incoming Call</div>
@@ -1678,37 +1819,64 @@ ROI: <strong style="color: #FFD700;">1,523% return on investment!</strong>
 <div class="app-avatar">A</div>
 <div class="app-info">
 <h4>Alex's Plumbing</h4>
-<p>Online</p>
+<p>Lead Dashboard</p>
 </div>
 <div class="app-call-badge">
-<i class="fas fa-check-circle"></i> Lead Captured
+<i class="fas fa-check-circle"></i> Active
 </div>
 </div>
-<div class="phone-chat">
-<div class="chat-date">Today 3:15 PM</div>
-<div class="chat-message system">
-<i class="fas fa-robot"></i> Missed call from (555) 987-6543
-<span class="time">3:16 PM</span>
+<!-- NEW: LEAD CAPTURED DASHBOARD -->
+<div class="lead-dashboard">
+<div class="lead-stats-row">
+<div class="lead-stat-card">
+<div class="lead-stat-number">12</div>
+<div class="lead-stat-label">Leads Recovered</div>
 </div>
-<div class="chat-message sent">
-Hi! Thanks for calling Alex's Plumbing. We're on another job right now but we'll get right back to you!
-<span class="time">3:16 PM</span>
+<div class="lead-stat-card">
+<div class="lead-stat-number">$3,600</div>
+<div class="lead-stat-label">Revenue Saved</div>
 </div>
-<div class="chat-message received">
-I have a burst pipe emergency! Need help ASAP!
-<span class="time">3:17 PM</span>
 </div>
-<div class="chat-message system">
-<i class="fas fa-bell"></i> 🔥 URGENT: Emergency call received
-<span class="time">3:17 PM</span>
+<div class="lead-notification">
+<div class="lead-notification-header">
+<div class="lead-notification-icon"><i class="fas fa-bolt"></i></div>
+<div class="lead-notification-title">New Lead Captured!</div>
+<div class="lead-notification-time">Just now</div>
 </div>
-<div class="chat-message sent">
-We're on it! A technician will call you within 5 minutes. Stay safe!
-<span class="time">3:17 PM</span>
+<div class="lead-notification-body">
+<strong style="color: var(--text-light);">John D.</strong> — Burst pipe emergency<br>
+📞 (555) 987-6543<br>
+📍 123 Maple St, Riverside
 </div>
-<div class="chat-message received">
-Thank you so much! You saved me!
-<span class="time">3:18 PM</span>
+<div class="lead-status-badge">
+<i class="fas fa-fire"></i> HOT LEAD
+</div>
+</div>
+<div class="lead-recent-list">
+<div class="lead-recent-item">
+<div class="lead-recent-avatar"><i class="fas fa-user"></i></div>
+<div class="lead-recent-info">
+<div class="lead-recent-name">Sarah M.</div>
+<div class="lead-recent-detail">Water heater repair</div>
+</div>
+<div class="lead-recent-status">✓ Recovered</div>
+</div>
+<div class="lead-recent-item">
+<div class="lead-recent-avatar"><i class="fas fa-user"></i></div>
+<div class="lead-recent-info">
+<div class="lead-recent-name">Mike T.</div>
+<div class="lead-recent-detail">Drain cleaning</div>
+</div>
+<div class="lead-recent-status">✓ Recovered</div>
+</div>
+<div class="lead-recent-item">
+<div class="lead-recent-avatar"><i class="fas fa-user"></i></div>
+<div class="lead-recent-info">
+<div class="lead-recent-name">Lisa K.</div>
+<div class="lead-recent-detail">Leak inspection</div>
+</div>
+<div class="lead-recent-status">✓ Recovered</div>
+</div>
 </div>
 </div>
 <div class="phone-input-bar">
@@ -1855,7 +2023,7 @@ Thank you so much! You saved me!
 <div class="testimonials-grid">
 <div class="testimonial-card fade-in">
 <div class="testimonial-stars">
-<i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
 </div>
 <p class="testimonial-text">"I was losing at least 2-3 jobs a week to missed calls. Since I started using MyRingReply, I've recovered over $4,000 in the first month alone. Worth every penny!"</p>
 <div class="testimonial-author">
@@ -1868,7 +2036,7 @@ Thank you so much! You saved me!
 </div>
 <div class="testimonial-card fade-in">
 <div class="testimonial-stars">
-<i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
 </div>
 <p class="testimonial-text">"The instant text response is a game-changer. Customers love the quick reply, and I get notified so I can follow up immediately. My response time went from hours to minutes."</p>
 <div class="testimonial-author">
@@ -1881,7 +2049,7 @@ Thank you so much! You saved me!
 </div>
 <div class="testimonial-card fade-in">
 <div class="testimonial-stars">
-<i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
 </div>
 <p class="testimonial-text">"I was skeptical at first, but the ROI calculator doesn't lie. I've recovered 8 jobs worth over $2,500 in just 3 weeks. This pays for itself 10x over."</p>
 <div class="testimonial-author">
@@ -2090,18 +2258,26 @@ block: 'start'
 }
 });
 });
-// ===== PHONE CALL OVERLAY - SHOWS ONCE =====
-// Show the call overlay once on page load
+// ===== PHONE CALL OVERLAY - SHOWS FIRST, THEN MESSAGES =====
 window.addEventListener('load', () => {
 const callOverlay = document.getElementById('callOverlay');
-// Show overlay after 1 second
+const chatMessages = document.querySelectorAll('.phone-chat .chat-message');
+const chatTyping = document.querySelector('.phone-chat .chat-typing');
+// 1. Show incoming call overlay first
 setTimeout(() => {
 callOverlay.classList.add('active');
-}, 1000);
-// Auto-accept after 2.5 seconds (1s delay + 1.5s display)
+}, 500);
+// 2. Auto-decline after 2.5 seconds (simulate missed call)
 setTimeout(() => {
 callOverlay.classList.remove('active');
-}, 2500);
+// 3. Now show chat messages with staggered delays
+chatMessages.forEach((msg, index) => {
+msg.style.animationDelay = (0.3 + (index * 0.5)) + 's';
+});
+if (chatTyping) {
+chatTyping.style.animationDelay = (0.3 + (chatMessages.length * 0.5)) + 's';
+}
+}, 3000);
 });
 </script>
 </body>
