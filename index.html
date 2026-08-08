@@ -78,6 +78,10 @@ transition: color 0.3s;
 .nav-links a:hover {
 color: var(--text-light);
 }
+/* NAV CTA WRAPPER - for dropdown */
+.nav-cta-wrapper {
+position: relative;
+}
 .nav-cta {
 background: var(--primary);
 color: white;
@@ -86,11 +90,136 @@ border-radius: 8px;
 text-decoration: none;
 font-weight: 600;
 transition: all 0.3s;
+display: inline-block;
+cursor: pointer;
+border: none;
+font-family: 'Inter', sans-serif;
+font-size: 1rem;
 }
 .nav-cta:hover {
 background: var(--primary-light);
 transform: translateY(-2px);
 }
+/* Dropdown Menu */
+.dropdown-menu {
+position: absolute;
+top: 100%;
+right: 0;
+background: var(--card-bg);
+border: 1px solid rgba(107, 70, 193, 0.3);
+border-radius: 10px;
+padding: 10px 0;
+min-width: 200px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+opacity: 0;
+visibility: hidden;
+transform: translateY(-10px);
+transition: all 0.3s ease;
+z-index: 1001;
+}
+.dropdown-menu.show {
+opacity: 1;
+visibility: visible;
+transform: translateY(0);
+}
+.dropdown-menu a {
+display: block;
+padding: 12px 20px;
+color: var(--text-muted);
+text-decoration: none;
+font-size: 0.95rem;
+font-weight: 500;
+transition: all 0.2s;
+}
+.dropdown-menu a:hover {
+background: rgba(107, 70, 193, 0.1);
+color: var(--text-light);
+}
+.dropdown-menu a i {
+width: 20px;
+margin-right: 10px;
+color: var(--primary-light);
+}
+/* Hamburger Menu */
+.hamburger {
+display: none;
+background: transparent;
+border: none;
+cursor: pointer;
+padding: 10px;
+z-index: 1002;
+}
+.hamburger span {
+display: block;
+width: 25px;
+height: 3px;
+background: var(--text-light);
+margin: 5px 0;
+border-radius: 3px;
+transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+transform: rotate(-45deg) translate(5px, -5px);
+}
+/* Mobile Menu */
+.mobile-menu {
+display: none;
+position: fixed;
+top: 70px;
+left: 0;
+right: 0;
+background: rgba(10, 10, 10, 0.98);
+backdrop-filter: blur(10px);
+padding: 20px;
+border-bottom: 1px solid rgba(107, 70, 193, 0.3);
+z-index: 999;
+transform: translateY(-100%);
+transition: transform 0.3s ease;
+}
+.mobile-menu.show {
+transform: translateY(0);
+}
+.mobile-menu a {
+display: block;
+padding: 15px 20px;
+color: var(--text-muted);
+text-decoration: none;
+font-size: 1.1rem;
+font-weight: 500;
+border-bottom: 1px solid rgba(107, 70, 193, 0.1);
+transition: all 0.2s;
+}
+.mobile-menu a:hover {
+color: var(--text-light);
+background: rgba(107, 70, 193, 0.1);
+}
+.mobile-menu a i {
+width: 25px;
+margin-right: 10px;
+color: var(--primary-light);
+}
+.mobile-menu a:last-child {
+border-bottom: none;
+}
+.mobile-menu .mobile-cta {
+background: var(--primary);
+color: white;
+text-align: center;
+border-radius: 10px;
+margin-top: 15px;
+padding: 15px;
+font-weight: 600;
+}
+.mobile-menu .mobile-cta:hover {
+background: var(--primary-light);
+}
+
 /* HERO SECTION */
 .hero {
 padding: 150px 0 80px;
@@ -1155,6 +1284,15 @@ grid-template-columns: 1fr 1fr;
 .nav-links {
 display: none;
 }
+.hamburger {
+display: block;
+}
+.mobile-menu {
+display: block;
+}
+.nav-cta-wrapper {
+display: none;
+}
 }
 @media (max-width: 576px) {
 .steps-grid {
@@ -1209,9 +1347,39 @@ transform: translateY(0);
 <li><a href="#pricing">Pricing</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
-<a href="#pricing" class="nav-cta">Get Started</a>
+<!-- Get Started with Dropdown -->
+<div class="nav-cta-wrapper">
+<button class="nav-cta" onclick="toggleDropdown(event)">
+<i class="fas fa-rocket"></i> Get Started <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
+</button>
+<div class="dropdown-menu" id="dropdownMenu">
+<a href="#roi"><i class="fas fa-calculator"></i> ROI Calculator</a>
+<a href="#problem"><i class="fas fa-exclamation-circle"></i> Problem</a>
+<a href="#solution"><i class="fas fa-lightbulb"></i> Solution</a>
+<a href="#how-it-works"><i class="fas fa-cogs"></i> How It Works</a>
+<a href="#pricing"><i class="fas fa-tags"></i> Pricing</a>
+<a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+</div>
+<!-- Hamburger for Mobile -->
+<button class="hamburger" onclick="toggleMobileMenu()">
+<span></span>
+<span></span>
+<span></span>
+</button>
 </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+<a href="#roi"><i class="fas fa-calculator"></i> ROI Calculator</a>
+<a href="#problem"><i class="fas fa-exclamation-circle"></i> Problem</a>
+<a href="#solution"><i class="fas fa-lightbulb"></i> Solution</a>
+<a href="#how-it-works"><i class="fas fa-cogs"></i> How It Works</a>
+<a href="#pricing"><i class="fas fa-tags"></i> Pricing</a>
+<a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+<a href="#pricing" class="mobile-cta"><i class="fas fa-rocket"></i> Get Started</a>
+</div>
 
 <!-- HERO SECTION -->
 <section class="hero">
@@ -1816,6 +1984,47 @@ Thank you so much! You saved me!
 
 <!-- SCRIPTS -->
 <script>
+// ===== NAVIGATION =====
+// Toggle dropdown menu
+function toggleDropdown(event) {
+event.stopPropagation();
+const dropdown = document.getElementById('dropdownMenu');
+dropdown.classList.toggle('show');
+}
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+const dropdown = document.getElementById('dropdownMenu');
+const wrapper = document.querySelector('.nav-cta-wrapper');
+if (!wrapper.contains(event.target)) {
+dropdown.classList.remove('show');
+}
+});
+// Toggle mobile menu
+function toggleMobileMenu() {
+const mobileMenu = document.getElementById('mobileMenu');
+const hamburger = document.querySelector('.hamburger');
+mobileMenu.classList.toggle('show');
+hamburger.classList.toggle('active');
+}
+// Close mobile menu when clicking a link
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', function() {
+const mobileMenu = document.getElementById('mobileMenu');
+const hamburger = document.querySelector('.hamburger');
+mobileMenu.classList.remove('show');
+hamburger.classList.remove('active');
+});
+});
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+const mobileMenu = document.getElementById('mobileMenu');
+const hamburger = document.querySelector('.hamburger');
+if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target)) {
+mobileMenu.classList.remove('show');
+hamburger.classList.remove('active');
+}
+});
+
 // ROI Calculator
 function calculateROI() {
 const jobsPerMonth = parseFloat(document.getElementById('jobsPerMonth').value) || 0;
@@ -1894,10 +2103,6 @@ setTimeout(() => {
 callOverlay.classList.remove('active');
 }, 2500);
 });
-// ===== PHONE ANIMATION - STAYS ON CHAT =====
-// Messages play once and stay visible - no repeating
-// The CSS animations handle the message appearance with delays
-// No need for JS to reset them - they stay visible
 </script>
 </body>
 </html>
